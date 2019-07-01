@@ -1,0 +1,320 @@
+//
+//  AccessScreenViewController.swift
+//  SmartLock
+//
+//  Created by Salvatore Capuozzo on 01/07/2019.
+//  Copyright © 2019 Salvatore Capuozzo. All rights reserved.
+//
+
+import UIKit
+import LocalAuthentication
+import Vision
+import AVFoundation
+
+class AccessScreenViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    var interphoneTableView: UITableView!
+    var sequenceHandler = VNSequenceRequestHandler()
+    var faceView: FaceView!
+    var cameraView: UIView!
+    
+    let session = AVCaptureSession()
+    var previewLayer: AVCaptureVideoPreviewLayer!
+    
+    let dataOutputQueue = DispatchQueue(
+        label: "video data queue",
+        qos: .userInitiated,
+        attributes: [],
+        autoreleaseFrequency: .workItem)
+    
+    var maxX: CGFloat = 0.0
+    var midY: CGFloat = 0.0
+    var maxY: CGFloat = 0.0
+    
+    var justScanned: Bool = false
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setupUserInterface(type: 2)
+        
+        configureCaptureSession()
+        
+        maxX = view.bounds.maxX
+        midY = view.bounds.midY
+        maxY = view.bounds.maxY
+        
+        session.startRunning()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+
+        
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        // Da modificare
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        //let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier") as! InterphoneTableViewCell
+        
+        let cell = InterphoneTableViewCell()
+        cell.backgroundColor = .red
+        
+        // Robe da inserire per la modifica della cella
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return self.interphoneTableView.frame.size.height/6.5
+    }
+    
+    func setupUserInterface(type: Int) {
+        interphoneTableView = UITableView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width*2/3, height: self.view.frame.size.height*3/5))
+        interphoneTableView.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height - interphoneTableView.frame.size.height/2 - 16)
+        interphoneTableView.backgroundColor = .clear
+        
+        interphoneTableView.layer.cornerRadius = 20
+        interphoneTableView.layer.masksToBounds = true
+        interphoneTableView.layer.borderColor = UIColor.white.cgColor
+        interphoneTableView.layer.borderWidth = 5
+        
+        self.view.addSubview(interphoneTableView)
+        
+        self.interphoneTableView.delegate = self
+        self.interphoneTableView.dataSource = self
+        
+        cameraView = UIView(frame: CGRect(x: 8, y: 24, width: self.view.frame.size.width/4, height: self.view.frame.size.height/4))
+        cameraView.layer.cornerRadius = 20
+        cameraView.layer.masksToBounds = true
+        self.view.addSubview(cameraView)
+        
+        faceView = FaceView(frame: CGRect(x: 8, y: 24, width: self.view.frame.size.width/4, height: self.view.frame.size.height/4))
+        faceView.backgroundColor = .clear
+        faceView.layer.zPosition = cameraView.layer.zPosition + 1
+        self.view.addSubview(faceView)
+        
+        switch type {
+        case 1:
+            GradientTool.apply(colors: [
+                UIColor(red: 0/255, green: 255/255, blue: 224/255, alpha: 1),
+                UIColor(red: 0/255, green: 255/255, blue: 192/255, alpha: 1),
+                UIColor(red: 0/255, green: 255/255, blue: 128/255, alpha: 1)
+                ], middlePos: 0.25, to: self.view)
+        case 2:
+            let waveView = WaveView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height/3), color: .green)
+            waveView.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height - waveView.frame.size.height/2)
+            waveView.realWaveColor = UIColor(red: 0/255, green: 255/255, blue: 128/255, alpha: 0.8)
+            waveView.maskWaveColor = UIColor(red: 0/255, green: 255/255, blue: 128/255, alpha: 0.5)
+            waveView.waveHeight = 60
+            waveView.waveSpeed = 0.25
+            waveView.waveCurvature = 0.5
+            waveView.layer.zPosition = interphoneTableView.layer.zPosition - 1
+            self.view.addSubview(waveView)
+            waveView.start()
+            
+            self.view.backgroundColor = UIColor(red: 0/255, green: 255/255, blue: 224/255, alpha: 1)
+            
+        default:
+            print("Invalid type")
+        }
+    }
+    
+    func scanUser() {
+        let myContext = LAContext()
+        let myLocalizedReasonString = "Posizionati di fronte alla fotocamera per la scansione"
+        
+        var authError: NSError?
+        if #available(iOS 8.0, macOS 10.12.1, *) {
+            if myContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
+                myContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: myLocalizedReasonString) { success, evaluateError in
+                    
+                    DispatchQueue.main.async {
+                        if success {
+                            // User authenticated successfully, take appropriate action
+                            GSMessage.showMessageAddedTo("Accesso effettuato con successo", type: .success, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
+                        } else {
+                            // User did not authenticate successfully, look at error and take appropriate action
+                            GSMessage.showMessageAddedTo("Accesso fallito, prova con codice", type: .error, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
+                        }
+                    }
+                    
+                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.0) {
+                        self.justScanned = false
+                    }
+                }
+            } else {
+                // Could not evaluate policy; look at authError and present an appropriate message to user
+                GSMessage.showMessageAddedTo("Non è possibile effettuare la scansione", type: .error, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
+            }
+        } else {
+            // Fallback on earlier versions
+            
+            GSMessage.showMessageAddedTo("Funzione di scansione non supportata", type: .error, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
+        }
+    }
+    
+    func configureCaptureSession() {
+        // Define the capture device we want to use
+        guard let camera = AVCaptureDevice.default(.builtInWideAngleCamera,
+                                                   for: .video,
+                                                   position: .front) else {
+                                                    fatalError("No front video camera available")
+        }
+        
+        // Connect the camera to the capture session input
+        do {
+            let cameraInput = try AVCaptureDeviceInput(device: camera)
+            session.addInput(cameraInput)
+        } catch {
+            fatalError(error.localizedDescription)
+        }
+        
+        // Create the video data output
+        let videoOutput = AVCaptureVideoDataOutput()
+        videoOutput.setSampleBufferDelegate(self, queue: dataOutputQueue)
+        videoOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA]
+        
+        // Add the video output to the capture session
+        session.addOutput(videoOutput)
+        
+        let videoConnection = videoOutput.connection(with: .video)
+        videoConnection?.videoOrientation = .portrait
+        
+        // Configure the preview layer
+        previewLayer = AVCaptureVideoPreviewLayer(session: session)
+        previewLayer.videoGravity = .resizeAspectFill
+        // Modifica della finestra
+        previewLayer.frame = cameraView.bounds
+        cameraView.layer.insertSublayer(previewLayer, at: 0)
+    }
+}
+
+extension AccessScreenViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
+            return
+        }
+        
+        let detectFaceRequest = VNDetectFaceLandmarksRequest(completionHandler: detectedFace)
+        
+        do {
+            try sequenceHandler.perform(
+                [detectFaceRequest],
+                on: imageBuffer,
+                orientation: .leftMirrored)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+}
+
+extension AccessScreenViewController {
+    func convert(rect: CGRect) -> CGRect {
+        let origin = previewLayer.layerPointConverted(fromCaptureDevicePoint: rect.origin)
+        
+        let size = previewLayer.layerPointConverted(fromCaptureDevicePoint: rect.size.cgPoint)
+        
+        return CGRect(origin: origin, size: size.cgSize)
+    }
+    
+    func landmark(point: CGPoint, to rect: CGRect) -> CGPoint {
+        let absolute = point.absolutePoint(in: rect)
+        
+        let converted = previewLayer.layerPointConverted(fromCaptureDevicePoint: absolute)
+        
+        return converted
+    }
+    
+    func landmark(points: [CGPoint]?, to rect: CGRect) -> [CGPoint]? {
+        guard let points = points else {
+            return nil
+        }
+        
+        return points.compactMap { landmark(point: $0, to: rect) }
+    }
+    
+    func updateFaceView(for result: VNFaceObservation) {
+        defer {
+            DispatchQueue.main.async {
+                self.faceView.setNeedsDisplay()
+            }
+        }
+        
+        let box = result.boundingBox
+        faceView.boundingBox = convert(rect: box)
+        
+        guard let landmarks = result.landmarks else {
+            return
+        }
+        
+        if let leftEye = landmark(
+            points: landmarks.leftEye?.normalizedPoints,
+            to: result.boundingBox) {
+            faceView.leftEye = leftEye
+        }
+        
+        if let rightEye = landmark(
+            points: landmarks.rightEye?.normalizedPoints,
+            to: result.boundingBox) {
+            faceView.rightEye = rightEye
+        }
+        
+        if let leftEyebrow = landmark(
+            points: landmarks.leftEyebrow?.normalizedPoints,
+            to: result.boundingBox) {
+            faceView.leftEyebrow = leftEyebrow
+        }
+        
+        if let rightEyebrow = landmark(
+            points: landmarks.rightEyebrow?.normalizedPoints,
+            to: result.boundingBox) {
+            faceView.rightEyebrow = rightEyebrow
+        }
+        
+        if let nose = landmark(
+            points: landmarks.nose?.normalizedPoints,
+            to: result.boundingBox) {
+            faceView.nose = nose
+        }
+        
+        if let outerLips = landmark(
+            points: landmarks.outerLips?.normalizedPoints,
+            to: result.boundingBox) {
+            faceView.outerLips = outerLips
+        }
+        
+        if let innerLips = landmark(
+            points: landmarks.innerLips?.normalizedPoints,
+            to: result.boundingBox) {
+            faceView.innerLips = innerLips
+        }
+        
+        if let faceContour = landmark(
+            points: landmarks.faceContour?.normalizedPoints,
+            to: result.boundingBox) {
+            faceView.faceContour = faceContour
+        }
+    }
+    
+    func detectedFace(request: VNRequest, error: Error?) {
+        guard
+            let results = request.results as? [VNFaceObservation],
+            let result = results.first
+            else {
+                faceView.clear()
+                return
+        }
+        
+        updateFaceView(for: result)
+        
+        if !justScanned {
+            justScanned = true
+            scanUser()
+        }
+    }
+}

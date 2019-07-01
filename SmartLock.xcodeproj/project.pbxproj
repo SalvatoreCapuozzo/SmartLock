@@ -8,13 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		8722664122CA17EC008CA08F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8722664022CA17EC008CA08F /* AppDelegate.swift */; };
-		8722664322CA17EC008CA08F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8722664222CA17EC008CA08F /* ViewController.swift */; };
+		8722664322CA17EC008CA08F /* AccessScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8722664222CA17EC008CA08F /* AccessScreenViewController.swift */; };
 		8722664622CA17EC008CA08F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8722664422CA17EC008CA08F /* Main.storyboard */; };
 		8722664922CA17EC008CA08F /* SmartLock.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8722664722CA17EC008CA08F /* SmartLock.xcdatamodeld */; };
 		8722664B22CA17EE008CA08F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8722664A22CA17EE008CA08F /* Assets.xcassets */; };
 		8722664E22CA17EE008CA08F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8722664C22CA17EE008CA08F /* LaunchScreen.storyboard */; };
 		8722665922CA17EF008CA08F /* SmartLockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8722665822CA17EF008CA08F /* SmartLockTests.swift */; };
 		8722666422CA17EF008CA08F /* SmartLockUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8722666322CA17EF008CA08F /* SmartLockUITests.swift */; };
+		8722667522CA73B3008CA08F /* InterphoneTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8722667422CA73B3008CA08F /* InterphoneTableViewCell.swift */; };
+		8722667722CA7568008CA08F /* UsersIE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8722667622CA7568008CA08F /* UsersIE.swift */; };
+		8722667922CA7659008CA08F /* IDEvaluationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8722667822CA7659008CA08F /* IDEvaluationManager.swift */; };
+		8722667B22CA78BC008CA08F /* WaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8722667A22CA78BC008CA08F /* WaveView.swift */; };
+		8722667D22CA7BEC008CA08F /* GradientTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8722667C22CA7BEC008CA08F /* GradientTool.swift */; };
+		8722667F22CA7E60008CA08F /* GSMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8722667E22CA7E60008CA08F /* GSMessage.swift */; };
+		8722668122CA840C008CA08F /* FaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8722668022CA840C008CA08F /* FaceView.swift */; };
+		8722668322CA85BA008CA08F /* CoreGraphicsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8722668222CA85BA008CA08F /* CoreGraphicsExtensions.swift */; };
+		8722668522CA978A008CA08F /* CustomBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8722668422CA978A008CA08F /* CustomBuilder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,7 +46,7 @@
 /* Begin PBXFileReference section */
 		8722663D22CA17EC008CA08F /* SmartLock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartLock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8722664022CA17EC008CA08F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		8722664222CA17EC008CA08F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		8722664222CA17EC008CA08F /* AccessScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessScreenViewController.swift; sourceTree = "<group>"; };
 		8722664522CA17EC008CA08F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8722664822CA17EC008CA08F /* SmartLock.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SmartLock.xcdatamodel; sourceTree = "<group>"; };
 		8722664A22CA17EE008CA08F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -49,6 +58,15 @@
 		8722665F22CA17EF008CA08F /* SmartLockUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartLockUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8722666322CA17EF008CA08F /* SmartLockUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartLockUITests.swift; sourceTree = "<group>"; };
 		8722666522CA17EF008CA08F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8722667422CA73B3008CA08F /* InterphoneTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterphoneTableViewCell.swift; sourceTree = "<group>"; };
+		8722667622CA7568008CA08F /* UsersIE.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersIE.swift; sourceTree = "<group>"; };
+		8722667822CA7659008CA08F /* IDEvaluationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IDEvaluationManager.swift; sourceTree = "<group>"; };
+		8722667A22CA78BC008CA08F /* WaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveView.swift; sourceTree = "<group>"; };
+		8722667C22CA7BEC008CA08F /* GradientTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientTool.swift; sourceTree = "<group>"; };
+		8722667E22CA7E60008CA08F /* GSMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSMessage.swift; sourceTree = "<group>"; };
+		8722668022CA840C008CA08F /* FaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceView.swift; sourceTree = "<group>"; };
+		8722668222CA85BA008CA08F /* CoreGraphicsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreGraphicsExtensions.swift; sourceTree = "<group>"; };
+		8722668422CA978A008CA08F /* CustomBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBuilder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,10 +118,9 @@
 			isa = PBXGroup;
 			children = (
 				8722664022CA17EC008CA08F /* AppDelegate.swift */,
-				8722664222CA17EC008CA08F /* ViewController.swift */,
-				8722664422CA17EC008CA08F /* Main.storyboard */,
-				8722664A22CA17EE008CA08F /* Assets.xcassets */,
-				8722664C22CA17EE008CA08F /* LaunchScreen.storyboard */,
+				8722667122CA72B6008CA08F /* Model */,
+				8722667222CA72BF008CA08F /* View */,
+				8722667322CA72C6008CA08F /* Controller */,
 				8722664F22CA17EE008CA08F /* Info.plist */,
 				8722664722CA17EC008CA08F /* SmartLock.xcdatamodeld */,
 			);
@@ -126,6 +143,40 @@
 				8722666522CA17EF008CA08F /* Info.plist */,
 			);
 			path = SmartLockUITests;
+			sourceTree = "<group>";
+		};
+		8722667122CA72B6008CA08F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8722667622CA7568008CA08F /* UsersIE.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		8722667222CA72BF008CA08F /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8722664A22CA17EE008CA08F /* Assets.xcassets */,
+				8722664C22CA17EE008CA08F /* LaunchScreen.storyboard */,
+				8722664422CA17EC008CA08F /* Main.storyboard */,
+				8722667422CA73B3008CA08F /* InterphoneTableViewCell.swift */,
+				8722667A22CA78BC008CA08F /* WaveView.swift */,
+				8722667E22CA7E60008CA08F /* GSMessage.swift */,
+				8722668422CA978A008CA08F /* CustomBuilder.swift */,
+				8722668022CA840C008CA08F /* FaceView.swift */,
+				8722667C22CA7BEC008CA08F /* GradientTool.swift */,
+				8722668222CA85BA008CA08F /* CoreGraphicsExtensions.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		8722667322CA72C6008CA08F /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				8722664222CA17EC008CA08F /* AccessScreenViewController.swift */,
+				8722667822CA7659008CA08F /* IDEvaluationManager.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -259,9 +310,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8722664322CA17EC008CA08F /* ViewController.swift in Sources */,
+				8722667722CA7568008CA08F /* UsersIE.swift in Sources */,
+				8722667D22CA7BEC008CA08F /* GradientTool.swift in Sources */,
+				8722664322CA17EC008CA08F /* AccessScreenViewController.swift in Sources */,
+				8722667B22CA78BC008CA08F /* WaveView.swift in Sources */,
+				8722668522CA978A008CA08F /* CustomBuilder.swift in Sources */,
 				8722664922CA17EC008CA08F /* SmartLock.xcdatamodeld in Sources */,
+				8722667F22CA7E60008CA08F /* GSMessage.swift in Sources */,
 				8722664122CA17EC008CA08F /* AppDelegate.swift in Sources */,
+				8722667922CA7659008CA08F /* IDEvaluationManager.swift in Sources */,
+				8722667522CA73B3008CA08F /* InterphoneTableViewCell.swift in Sources */,
+				8722668322CA85BA008CA08F /* CoreGraphicsExtensions.swift in Sources */,
+				8722668122CA840C008CA08F /* FaceView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
