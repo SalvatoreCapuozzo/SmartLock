@@ -17,6 +17,8 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
     var sequenceHandler = VNSequenceRequestHandler()
     var faceView: FaceView!
     var cameraView: UIView!
+    var codeTextField: UITextField!
+    var searchTextField: UITextField!
     
     let session = AVCaptureSession()
     var previewLayer: AVCaptureVideoPreviewLayer!
@@ -97,6 +99,14 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
         faceView.backgroundColor = .clear
         faceView.layer.zPosition = cameraView.layer.zPosition + 1
         self.view.addSubview(faceView)
+        
+        searchTextField = CustomBuilder.makeTextField(width: self.view.frame.size.width*2/3, height: 40, placeholder: "Inserisci condomino da cercare", keyboardType: .alphabet, capitalized: false, isSecure: false)
+        searchTextField.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height - interphoneTableView.frame.size.height - searchTextField.frame.size.height - 8)
+        self.view.addSubview(searchTextField)
+        
+        codeTextField = CustomBuilder.makeTextField(width: self.view.frame.size.width/3, height: 40, placeholder: "Codice utente", keyboardType: .numberPad, capitalized: false, isSecure: true)
+        codeTextField.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height - interphoneTableView.frame.size.height - codeTextField.frame.size.height - searchTextField.frame.size.height - 16)
+        self.view.addSubview(codeTextField)
         
         switch type {
         case 1:

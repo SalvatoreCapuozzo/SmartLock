@@ -51,7 +51,7 @@ class CustomBuilder {
         btnView.layer.shadowOffset = CGSize(width: 52.0, height: 52.0)
         
         let button = UIButton(frame: btnView.frame)
-        button.titleLabel?.font = UIFont(name: "CircularStd-Book", size: 15)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         button.setTitleColor(textColor, for: .normal)
 
         button.layer.zPosition = btnView.layer.zPosition + 1
@@ -64,8 +64,8 @@ class CustomBuilder {
         return btnView
     }
     
-    static func makeTextField(width: CGFloat, placeholder: String, keyboardType: UIKeyboardType, capitalized: Bool, isSecure: Bool) -> UITextField {
-        let textField = UITextField(frame: CGRect(x: 0, y: 0, width: width, height: width/300*40))
+    static func makeTextField(width: CGFloat, height: CGFloat, placeholder: String, keyboardType: UIKeyboardType, capitalized: Bool, isSecure: Bool) -> UITextField {
+        let textField = UITextField(frame: CGRect(x: 0, y: 0, width: width, height: height))
         textField.layer.cornerRadius = textField.frame.size.height/2
         textField.layer.masksToBounds = true
         textField.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.2).cgColor
@@ -74,7 +74,7 @@ class CustomBuilder {
         textField.leftView = emailPaddingView
         textField.leftViewMode = .always
         textField.placeholder = placeholder
-        textField.font = UIFont(name: "CircularStd-Book", size: 17)
+        textField.font = UIFont.systemFont(ofSize: 15)
         textField.autocorrectionType = .no
         textField.keyboardType = keyboardType
         textField.returnKeyType = .default
