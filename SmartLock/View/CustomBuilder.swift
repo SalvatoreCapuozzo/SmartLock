@@ -51,7 +51,7 @@ class CustomBuilder {
         btnView.layer.shadowOffset = CGSize(width: 52.0, height: 52.0)
         
         let button = UIButton(frame: btnView.frame)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: height/3.5)
         button.setTitleColor(textColor, for: .normal)
 
         button.layer.zPosition = btnView.layer.zPosition + 1
@@ -74,11 +74,12 @@ class CustomBuilder {
         textField.leftView = emailPaddingView
         textField.leftViewMode = .always
         textField.placeholder = placeholder
-        textField.font = UIFont.systemFont(ofSize: 15)
+        textField.font = UIFont.systemFont(ofSize: height/3.5)
         textField.autocorrectionType = .no
         textField.keyboardType = keyboardType
         textField.returnKeyType = .default
         textField.contentVerticalAlignment = .center
+        textField.textAlignment = .left
         textField.isSecureTextEntry = isSecure
         if capitalized {
             textField.autocapitalizationType = .words

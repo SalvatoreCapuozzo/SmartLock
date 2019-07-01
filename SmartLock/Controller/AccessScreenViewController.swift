@@ -19,6 +19,7 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
     var cameraView: UIView!
     var codeTextField: UITextField!
     var searchTextField: UITextField!
+    var manualButton: UIView!
     
     let session = AVCaptureSession()
     var previewLayer: AVCaptureVideoPreviewLayer!
@@ -46,6 +47,9 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
         midY = view.bounds.midY
         maxY = view.bounds.maxY
         
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tappedOnScreen))
+        self.view.addGestureRecognizer(tapGesture)
+        
         session.startRunning()
     }
     
@@ -64,7 +68,7 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
         //let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier") as! InterphoneTableViewCell
         
         let cell = InterphoneTableViewCell()
-        cell.backgroundColor = .red
+        cell.backgroundColor = UIColor(red: 0/255, green: 255/255, blue: 128/255, alpha: 1)
         
         // Robe da inserire per la modifica della cella
         
@@ -73,6 +77,10 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return self.interphoneTableView.frame.size.height/6.5
+    }
+    
+    @objc func tappedOnScreen() {
+        self.view.endEditing(true)
     }
     
     func setupUserInterface(type: Int) {
@@ -90,6 +98,18 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
         self.interphoneTableView.delegate = self
         self.interphoneTableView.dataSource = self
         
+        manualButton = CustomBuilder.makeButton(width: self.view.frame.size.width/6, height: self.view.frame.size.width/6, text: "", color: UIColor(red: 0/255, green: 255/255, blue: 128/255, alpha: 1), textColor: .clear)
+        manualButton.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height/8)
+        manualButton.layer.cornerRadius = manualButton.frame.size.height/4
+        manualButton.layer.zPosition = self.interphoneTableView.layer.zPosition
+        let faceid = #imageLiteral(resourceName: "faceid").withRenderingMode(.alwaysTemplate)
+        manualButton.subButton()?.setImage(faceid, for: .normal)
+        manualButton.subButton()?.imageEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        manualButton.subButton()?.imageView!.contentMode = .scaleAspectFit
+        manualButton.subButton()?.tintColor = .white
+        manualButton.subButton()?.addTarget(self, action: #selector(scanUser), for: .touchUpInside)
+        self.view.addSubview(manualButton)
+        
         cameraView = UIView(frame: CGRect(x: 8, y: 24, width: self.view.frame.size.width/4, height: self.view.frame.size.height/4))
         cameraView.layer.cornerRadius = 20
         cameraView.layer.masksToBounds = true
@@ -100,11 +120,12 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
         faceView.layer.zPosition = cameraView.layer.zPosition + 1
         self.view.addSubview(faceView)
         
-        searchTextField = CustomBuilder.makeTextField(width: self.view.frame.size.width*2/3, height: 40, placeholder: "Inserisci condomino da cercare", keyboardType: .alphabet, capitalized: false, isSecure: false)
-        searchTextField.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height - interphoneTableView.frame.size.height - searchTextField.frame.size.height - 8)
+        print(self.interphoneTableView.frame.size.height/8)
+        searchTextField = CustomBuilder.makeTextField(width: self.view.frame.size.width*2/3, height: self.interphoneTableView.frame.size.height/9, placeholder: "Inserisci condomino da cercare", keyboardType: .alphabet, capitalized: false, isSecure: false)
+        searchTextField.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height - interphoneTableView.frame.size.height - searchTextField.frame.size.height)
         self.view.addSubview(searchTextField)
         
-        codeTextField = CustomBuilder.makeTextField(width: self.view.frame.size.width/3, height: 40, placeholder: "Codice utente", keyboardType: .numberPad, capitalized: false, isSecure: true)
+        codeTextField = CustomBuilder.makeTextField(width: self.view.frame.size.width/3, height: self.interphoneTableView.frame.size.height/9, placeholder: "Codice utente", keyboardType: .numberPad, capitalized: false, isSecure: true)
         codeTextField.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height - interphoneTableView.frame.size.height - codeTextField.frame.size.height - searchTextField.frame.size.height - 16)
         self.view.addSubview(codeTextField)
         
@@ -134,7 +155,7 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
     
-    func scanUser() {
+    @objc func scanUser() {
         let myContext = LAContext()
         let myLocalizedReasonString = "Posizionati di fronte alla fotocamera per la scansione"
         
@@ -147,14 +168,18 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
                         if success {
                             // User authenticated successfully, take appropriate action
                             GSMessage.showMessageAddedTo("Accesso effettuato con successo", type: .success, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
+                            
+                            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 5.0) {
+                                self.justScanned = false
+                            }
                         } else {
                             // User did not authenticate successfully, look at error and take appropriate action
                             GSMessage.showMessageAddedTo("Accesso fallito, prova con codice", type: .error, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
+                            
+                            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.0) {
+                                self.justScanned = false
+                            }
                         }
-                    }
-                    
-                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.0) {
-                        self.justScanned = false
                     }
                 }
             } else {
@@ -173,7 +198,9 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
         guard let camera = AVCaptureDevice.default(.builtInWideAngleCamera,
                                                    for: .video,
                                                    position: .front) else {
-                                                    fatalError("No front video camera available")
+                                                    //fatalError("No front video camera available")
+                                                    print("No front video camera available")
+                                                    return
         }
         
         // Connect the camera to the capture session input
