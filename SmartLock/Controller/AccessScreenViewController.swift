@@ -41,7 +41,7 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupUserInterface(type: 2)
+        setupUserInterface(type: 3)
         
         configureCaptureSession()
         
@@ -54,12 +54,16 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
         
         session.startRunning()
         
-        //DataController().addUser(name: "Salvatore", surname: "Capuozzo", code: "190596", isFamily: true, isManager: false)
+        /*
+        DataController().deleteData(entityName: "User")
         
+        DataController().addUser(name: "Maria Luisa", surname: "Farina", code: "270693", isFamily: true, isManager: false)
+        DataController().addUser(name: "Salvatore", surname: "Capuozzo", code: "190596", isFamily: true, isManager: false)
+        */
+ 
         DataController().fetchData(entityName: "User") {
             (outcome, results) in
             if outcome! {
-                //print("\((results[0]["name"])!) è bella")
                 self.users = results
             }
         }
@@ -77,15 +81,9 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier") as! InterphoneTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier") as! InterphoneTableViewCell
         
-        let cell = InterphoneTableViewCell()
-        cell.awakeFromNib()
-        cell.backgroundColor = UIColor(red: 0/255, green: 255/255, blue: 128/255, alpha: 1)
-        
-        cell.nameLabel.text? = "\(String(describing: users[indexPath.row]["surname"]!)) \(String(describing: users[indexPath.row]["name"]!))"
         cell.nameLabel.text = "\(String(describing: users[indexPath.row]["surname"]!)) \(String(describing: users[indexPath.row]["name"]!))"
-        // Robe da inserire per la modifica della cella
         
         return cell
     }
@@ -113,17 +111,7 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
         self.interphoneTableView.delegate = self
         self.interphoneTableView.dataSource = self
         
-        manualButton = CustomBuilder.makeButton(width: self.view.frame.size.width/6, height: self.view.frame.size.width/6, text: "", color: UIColor(red: 0/255, green: 255/255, blue: 128/255, alpha: 1), textColor: .clear)
-        manualButton.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height/8)
-        manualButton.layer.cornerRadius = manualButton.frame.size.height/4
-        manualButton.layer.zPosition = self.interphoneTableView.layer.zPosition
-        let faceid = #imageLiteral(resourceName: "faceid").withRenderingMode(.alwaysTemplate)
-        manualButton.subButton()?.setImage(faceid, for: .normal)
-        manualButton.subButton()?.imageEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
-        manualButton.subButton()?.imageView!.contentMode = .scaleAspectFit
-        manualButton.subButton()?.tintColor = .white
-        manualButton.subButton()?.addTarget(self, action: #selector(scanUser), for: .touchUpInside)
-        self.view.addSubview(manualButton)
+        interphoneTableView.register(InterphoneTableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
         
         cameraView = UIView(frame: CGRect(x: 8, y: 24, width: self.view.frame.size.width/4, height: self.view.frame.size.height/4))
         cameraView.layer.cornerRadius = 20
@@ -151,11 +139,23 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
                 UIColor(red: 0/255, green: 255/255, blue: 192/255, alpha: 1),
                 UIColor(red: 0/255, green: 255/255, blue: 128/255, alpha: 1)
                 ], middlePos: 0.25, to: self.view)
+            
+            manualButton = CustomBuilder.makeButton(width: self.view.frame.size.width/6, height: self.view.frame.size.width/6, text: "", color: UIColor(red: 0/255, green: 255/255, blue: 128/255, alpha: 1), textColor: .clear)
+            manualButton.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height/8)
+            manualButton.layer.cornerRadius = manualButton.frame.size.height/4
+            manualButton.layer.zPosition = self.interphoneTableView.layer.zPosition
+            let faceid = #imageLiteral(resourceName: "faceid").withRenderingMode(.alwaysTemplate)
+            manualButton.subButton()?.setImage(faceid, for: .normal)
+            manualButton.subButton()?.imageEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+            manualButton.subButton()?.imageView!.contentMode = .scaleAspectFit
+            manualButton.subButton()?.tintColor = .white
+            manualButton.subButton()?.addTarget(self, action: #selector(scanUser), for: .touchUpInside)
+            self.view.addSubview(manualButton)
         case 2:
             let waveView = WaveView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height/3), color: .green)
             waveView.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height - waveView.frame.size.height/2)
-            waveView.realWaveColor = UIColor(red: 0/255, green: 255/255, blue: 128/255, alpha: 0.8)
-            waveView.maskWaveColor = UIColor(red: 0/255, green: 255/255, blue: 128/255, alpha: 0.5)
+            waveView.realWaveColor = CustomColor.leafGreen.uiColor().withAlphaComponent(0.8)
+            waveView.maskWaveColor = CustomColor.leafGreen.uiColor().withAlphaComponent(0.5)
             waveView.waveHeight = 60
             waveView.waveSpeed = 0.25
             waveView.waveCurvature = 0.5
@@ -163,7 +163,44 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
             self.view.addSubview(waveView)
             waveView.start()
             
-            self.view.backgroundColor = UIColor(red: 0/255, green: 255/255, blue: 224/255, alpha: 1)
+            self.view.backgroundColor = CustomColor.bottleGreen.uiColor()
+            
+            manualButton = CustomBuilder.makeButton(width: self.view.frame.size.width/6, height: self.view.frame.size.width/6, text: "", color: CustomColor.leafGreen.uiColor(), textColor: .clear)
+            manualButton.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height/8)
+            manualButton.layer.cornerRadius = manualButton.frame.size.height/4
+            manualButton.layer.zPosition = self.interphoneTableView.layer.zPosition
+            let faceid = #imageLiteral(resourceName: "faceid").withRenderingMode(.alwaysTemplate)
+            manualButton.subButton()?.setImage(faceid, for: .normal)
+            manualButton.subButton()?.imageEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+            manualButton.subButton()?.imageView!.contentMode = .scaleAspectFit
+            manualButton.subButton()?.tintColor = .white
+            manualButton.subButton()?.addTarget(self, action: #selector(scanUser), for: .touchUpInside)
+            self.view.addSubview(manualButton)
+        case 3:
+            let waveView = WaveView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height/3), color: .green)
+            waveView.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height - waveView.frame.size.height/2)
+            waveView.realWaveColor = CustomColor.sparklingBlue.uiColor().withAlphaComponent(0.8)
+            waveView.maskWaveColor = CustomColor.sparklingBlue.uiColor().withAlphaComponent(0.5)
+            waveView.waveHeight = 60
+            waveView.waveSpeed = 0.25
+            waveView.waveCurvature = 0.5
+            waveView.layer.zPosition = interphoneTableView.layer.zPosition - 1
+            self.view.addSubview(waveView)
+            waveView.start()
+            
+            self.view.backgroundColor = CustomColor.lightBlue.uiColor()
+            
+            manualButton = CustomBuilder.makeButton(width: self.view.frame.size.width/6, height: self.view.frame.size.width/6, text: "", color: CustomColor.sparklingBlue.uiColor(), textColor: .clear)
+            manualButton.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height/8)
+            manualButton.layer.cornerRadius = manualButton.frame.size.height/4
+            manualButton.layer.zPosition = self.interphoneTableView.layer.zPosition
+            let faceid = #imageLiteral(resourceName: "faceid").withRenderingMode(.alwaysTemplate)
+            manualButton.subButton()?.setImage(faceid, for: .normal)
+            manualButton.subButton()?.imageEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+            manualButton.subButton()?.imageView!.contentMode = .scaleAspectFit
+            manualButton.subButton()?.tintColor = .white
+            manualButton.subButton()?.addTarget(self, action: #selector(scanUser), for: .touchUpInside)
+            self.view.addSubview(manualButton)
             
         default:
             print("Invalid type")
@@ -184,7 +221,7 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
                             // User authenticated successfully, take appropriate action
                             GSMessage.showMessageAddedTo("Accesso effettuato con successo", type: .success, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
                             
-                            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 5.0) {
+                            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 10.0) {
                                 self.justScanned = false
                             }
                         } else {
