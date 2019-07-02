@@ -21,6 +21,8 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
     var searchTextField: UITextField!
     var manualButton: UIView!
     
+    var users = [[String: AnyObject]]()
+    
     let session = AVCaptureSession()
     var previewLayer: AVCaptureVideoPreviewLayer!
     
@@ -51,6 +53,16 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
         self.view.addGestureRecognizer(tapGesture)
         
         session.startRunning()
+        
+        //DataController().addUser(name: "Salvatore", surname: "Capuozzo", code: "190596", isFamily: true, isManager: false)
+        
+        DataController().fetchData(entityName: "User") {
+            (outcome, results) in
+            if outcome! {
+                //print("\((results[0]["name"])!) è bella")
+                self.users = results
+            }
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -61,15 +73,18 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         // Da modificare
-        return 1
+        return users.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier") as! InterphoneTableViewCell
         
         let cell = InterphoneTableViewCell()
+        cell.awakeFromNib()
         cell.backgroundColor = UIColor(red: 0/255, green: 255/255, blue: 128/255, alpha: 1)
         
+        cell.nameLabel.text? = "\(String(describing: users[indexPath.row]["surname"]!)) \(String(describing: users[indexPath.row]["name"]!))"
+        cell.nameLabel.text = "\(String(describing: users[indexPath.row]["surname"]!)) \(String(describing: users[indexPath.row]["name"]!))"
         // Robe da inserire per la modifica della cella
         
         return cell

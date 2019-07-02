@@ -24,6 +24,9 @@
 		8722668122CA840C008CA08F /* FaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8722668022CA840C008CA08F /* FaceView.swift */; };
 		8722668322CA85BA008CA08F /* CoreGraphicsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8722668222CA85BA008CA08F /* CoreGraphicsExtensions.swift */; };
 		8722668522CA978A008CA08F /* CustomBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8722668422CA978A008CA08F /* CustomBuilder.swift */; };
+		87C7B7BC22CB4B4B00942B59 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C7B7BB22CB4B4B00942B59 /* DataController.swift */; };
+		87C7B7C322CB51B300942B59 /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C7B7BF22CB51B300942B59 /* User+CoreDataClass.swift */; };
+		87C7B7C422CB51B300942B59 /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C7B7C022CB51B300942B59 /* User+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +70,11 @@
 		8722668022CA840C008CA08F /* FaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceView.swift; sourceTree = "<group>"; };
 		8722668222CA85BA008CA08F /* CoreGraphicsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreGraphicsExtensions.swift; sourceTree = "<group>"; };
 		8722668422CA978A008CA08F /* CustomBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBuilder.swift; sourceTree = "<group>"; };
+		87C7B7BB22CB4B4B00942B59 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		87C7B7BD22CB51B300942B59 /* Access+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Access+CoreDataClass.swift"; sourceTree = "<group>"; };
+		87C7B7BE22CB51B300942B59 /* Access+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Access+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		87C7B7BF22CB51B300942B59 /* User+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataClass.swift"; sourceTree = "<group>"; };
+		87C7B7C022CB51B300942B59 /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,7 +156,12 @@
 		8722667122CA72B6008CA08F /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				87C7B7BD22CB51B300942B59 /* Access+CoreDataClass.swift */,
+				87C7B7BE22CB51B300942B59 /* Access+CoreDataProperties.swift */,
+				87C7B7BF22CB51B300942B59 /* User+CoreDataClass.swift */,
+				87C7B7C022CB51B300942B59 /* User+CoreDataProperties.swift */,
 				8722667622CA7568008CA08F /* UsersIE.swift */,
+				87C7B7BB22CB4B4B00942B59 /* DataController.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -315,11 +328,14 @@
 				8722664322CA17EC008CA08F /* AccessScreenViewController.swift in Sources */,
 				8722667B22CA78BC008CA08F /* WaveView.swift in Sources */,
 				8722668522CA978A008CA08F /* CustomBuilder.swift in Sources */,
+				87C7B7C322CB51B300942B59 /* User+CoreDataClass.swift in Sources */,
+				87C7B7BC22CB4B4B00942B59 /* DataController.swift in Sources */,
 				8722664922CA17EC008CA08F /* SmartLock.xcdatamodeld in Sources */,
 				8722667F22CA7E60008CA08F /* GSMessage.swift in Sources */,
 				8722664122CA17EC008CA08F /* AppDelegate.swift in Sources */,
 				8722667922CA7659008CA08F /* IDEvaluationManager.swift in Sources */,
 				8722667522CA73B3008CA08F /* InterphoneTableViewCell.swift in Sources */,
+				87C7B7C422CB51B300942B59 /* User+CoreDataProperties.swift in Sources */,
 				8722668322CA85BA008CA08F /* CoreGraphicsExtensions.swift in Sources */,
 				8722668122CA840C008CA08F /* FaceView.swift in Sources */,
 			);
