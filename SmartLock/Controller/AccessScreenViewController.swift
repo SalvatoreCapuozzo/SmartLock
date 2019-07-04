@@ -32,9 +32,9 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
         attributes: [],
         autoreleaseFrequency: .workItem)
     
-    var maxX: CGFloat = 0.0
-    var midY: CGFloat = 0.0
-    var maxY: CGFloat = 0.0
+    //var maxX: CGFloat = 0.0
+    //var midY: CGFloat = 0.0
+    //var maxY: CGFloat = 0.0
     
     var justScanned: Bool = false
     
@@ -45,9 +45,9 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
         
         configureCaptureSession()
         
-        maxX = view.bounds.maxX
-        midY = view.bounds.midY
-        maxY = view.bounds.maxY
+        //maxX = view.bounds.maxX
+        //midY = view.bounds.midY
+        //maxY = view.bounds.maxY
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tappedOnScreen))
         self.view.addGestureRecognizer(tapGesture)
@@ -60,13 +60,21 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
         DataController().addUser(name: "Maria Luisa", surname: "Farina", code: "270693", isFamily: true, isManager: false)
         DataController().addUser(name: "Salvatore", surname: "Capuozzo", code: "190596", isFamily: true, isManager: false)
         */
- 
+        
         DataController().fetchData(entityName: "User") {
             (outcome, results) in
             if outcome! {
                 self.users = results
             }
         }
+        
+        /*
+        DataController().fetchData(entityName: "User", searchBy: [SearchField.surname : "Capuozzo" as AnyObject]) {
+            (outcome, results) in
+            if outcome! {
+                self.users = results
+            }
+        }*/
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -75,8 +83,6 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        // Da modificare
         return users.count
     }
     
@@ -97,6 +103,7 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func setupUserInterface(type: Int) {
+        // Interphone TableView Setup
         interphoneTableView = UITableView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width*2/3, height: self.view.frame.size.height*3/5))
         interphoneTableView.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height - interphoneTableView.frame.size.height/2 - 16)
         interphoneTableView.backgroundColor = .clear
@@ -113,31 +120,36 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
         
         interphoneTableView.register(InterphoneTableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
         
+        // CameraView Setup
         cameraView = UIView(frame: CGRect(x: 8, y: 24, width: self.view.frame.size.width/4, height: self.view.frame.size.height/4))
         cameraView.layer.cornerRadius = 20
         cameraView.layer.masksToBounds = true
         self.view.addSubview(cameraView)
         
+        // FaceView Setup
         faceView = FaceView(frame: CGRect(x: 8, y: 24, width: self.view.frame.size.width/4, height: self.view.frame.size.height/4))
         faceView.backgroundColor = .clear
         faceView.layer.zPosition = cameraView.layer.zPosition + 1
         self.view.addSubview(faceView)
         
-        print(self.interphoneTableView.frame.size.height/8)
+        // Seatch TextField Setup
         searchTextField = CustomBuilder.makeTextField(width: self.view.frame.size.width*2/3, height: self.interphoneTableView.frame.size.height/9, placeholder: "Inserisci condomino da cercare", keyboardType: .alphabet, capitalized: false, isSecure: false)
         searchTextField.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height - interphoneTableView.frame.size.height - searchTextField.frame.size.height)
         self.view.addSubview(searchTextField)
         
+        // Code TextField Setup
         codeTextField = CustomBuilder.makeTextField(width: self.view.frame.size.width/3, height: self.interphoneTableView.frame.size.height/9, placeholder: "Codice utente", keyboardType: .numberPad, capitalized: false, isSecure: true)
         codeTextField.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height - interphoneTableView.frame.size.height - codeTextField.frame.size.height - searchTextField.frame.size.height - 16)
         self.view.addSubview(codeTextField)
         
+        // Background Setup
         switch type {
         case 1:
+            // Green Gradient
             GradientTool.apply(colors: [
-                UIColor(red: 0/255, green: 255/255, blue: 224/255, alpha: 1),
+                CustomColor.bottleGreen.uiColor(),
                 UIColor(red: 0/255, green: 255/255, blue: 192/255, alpha: 1),
-                UIColor(red: 0/255, green: 255/255, blue: 128/255, alpha: 1)
+                CustomColor.leafGreen.uiColor()
                 ], middlePos: 0.25, to: self.view)
             
             manualButton = CustomBuilder.makeButton(width: self.view.frame.size.width/6, height: self.view.frame.size.width/6, text: "", color: UIColor(red: 0/255, green: 255/255, blue: 128/255, alpha: 1), textColor: .clear)
@@ -152,6 +164,7 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
             manualButton.subButton()?.addTarget(self, action: #selector(scanUser), for: .touchUpInside)
             self.view.addSubview(manualButton)
         case 2:
+            // Green Waves
             let waveView = WaveView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height/3), color: .green)
             waveView.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height - waveView.frame.size.height/2)
             waveView.realWaveColor = CustomColor.leafGreen.uiColor().withAlphaComponent(0.8)
@@ -177,6 +190,7 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
             manualButton.subButton()?.addTarget(self, action: #selector(scanUser), for: .touchUpInside)
             self.view.addSubview(manualButton)
         case 3:
+            // Blue Waves
             let waveView = WaveView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height/3), color: .green)
             waveView.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height - waveView.frame.size.height/2)
             waveView.realWaveColor = CustomColor.sparklingBlue.uiColor().withAlphaComponent(0.8)

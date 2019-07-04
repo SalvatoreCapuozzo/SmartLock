@@ -236,7 +236,7 @@ class DataController: NSObject {
  
     }*/
     
-    func fetchData(entityName: String, completion: ((_ outcome: Bool?, _ results: [[String: AnyObject]]) -> Void)!) {
+    func fetchData(entityName: String, searchBy fields: [SearchField: AnyObject] = [:], completion: ((_ outcome: Bool?, _ results: [[String: AnyObject]]) -> Void)!) {
         switch entityName {
             /*
              * USER DATA
@@ -249,23 +249,61 @@ class DataController: NSObject {
                 let fetchedPerson = try moc.fetch(personFetch) as! [User]
                 
                 var users = [[String: AnyObject]]()
-                var i = 0
                 
                 if fetchedPerson.first != nil {
                     for user in fetchedPerson {
-                        let name = user.name!
-                        let surname = user.surname!
-                        let code = user.code!
-                        let isFamily = user.isFamily
-                        let isManager = user.isManager
-                        users.append(["name": name as AnyObject,
-                                      "surname" : surname as AnyObject,
-                                      "code" : code as AnyObject,
-                                      "isFamily" : isFamily as AnyObject,
-                                      "isManager" : isManager as AnyObject
-                            ])
-
-                        i += 1
+                        var found = true
+                        if let _ = fields.first {
+                            var foundArray = Array(repeating: false, count: fields.count)
+                            var j = 0
+                            for field in fields {
+                                switch field.key {
+                                case .name:
+                                    if (user.name?.contains(field.value as! String))! {
+                                        foundArray[j] = true
+                                    }
+                                case .surname:
+                                    if (user.surname?.contains(field.value as! String))! {
+                                        foundArray[j] = true
+                                    }
+                                case .code:
+                                    if (user.code?.contains(field.value as! String))! {
+                                        foundArray[j] = true
+                                    }
+                                case .isFamily:
+                                    if (user.isFamily == field.value as! Bool) {
+                                        foundArray[j] = true
+                                    }
+                                case .isManager:
+                                    if (user.isManager == field.value as! Bool) {
+                                        foundArray[j] = true
+                                    }
+                                default:
+                                    print("Incompatible Search Field")
+                                }
+                                j += 1
+                            }
+                            
+                            for val in foundArray {
+                                if !val {
+                                    found = false
+                                }
+                            }
+                        }
+                        
+                        if found {
+                            let name = user.name!
+                            let surname = user.surname!
+                            let code = user.code!
+                            let isFamily = user.isFamily
+                            let isManager = user.isManager
+                            users.append(["name": name as AnyObject,
+                                          "surname" : surname as AnyObject,
+                                          "code" : code as AnyObject,
+                                          "isFamily" : isFamily as AnyObject,
+                                          "isManager" : isManager as AnyObject
+                                ])
+                        }
                     }
                     completion(true, users)
                 } else {
@@ -276,7 +314,7 @@ class DataController: NSObject {
                 fatalError("Failed to fetch person: \(error)")
             }
             
-            print("DataController - fetchData(UserData): Data fetched")
+            print("DataController - fetchData(User): Data fetched")
             
             /*
              * DEVICE DATA
@@ -293,13 +331,44 @@ class DataController: NSObject {
                 
                 if fetchedAccesses.first != nil {
                     for acc in fetchedAccesses {
-                        let timestamp = acc.timestamp!
-                        accesses[i]["timestamp"] = timestamp as AnyObject
+                        var found = true
+                        if let _ = fields.first {
+                            var foundArray = Array(repeating: false, count: fields.count)
+                            var j = 0
+                            for field in fields {
+                                switch field.key {
+                                case .timestampBefore:
+                                    if (acc.timestamp! < field.value as! Date) {
+                                        foundArray[j] = true
+                                    }
+                                case .timestampAfter:
+                                    if (acc.timestamp! > field.value as! Date) {
+                                        foundArray[j] = true
+                                    }
+                                case .isSuccessful:
+                                    if (acc.isSuccessful == field.value as! Bool) {
+                                        foundArray[j] = true
+                                    }
+                                default:
+                                    print("Incompatible Search Field")
+                                }
+                                j += 1
+                            }
+                            
+                            for val in foundArray {
+                                if !val {
+                                    found = false
+                                }
+                            }
+                        }
                         
-                        let isSuccessful = acc.isSuccessful
-                        accesses[i]["isSuccessful"] = isSuccessful as AnyObject
-
-                        i += 1
+                        if found {
+                            let timestamp = acc.timestamp!
+                            let isSuccessful = acc.isSuccessful
+                            accesses.append(["timestamp": timestamp as AnyObject,
+                                          "isSuccessful" : isSuccessful as AnyObject
+                                ])
+                        }
                     }
                     completion(true, accesses)
                 } else {
@@ -426,4 +495,15 @@ class DataController: NSObject {
             print("Please insert a valid type of data")
         }
     }
+}
+
+enum SearchField {
+    case name
+    case surname
+    case code
+    case isFamily
+    case isManager
+    case timestampBefore
+    case timestampAfter
+    case isSuccessful
 }
