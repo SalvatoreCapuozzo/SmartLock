@@ -20,6 +20,7 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
     var codeTextField: UITextField!
     var searchTextField: UITextField!
     var manualButton: UIView!
+    var scanButton: UIButton!
     
     var users = [[String: AnyObject]]()
     
@@ -32,18 +33,26 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
         attributes: [],
         autoreleaseFrequency: .workItem)
     
+    var receivedMessage: String = ""
+    var messageSent: Bool = false
+    
     //var maxX: CGFloat = 0.0
     //var midY: CGFloat = 0.0
     //var maxY: CGFloat = 0.0
     
     var justScanned: Bool = false
+    var key: Int = 5
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupUserInterface(type: 3)
         
+        initBluetoothSerial()
+        
         configureCaptureSession()
+        
+        UserDefaults.standard.addObserver(self, forKeyPath: "receivedMessage", options: NSKeyValueObservingOptions.new, context: nil)
         
         //maxX = view.bounds.maxX
         //midY = view.bounds.midY
@@ -60,6 +69,8 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
         DataController().addUser(name: "Maria Luisa", surname: "Farina", code: "270693", isFamily: true, isManager: false)
         DataController().addUser(name: "Salvatore", surname: "Capuozzo", code: "190596", isFamily: true, isManager: false)
         */
+        //DataController().addUser(name: "Filippo", surname: "Ferrandino", code: "123456", isFamily: true, isManager: false)
+        //DataController().addUser(name: "Federica", surname: "Ventriglia", code: "789012", isFamily: true, isManager: false)
         
         DataController().fetchData(entityName: "User") {
             (outcome, results) in
@@ -78,7 +89,7 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     override func viewDidAppear(_ animated: Bool) {
-
+        serial.delegate = self
         
     }
 
@@ -119,6 +130,11 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
         self.interphoneTableView.dataSource = self
         
         interphoneTableView.register(InterphoneTableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
+        
+        scanButton = UIButton(frame: CGRect(x: self.view.frame.size.width - 48, y: 28, width: 40, height: 40))
+        scanButton.setImage(#imageLiteral(resourceName: "faceid"), for: .normal)
+        scanButton.addTarget(self, action: #selector(goToScan), for: .touchUpInside)
+        self.view.addSubview(scanButton)
         
         // CameraView Setup
         cameraView = UIView(frame: CGRect(x: 8, y: 24, width: self.view.frame.size.width/4, height: self.view.frame.size.height/4))
@@ -221,6 +237,10 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
     
+    @objc func goToScan() {
+        performSegue(withIdentifier: "scan-segue", sender: nil)
+    }
+    
     @objc func scanUser() {
         let myContext = LAContext()
         let myLocalizedReasonString = "Posizionati di fronte alla fotocamera per la scansione"
@@ -234,6 +254,8 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
                         if success {
                             // User authenticated successfully, take appropriate action
                             GSMessage.showMessageAddedTo("Accesso effettuato con successo", type: .success, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
+                            
+                            self.textFieldShouldReturn(textToSend: "apri", completion: {})
                             
                             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 10.0) {
                                 self.justScanned = false
@@ -314,6 +336,8 @@ extension AccessScreenViewController: AVCaptureVideoDataOutputSampleBufferDelega
             print(error.localizedDescription)
         }
     }
+    
+    
 }
 
 extension AccessScreenViewController {

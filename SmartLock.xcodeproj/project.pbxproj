@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		871751FC22D62AA100E29FCF /* BluetoothSerial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871751FB22D62AA100E29FCF /* BluetoothSerial.swift */; };
+		871751FE22D62B6600E29FCF /* ScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871751FD22D62B6600E29FCF /* ScannerViewController.swift */; };
+		8717520222D62BB400E29FCF /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8717520022D62BB400E29FCF /* MBProgressHUD.m */; };
 		8722664122CA17EC008CA08F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8722664022CA17EC008CA08F /* AppDelegate.swift */; };
 		8722664322CA17EC008CA08F /* AccessScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8722664222CA17EC008CA08F /* AccessScreenViewController.swift */; };
 		8722664622CA17EC008CA08F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8722664422CA17EC008CA08F /* Main.storyboard */; };
@@ -25,6 +28,7 @@
 		8722668322CA85BA008CA08F /* CoreGraphicsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8722668222CA85BA008CA08F /* CoreGraphicsExtensions.swift */; };
 		8722668522CA978A008CA08F /* CustomBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8722668422CA978A008CA08F /* CustomBuilder.swift */; };
 		87260C3F22CB9EDD001BA297 /* CustomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87260C3E22CB9EDD001BA297 /* CustomColor.swift */; };
+		8730A1E822D65D3C0093CDC9 /* BluetoothProtocolImplementation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8730A1E722D65D3C0093CDC9 /* BluetoothProtocolImplementation.swift */; };
 		87C7B7BC22CB4B4B00942B59 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C7B7BB22CB4B4B00942B59 /* DataController.swift */; };
 		87C7B7C322CB51B300942B59 /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C7B7BF22CB51B300942B59 /* User+CoreDataClass.swift */; };
 		87C7B7C422CB51B300942B59 /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C7B7C022CB51B300942B59 /* User+CoreDataProperties.swift */; };
@@ -48,6 +52,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		871751FB22D62AA100E29FCF /* BluetoothSerial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothSerial.swift; sourceTree = "<group>"; };
+		871751FD22D62B6600E29FCF /* ScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerViewController.swift; sourceTree = "<group>"; };
+		871751FF22D62BB300E29FCF /* SmartLock-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SmartLock-Bridging-Header.h"; sourceTree = "<group>"; };
+		8717520022D62BB400E29FCF /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		8717520122D62BB400E29FCF /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		8722663D22CA17EC008CA08F /* SmartLock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartLock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8722664022CA17EC008CA08F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8722664222CA17EC008CA08F /* AccessScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessScreenViewController.swift; sourceTree = "<group>"; };
@@ -72,6 +81,7 @@
 		8722668222CA85BA008CA08F /* CoreGraphicsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreGraphicsExtensions.swift; sourceTree = "<group>"; };
 		8722668422CA978A008CA08F /* CustomBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBuilder.swift; sourceTree = "<group>"; };
 		87260C3E22CB9EDD001BA297 /* CustomColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColor.swift; sourceTree = "<group>"; };
+		8730A1E722D65D3C0093CDC9 /* BluetoothProtocolImplementation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothProtocolImplementation.swift; sourceTree = "<group>"; };
 		87C7B7BB22CB4B4B00942B59 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		87C7B7BD22CB51B300942B59 /* Access+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Access+CoreDataClass.swift"; sourceTree = "<group>"; };
 		87C7B7BE22CB51B300942B59 /* Access+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Access+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -160,10 +170,14 @@
 			children = (
 				87C7B7BD22CB51B300942B59 /* Access+CoreDataClass.swift */,
 				87C7B7BE22CB51B300942B59 /* Access+CoreDataProperties.swift */,
+				8717520122D62BB400E29FCF /* MBProgressHUD.h */,
+				8717520022D62BB400E29FCF /* MBProgressHUD.m */,
 				87C7B7BF22CB51B300942B59 /* User+CoreDataClass.swift */,
 				87C7B7C022CB51B300942B59 /* User+CoreDataProperties.swift */,
 				8722667622CA7568008CA08F /* UsersIE.swift */,
 				87C7B7BB22CB4B4B00942B59 /* DataController.swift */,
+				871751FB22D62AA100E29FCF /* BluetoothSerial.swift */,
+				871751FF22D62BB300E29FCF /* SmartLock-Bridging-Header.h */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -189,7 +203,9 @@
 		8722667322CA72C6008CA08F /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				871751FD22D62B6600E29FCF /* ScannerViewController.swift */,
 				8722664222CA17EC008CA08F /* AccessScreenViewController.swift */,
+				8730A1E722D65D3C0093CDC9 /* BluetoothProtocolImplementation.swift */,
 				8722667822CA7659008CA08F /* IDEvaluationManager.swift */,
 			);
 			path = Controller;
@@ -263,6 +279,7 @@
 				TargetAttributes = {
 					8722663C22CA17EC008CA08F = {
 						CreatedOnToolsVersion = 10.2.1;
+						LastSwiftMigration = 1020;
 					};
 					8722665322CA17EF008CA08F = {
 						CreatedOnToolsVersion = 10.2.1;
@@ -326,21 +343,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				871751FC22D62AA100E29FCF /* BluetoothSerial.swift in Sources */,
 				8722667722CA7568008CA08F /* UsersIE.swift in Sources */,
 				8722667D22CA7BEC008CA08F /* GradientTool.swift in Sources */,
 				8722664322CA17EC008CA08F /* AccessScreenViewController.swift in Sources */,
 				8722667B22CA78BC008CA08F /* WaveView.swift in Sources */,
 				8722668522CA978A008CA08F /* CustomBuilder.swift in Sources */,
 				87C7B7C322CB51B300942B59 /* User+CoreDataClass.swift in Sources */,
+				8717520222D62BB400E29FCF /* MBProgressHUD.m in Sources */,
 				87260C3F22CB9EDD001BA297 /* CustomColor.swift in Sources */,
 				87C7B7BC22CB4B4B00942B59 /* DataController.swift in Sources */,
 				8722664922CA17EC008CA08F /* SmartLock.xcdatamodeld in Sources */,
 				8722667F22CA7E60008CA08F /* GSMessage.swift in Sources */,
 				8722664122CA17EC008CA08F /* AppDelegate.swift in Sources */,
 				8722667922CA7659008CA08F /* IDEvaluationManager.swift in Sources */,
+				871751FE22D62B6600E29FCF /* ScannerViewController.swift in Sources */,
 				8722667522CA73B3008CA08F /* InterphoneTableViewCell.swift in Sources */,
 				87C7B7C422CB51B300942B59 /* User+CoreDataProperties.swift in Sources */,
 				8722668322CA85BA008CA08F /* CoreGraphicsExtensions.swift in Sources */,
+				8730A1E822D65D3C0093CDC9 /* BluetoothProtocolImplementation.swift in Sources */,
 				8722668122CA840C008CA08F /* FaceView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -516,6 +537,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 84543EX3ME;
 				INFOPLIST_FILE = SmartLock/Info.plist;
@@ -525,6 +547,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.SalvatoreCapuozzo.SmartLock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SmartLock/Model/SmartLock-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -534,6 +558,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 84543EX3ME;
 				INFOPLIST_FILE = SmartLock/Info.plist;
@@ -543,6 +568,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.SalvatoreCapuozzo.SmartLock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SmartLock/Model/SmartLock-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

@@ -9,6 +9,9 @@
 import UIKit
 import CoreData
 
+let MessageOptionKey = "MessageOption"
+let ReceivedMessageOptionKey = "ReceivedMessageOption"
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

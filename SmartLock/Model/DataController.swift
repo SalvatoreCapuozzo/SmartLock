@@ -327,7 +327,7 @@ class DataController: NSObject {
                 let fetchedAccesses = try moc.fetch(accessFetch) as! [Access]
                 
                 var accesses = [[String: AnyObject]]()
-                var i = 0
+                //var i = 0
                 
                 if fetchedAccesses.first != nil {
                     for acc in fetchedAccesses {
