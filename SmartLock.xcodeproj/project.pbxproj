@@ -32,6 +32,7 @@
 		87C7B7BC22CB4B4B00942B59 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C7B7BB22CB4B4B00942B59 /* DataController.swift */; };
 		87C7B7C322CB51B300942B59 /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C7B7BF22CB51B300942B59 /* User+CoreDataClass.swift */; };
 		87C7B7C422CB51B300942B59 /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C7B7C022CB51B300942B59 /* User+CoreDataProperties.swift */; };
+		F227F3D422D684270038DA16 /* CodeAccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F227F3D322D684270038DA16 /* CodeAccessViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,7 @@
 		87C7B7BE22CB51B300942B59 /* Access+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Access+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		87C7B7BF22CB51B300942B59 /* User+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataClass.swift"; sourceTree = "<group>"; };
 		87C7B7C022CB51B300942B59 /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		F227F3D322D684270038DA16 /* CodeAccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeAccessViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,6 +209,7 @@
 				8722664222CA17EC008CA08F /* AccessScreenViewController.swift */,
 				8730A1E722D65D3C0093CDC9 /* BluetoothProtocolImplementation.swift */,
 				8722667822CA7659008CA08F /* IDEvaluationManager.swift */,
+				F227F3D322D684270038DA16 /* CodeAccessViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -355,6 +358,7 @@
 				87C7B7BC22CB4B4B00942B59 /* DataController.swift in Sources */,
 				8722664922CA17EC008CA08F /* SmartLock.xcdatamodeld in Sources */,
 				8722667F22CA7E60008CA08F /* GSMessage.swift in Sources */,
+				F227F3D422D684270038DA16 /* CodeAccessViewController.swift in Sources */,
 				8722664122CA17EC008CA08F /* AppDelegate.swift in Sources */,
 				8722667922CA7659008CA08F /* IDEvaluationManager.swift in Sources */,
 				871751FE22D62B6600E29FCF /* ScannerViewController.swift in Sources */,
@@ -539,7 +543,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 84543EX3ME;
+				DEVELOPMENT_TEAM = Z93BPG6NCF;
 				INFOPLIST_FILE = SmartLock/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -560,7 +564,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 84543EX3ME;
+				DEVELOPMENT_TEAM = Z93BPG6NCF;
 				INFOPLIST_FILE = SmartLock/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

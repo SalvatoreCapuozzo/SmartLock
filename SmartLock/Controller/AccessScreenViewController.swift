@@ -81,14 +81,14 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
         
         session.startRunning()
         
-        /*
+        
         DataController().deleteData(entityName: "User")
         
         DataController().addUser(name: "Maria Luisa", surname: "Farina", code: "270693", isFamily: true, isManager: false)
         DataController().addUser(name: "Salvatore", surname: "Capuozzo", code: "190596", isFamily: true, isManager: false)
-        */
-        //DataController().addUser(name: "Filippo", surname: "Ferrandino", code: "123456", isFamily: true, isManager: false)
-        //DataController().addUser(name: "Federica", surname: "Ventriglia", code: "789012", isFamily: true, isManager: false)
+ 
+        DataController().addUser(name: "Filippo", surname: "Ferrandino", code: "123456", isFamily: true, isManager: false)
+        DataController().addUser(name: "Federica", surname: "Ventriglia", code: "789012", isFamily: true, isManager: false)
         
         DataController().fetchData(entityName: "User") {
             (outcome, results) in
@@ -285,6 +285,15 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
                             // User did not authenticate successfully, look at error and take appropriate action
                             GSMessage.showMessageAddedTo("Accesso fallito, prova con codice", type: .error, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
                             
+                            // Call Code Access ViewController
+                            let message = "Effettuare l'accesso con codice?"
+                            let alert = UIAlertController(title: "Accesso", message: message, preferredStyle: UIAlertController.Style.alert)
+                            alert.addAction(UIAlertAction(title: "Si", style: UIAlertAction.Style.default, handler: { [unowned self] (action: UIAlertAction!) in
+                                self.performSegue(withIdentifier: "code-access", sender: nil)
+                            }))
+
+                            alert.addAction(UIAlertAction(title: "Esci", style: .cancel, handler: nil))
+                            self.present(alert, animated: true, completion: nil)
                             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.0) {
                                 self.justScanned = false
                             }
