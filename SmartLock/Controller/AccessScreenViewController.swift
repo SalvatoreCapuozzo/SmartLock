@@ -10,6 +10,7 @@ import UIKit
 import LocalAuthentication
 import Vision
 import AVFoundation
+import CoreBluetooth
 
 class AccessScreenViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -36,6 +37,19 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
     var receivedMessage: String = ""
     var messageSent: Bool = false
     
+    var autoConnect: Bool = true
+    
+    //MARK: Variables
+    
+    /// The peripherals that have been discovered (no duplicates and sorted by asc RSSI)
+    var peripherals: [(peripheral: CBPeripheral, RSSI: Float)] = []
+    
+    /// The peripheral the user has selected
+    var selectedPeripheral: CBPeripheral?
+    
+    /// Progress hud shown
+    var progressHUD: MBProgressHUD?
+    
     //var maxX: CGFloat = 0.0
     //var midY: CGFloat = 0.0
     //var maxY: CGFloat = 0.0
@@ -48,9 +62,13 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
         
         setupUserInterface(type: 3)
         
+        
         initBluetoothSerial()
         
+        
         configureCaptureSession()
+        
+        
         
         UserDefaults.standard.addObserver(self, forKeyPath: "receivedMessage", options: NSKeyValueObservingOptions.new, context: nil)
         
@@ -89,7 +107,10 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        serial.delegate = self
+        //serial.delegate = self
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.0) {
+            self.startScan()
+        }
         
     }
 
@@ -134,7 +155,7 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
         scanButton = UIButton(frame: CGRect(x: self.view.frame.size.width - 48, y: 28, width: 40, height: 40))
         scanButton.setImage(#imageLiteral(resourceName: "faceid"), for: .normal)
         scanButton.addTarget(self, action: #selector(goToScan), for: .touchUpInside)
-        self.view.addSubview(scanButton)
+        //self.view.addSubview(scanButton)
         
         // CameraView Setup
         cameraView = UIView(frame: CGRect(x: 8, y: 24, width: self.view.frame.size.width/4, height: self.view.frame.size.height/4))

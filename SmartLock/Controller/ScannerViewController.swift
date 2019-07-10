@@ -160,14 +160,7 @@ final class ScannerViewController: UIViewController, UITableViewDataSource, UITa
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        // the user has selected a peripheral, so stop scanning and proceed to the next view
-        serial.stopScan()
-        selectedPeripheral = peripherals[(indexPath as NSIndexPath).row].peripheral
-        serial.connectToPeripheral(selectedPeripheral!)
-        progressHUD = MBProgressHUD.showAdded(to: view, animated: true)
-        progressHUD!.labelText = "Connecting"
-        
-        Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(ScannerViewController.connectTimeOut), userInfo: nil, repeats: false)
+        selectPeripheral(indexPath: indexPath)
     }
     
     
@@ -185,8 +178,8 @@ final class ScannerViewController: UIViewController, UITableViewDataSource, UITa
         peripherals.sort { $0.RSSI < $1.RSSI }
         tableView.reloadData()
         
-        if peripherals.count > 0 && autoConnect {
-            tableView(tableView, didSelectRowAt: IndexPath(row: 0, section: 0))
+        if autoConnect {
+            selectPeripheral()
         }
     }
     
@@ -254,6 +247,21 @@ final class ScannerViewController: UIViewController, UITableViewDataSource, UITa
         title = "Scanning ..."
         serial.startScan()
         Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(ScannerViewController.scanTimeOut), userInfo: nil, repeats: false)
+    }
+    
+    func selectPeripheral(indexPath: IndexPath = IndexPath(row: 0, section: 0)) {
+        if peripherals.count > 0 {
+            // the user has selected a peripheral, so stop scanning and proceed to the next view
+            serial.stopScan()
+            selectedPeripheral = peripherals[(indexPath as NSIndexPath).row].peripheral
+            serial.connectToPeripheral(selectedPeripheral!)
+            progressHUD = MBProgressHUD.showAdded(to: view, animated: true)
+            progressHUD!.labelText = "Connecting"
+            
+            print("Connecting...")
+            
+            Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(ScannerViewController.connectTimeOut), userInfo: nil, repeats: false)
+        }
     }
     
 }
