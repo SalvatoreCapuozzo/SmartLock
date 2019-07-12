@@ -153,9 +153,9 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
         interphoneTableView.register(InterphoneTableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
         
         scanButton = UIButton(frame: CGRect(x: self.view.frame.size.width - 48, y: 28, width: 40, height: 40))
-        scanButton.setImage(#imageLiteral(resourceName: "faceid"), for: .normal)
+        scanButton.setImage(UIImage.init(named: "keypad"), for: .normal)
         scanButton.addTarget(self, action: #selector(goToScan), for: .touchUpInside)
-        //self.view.addSubview(scanButton)
+        self.view.addSubview(scanButton)
         
         // CameraView Setup
         cameraView = UIView(frame: CGRect(x: 8, y: 24, width: self.view.frame.size.width/4, height: self.view.frame.size.height/4))
@@ -259,7 +259,7 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     @objc func goToScan() {
-        performSegue(withIdentifier: "scan-segue", sender: nil)
+        performSegue(withIdentifier: "code-access", sender: nil)
     }
     
     @objc func scanUser() {

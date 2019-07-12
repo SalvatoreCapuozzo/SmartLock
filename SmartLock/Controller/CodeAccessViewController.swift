@@ -11,7 +11,7 @@ import UIKit
 
 class CodeAccessViewController: UIViewController {
     
-    
+    var goBackButton: UIButton!
     var codeTextField: UITextField!
     var accessButton: UIView!
     var user = [[String: AnyObject]]()
@@ -81,6 +81,11 @@ class CodeAccessViewController: UIViewController {
         }
     }
     
+    @objc func cancel(_ sender: AnyObject) {
+        // go back
+        dismiss(animated: true, completion: nil)
+    }
+    
     @objc func checkCode(_ sender: UIButton) {
         codeTextField.resignFirstResponder()
         // Regular access attempt. Add the code to handle the login and code.
@@ -116,7 +121,7 @@ class CodeAccessViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Done", style: UIAlertAction.Style.default, handler: { [unowned self] (action: UIAlertAction!) in
             self.codeTextField.text = ""
         }))
-        self.present(alert, animated: false, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
     private func failLogin(method: String, info: String) {
@@ -125,11 +130,19 @@ class CodeAccessViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Riprova", style: UIAlertAction.Style.default, handler: { [unowned self] (action: UIAlertAction!) in
             self.codeTextField.text = ""
         }))
-        self.present(alert, animated: false, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
     // Create UI
     func createInterface(){
+        
+        goBackButton = UIButton(frame: CGRect(x: 10, y: 30, width: 50, height: 50))
+        goBackButton.setBackgroundImage(UIImage.init(named: "back"), for: .normal)
+        goBackButton.contentMode = .scaleAspectFill
+        goBackButton.backgroundColor = .clear
+        goBackButton.addTarget(self, action: #selector(cancel), for: .touchUpInside)
+        self.view.addSubview(goBackButton)
+        
         codeTextField = UITextField(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width/3, height:  self.view.frame.size.width/9))
         codeTextField.center = self.view.center
         codeTextField.layer.cornerRadius = codeTextField.frame.size.height/4
