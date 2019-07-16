@@ -20,7 +20,6 @@
 		8722666422CA17EF008CA08F /* SmartLockUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8722666322CA17EF008CA08F /* SmartLockUITests.swift */; };
 		8722667522CA73B3008CA08F /* InterphoneTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8722667422CA73B3008CA08F /* InterphoneTableViewCell.swift */; };
 		8722667722CA7568008CA08F /* UsersIE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8722667622CA7568008CA08F /* UsersIE.swift */; };
-		8722667922CA7659008CA08F /* IDEvaluationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8722667822CA7659008CA08F /* IDEvaluationManager.swift */; };
 		8722667B22CA78BC008CA08F /* WaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8722667A22CA78BC008CA08F /* WaveView.swift */; };
 		8722667D22CA7BEC008CA08F /* GradientTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8722667C22CA7BEC008CA08F /* GradientTool.swift */; };
 		8722667F22CA7E60008CA08F /* GSMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8722667E22CA7E60008CA08F /* GSMessage.swift */; };
@@ -77,7 +76,6 @@
 		8722666522CA17EF008CA08F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8722667422CA73B3008CA08F /* InterphoneTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterphoneTableViewCell.swift; sourceTree = "<group>"; };
 		8722667622CA7568008CA08F /* UsersIE.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersIE.swift; sourceTree = "<group>"; };
-		8722667822CA7659008CA08F /* IDEvaluationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IDEvaluationManager.swift; sourceTree = "<group>"; };
 		8722667A22CA78BC008CA08F /* WaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveView.swift; sourceTree = "<group>"; };
 		8722667C22CA7BEC008CA08F /* GradientTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientTool.swift; sourceTree = "<group>"; };
 		8722667E22CA7E60008CA08F /* GSMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSMessage.swift; sourceTree = "<group>"; };
@@ -217,7 +215,6 @@
 				8743B07122DDE3E9007E17AB /* AppViewController.swift */,
 				8722664222CA17EC008CA08F /* AccessScreenViewController.swift */,
 				8730A1E722D65D3C0093CDC9 /* BluetoothProtocolImplementation.swift */,
-				8722667822CA7659008CA08F /* IDEvaluationManager.swift */,
 				F227F3D322D684270038DA16 /* CodeAccessViewController.swift */,
 			);
 			path = Controller;
@@ -372,7 +369,6 @@
 				8722667F22CA7E60008CA08F /* GSMessage.swift in Sources */,
 				F227F3D422D684270038DA16 /* CodeAccessViewController.swift in Sources */,
 				8722664122CA17EC008CA08F /* AppDelegate.swift in Sources */,
-				8722667922CA7659008CA08F /* IDEvaluationManager.swift in Sources */,
 				871751FE22D62B6600E29FCF /* ScannerViewController.swift in Sources */,
 				8722667522CA73B3008CA08F /* InterphoneTableViewCell.swift in Sources */,
 				87C7B7C422CB51B300942B59 /* User+CoreDataProperties.swift in Sources */,

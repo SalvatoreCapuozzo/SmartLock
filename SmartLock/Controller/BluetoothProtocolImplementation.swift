@@ -104,7 +104,7 @@ extension AppViewController: BluetoothSerialDelegate {
             msg += ""
         }
         
-        // send the message and clear the textfield
+        // send the message
         serial.sendMessageToDevice(msg)
         completion()
         //messageField.text = ""

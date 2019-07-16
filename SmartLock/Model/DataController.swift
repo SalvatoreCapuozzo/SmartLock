@@ -259,11 +259,15 @@ class DataController: NSObject {
                             for field in fields {
                                 switch field.key {
                                 case .name:
-                                    if (user.name?.contains(field.value as! String))! {
+                                    if (user.name?.lowercased().contains((field.value as! String).lowercased()))! {
                                         foundArray[j] = true
                                     }
                                 case .surname:
-                                    if (user.surname?.contains(field.value as! String))! {
+                                    if (user.surname?.lowercased().contains((field.value as! String).lowercased()))! {
+                                        foundArray[j] = true
+                                    }
+                                case .nameOrSurname:
+                                    if (user.name?.lowercased().contains((field.value as! String).lowercased()))! || (user.surname?.lowercased().contains((field.value as! String).lowercased()))! {
                                         foundArray[j] = true
                                     }
                                 case .code:
@@ -500,6 +504,7 @@ class DataController: NSObject {
 enum SearchField {
     case name
     case surname
+    case nameOrSurname
     case code
     case isFamily
     case isManager

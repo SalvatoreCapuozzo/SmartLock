@@ -13,17 +13,13 @@ import AVFoundation
 import CoreBluetooth
 
 class AccessScreenViewController: AppViewController, UITableViewDelegate, UITableViewDataSource {
-    
     var interphoneTableView: UITableView!
     var sequenceHandler = VNSequenceRequestHandler()
     var faceView: FaceView!
     var cameraView: UIView!
-    //var codeTextField: UITextField!
     var searchTextField: UITextField!
     var manualButton: UIView!
     var codeButton: UIButton!
-    
-    //var users = [[String: AnyObject]]()
     
     let session = AVCaptureSession()
     var previewLayer: AVCaptureVideoPreviewLayer!
@@ -35,11 +31,15 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
         attributes: [],
         autoreleaseFrequency: .workItem)
     
+    var isAccessScreenActive: Bool = false
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupUserInterface(type: 3)
+        
+        self.isAccessScreenActive = true
         
         configureCaptureSession()
         
@@ -51,35 +51,29 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
         DataController().deleteData(entityName: "User")
         
         DataController().addUser(name: "Maria Luisa", surname: "Farina", code: "270693", isFamily: true, isManager: false)
-        DataController().addUser(name: "Salvatore", surname: "Capuozzo", code: "190596", isFamily: true, isManager: false)
+        DataController().addUser(name: "Salvatore", surname: "Capuozzo", code: "190596", isFamily: true, isManager: true)
  
         DataController().addUser(name: "Filippo", surname: "Ferrandino", code: "123456", isFamily: true, isManager: false)
         DataController().addUser(name: "Federica", surname: "Ventriglia", code: "789012", isFamily: true, isManager: false)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        self.isAccessScreenActive = true
         
         DataController().fetchData(entityName: "User") {
             (outcome, results) in
             if outcome! {
                 self.users = results
+                self.interphoneTableView.reloadData()
             }
         }
         
-        /*
-        DataController().fetchData(entityName: "User", searchBy: [SearchField.surname : "Capuozzo" as AnyObject]) {
-            (outcome, results) in
-            if outcome! {
-                self.users = results
-            }
-        }*/
     }
-    /*
-    override func viewDidAppear(_ animated: Bool) {
-        //serial.delegate = self
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.0) {
-            self.startScan()
-        }
-        
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.isAccessScreenActive = false
     }
-*/
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return users.count
     }
@@ -88,6 +82,7 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier") as! InterphoneTableViewCell
         
         cell.nameLabel.text = "\(String(describing: users[indexPath.row]["surname"]!)) \(String(describing: users[indexPath.row]["name"]!))"
+        cell.clipsToBounds = true
         
         return cell
     }
@@ -113,6 +108,9 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
         self.interphoneTableView.delegate = self
         self.interphoneTableView.dataSource = self
         
+        self.interphoneTableView.separatorColor = .clear
+        self.interphoneTableView.separatorStyle = .none
+        
         interphoneTableView.register(InterphoneTableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
         
         codeButton = UIButton(frame: CGRect(x: self.view.frame.size.width - self.view.frame.size.width/10 - 8, y: UIApplication.shared.statusBarFrame.height + 8, width: self.view.frame.size.width/10, height: self.view.frame.size.width/10))
@@ -137,14 +135,8 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
         // Seatch TextField Setup
         searchTextField = CustomBuilder.makeTextField(width: self.view.frame.size.width*2/3, height: self.interphoneTableView.frame.size.height/9, placeholder: "Inserisci condomino da cercare", keyboardType: .alphabet, capitalized: false, isSecure: false)
         searchTextField.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height - interphoneTableView.frame.size.height - searchTextField.frame.size.height)
+        searchTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         self.view.addSubview(searchTextField)
-        
-        // Code TextField Setup
-        /*
-        codeTextField = CustomBuilder.makeTextField(width: self.view.frame.size.width/3, height: self.interphoneTableView.frame.size.height/9, placeholder: "Codice utente", keyboardType: .numberPad, capitalized: false, isSecure: true)
-        codeTextField.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height - interphoneTableView.frame.size.height - codeTextField.frame.size.height - searchTextField.frame.size.height - 16)
-        self.view.addSubview(codeTextField)
-        */
         
         // Background Setup
         switch type {
@@ -194,6 +186,27 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
         }
     }
     
+    @objc func textFieldDidChange() {
+        if self.searchTextField.text == "" {
+            DataController().fetchData(entityName: "User") {
+                (outcome, results) in
+                if outcome! {
+                    self.users = results
+                    self.interphoneTableView.reloadData()
+                }
+            }
+        } else {
+            DataController().fetchData(entityName: "User", searchBy: [.nameOrSurname: self.searchTextField?.text as AnyObject]) {
+                (outcome, results) in
+                if outcome! {
+                    self.users = results
+                    self.interphoneTableView.reloadData()
+                    
+                }
+            }
+        }
+    }
+    
     @objc func goToCode() {
         performSegue(withIdentifier: "code-access", sender: nil)
     }
@@ -221,18 +234,20 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
                             // User did not authenticate successfully, look at error and take appropriate action
                             GSMessage.showMessageAddedTo("Accesso fallito, prova con codice", type: .error, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
                             
+                            self.justScanned = true
                             // Call Code Access ViewController
                             let message = "Effettuare l'accesso con codice?"
                             let alert = UIAlertController(title: "Accesso", message: message, preferredStyle: UIAlertController.Style.alert)
-                            alert.addAction(UIAlertAction(title: "Si", style: UIAlertAction.Style.default, handler: { [unowned self] (action: UIAlertAction!) in
+                            alert.addAction(UIAlertAction(title: "Sì", style: UIAlertAction.Style.default, handler: { [unowned self] (action: UIAlertAction!) in
                                 self.performSegue(withIdentifier: "code-access", sender: nil)
                             }))
 
-                            alert.addAction(UIAlertAction(title: "Esci", style: .cancel, handler: nil))
+                            alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { [unowned self] (action: UIAlertAction!) in
+                                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.0) {
+                                    self.justScanned = false
+                                }
+                            }))
                             self.present(alert, animated: true, completion: nil)
-                            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.0) {
-                                self.justScanned = false
-                            }
                         }
                     }
                 }
@@ -244,6 +259,20 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
             // Fallback on earlier versions
             
             GSMessage.showMessageAddedTo("Funzione di scansione non supportata", type: .error, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
+        }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first {
+            let location = touch.location(in: self.view)
+            if location.x < self.view.frame.size.width/4 && location.y < self.view.frame.size.height/4 {
+                self.showDetection = !self.showDetection
+                if showDetection {
+                    self.view.addSubview(faceView)
+                } else {
+                    self.faceView.removeFromSuperview()
+                }
+            }
         }
     }
     
@@ -405,7 +434,7 @@ extension AccessScreenViewController {
         
         updateFaceView(for: result)
         
-        if !justScanned {
+        if !justScanned && isAccessScreenActive {
             justScanned = true
             scanUser()
         }
