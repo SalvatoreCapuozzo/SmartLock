@@ -58,6 +58,7 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         self.isAccessScreenActive = true
         
         DataController().fetchData(entityName: "User") {

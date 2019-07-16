@@ -120,10 +120,11 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
         super.init()
         self.delegate = delegate
         centralManager = CBCentralManager(delegate: self, queue: nil)
+        UserDefaults.standard.set(false, forKey: "deviceConnected")
     }
     
     /// Start scanning for peripherals
-    func startScan(_ completion: () -> (Void)) {
+    func startScan() {
         guard centralManager.state == .poweredOn else { return }
         
         // start scanning for peripherals with correct service UUID
@@ -134,7 +135,6 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
         let peripherals = centralManager.retrieveConnectedPeripherals(withServices: [serviceUUID])
         for peripheral in peripherals {
             delegate.serialDidDiscoverPeripheral(peripheral, RSSI: nil)
-            completion()
         }
     }
     
@@ -147,10 +147,12 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
     func connectToPeripheral(_ peripheral: CBPeripheral) {
         pendingPeripheral = peripheral
         centralManager.connect(peripheral, options: nil)
+        UserDefaults.standard.set(true, forKey: "deviceConnected")
     }
     
     /// Disconnect from the connected peripheral or stop connecting to it
     func disconnect() {
+        UserDefaults.standard.set(false, forKey: "deviceConnected")
         if let p = connectedPeripheral {
             centralManager.cancelPeripheralConnection(p)
         } else if let p = pendingPeripheral {

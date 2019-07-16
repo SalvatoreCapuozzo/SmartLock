@@ -15,6 +15,7 @@ class CodeAccessViewController: AppViewController {
     var codeTextField: UITextField!
     var accessButton: UIView!
     var user = [[String: AnyObject]]()
+    var justSent: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,14 +25,17 @@ class CodeAccessViewController: AppViewController {
         //DataController().deleteData(entityName: "User")
         //DataController().addUser(name: "Federica", surname: "Ventriglia", code: "1234", isFamily: true, isManager: false)
 
-        setupUserInterface(type: 3)
         codeTextField.becomeFirstResponder()
         UserDefaults.standard.addObserver(self, forKeyPath: "receivedMessage", options: NSKeyValueObservingOptions.new, context: nil)
         
         //maxX = view.bounds.maxX
         //midY = view.bounds.midY
         //maxY = view.bounds.maxY
-        self.sendToDevice(textToSend: "chiudi", completion: {})
+        //self.sendToDevice(textToSend: "chiudi", completion: {})
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        self.justSent = false
     }
     
     @objc override func cancel(_ sender: AnyObject) {
@@ -53,7 +57,7 @@ class CodeAccessViewController: AppViewController {
         self.view.addSubview(codeTextField)
         
         accessButton = CustomBuilder.makeButton(width: self.view.frame.size.width/3, height: self.view.frame.size.width/8, text: "Accedi", color: CustomColor.sparklingBlue.uiColor(), textColor: .white)
-        accessButton.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height/2 + self.codeTextField.frame.height + 60)
+        accessButton.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height/2 + self.codeTextField.frame.height + 30)
         //accessButton.layer.cornerRadius = accessButton.frame.size.height/4
         accessButton.subButton()?.tintColor = .white
         accessButton.subButton()?.addTarget(self, action: #selector(checkCode), for: .touchUpInside)
@@ -79,7 +83,6 @@ class CodeAccessViewController: AppViewController {
                 }
 //                print(results[0]["name"])
                 self.didLogin(method: "code", info: (results[0]["name"] as! String) )
-                self.sendToDevice(textToSend: "apri", completion: {})
             }
         }
         //didLogin(method: "password", info: "Password: \(pass)")
@@ -95,8 +98,13 @@ class CodeAccessViewController: AppViewController {
         let alert = UIAlertController(title: "Accesso", message: message, preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "Done", style: UIAlertAction.Style.default, handler: { [unowned self] (action: UIAlertAction!) in
             self.codeTextField.text = ""
+            self.dismiss(animated: true, completion: nil)
         }))
         self.present(alert, animated: true, completion: nil)
+        if !justSent {
+            justSent = true
+            self.sendToDevice(textToSend: "apri", completion: {})
+        }
     }
     
     private func failLogin(method: String, info: String) {

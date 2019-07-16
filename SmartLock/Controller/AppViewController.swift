@@ -29,7 +29,7 @@ class AppViewController: UIViewController {
     /// Progress hud shown
     var progressHUD: MBProgressHUD?
     
-    var justScanned: Bool = false
+    var justScanned: Bool = true
     var key: Int = 5
 
     override func viewDidLoad() {
@@ -37,9 +37,10 @@ class AppViewController: UIViewController {
 
         setupUserInterface(type: 3)
         
-        initBluetoothSerial()
-        
-        UserDefaults.standard.addObserver(self, forKeyPath: "receivedMessage", options: NSKeyValueObservingOptions.new, context: nil)
+        if let _ = self as? AccessScreenViewController {
+            initBluetoothSerial()
+            UserDefaults.standard.addObserver(self, forKeyPath: "receivedMessage", options: NSKeyValueObservingOptions.new, context: nil)
+        }
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tappedOnScreen))
         self.view.addGestureRecognizer(tapGesture)

@@ -124,6 +124,12 @@ extension AppViewController: BluetoothSerialDelegate {
                     self.sendToDevice(textToSend: "chiudi", completion: {})
                 })
             })
+        case "deviceConnected":
+            let connected = UserDefaults.standard.bool(forKey: "deviceConnected")
+            if connected {
+                GSMessage.showMessageAddedTo("Connesso all'interfono", type: .success, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
+                self.justScanned = false
+            }
         default:
             print("Error")
         }
@@ -132,10 +138,9 @@ extension AppViewController: BluetoothSerialDelegate {
 
 extension AppViewController {
     func startScan() {
+        UserDefaults.standard.addObserver(self, forKeyPath: "deviceConnected", options: NSKeyValueObservingOptions.new, context: nil)
         // start scanning and schedule the time out
-        serial.startScan({
-            GSMessage.showMessageAddedTo("Connesso all'interfono", type: .success, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
-        })
+        serial.startScan()
         Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(scanTimeOut), userInfo: nil, repeats: false)
     }
     
@@ -143,8 +148,11 @@ extension AppViewController {
     @objc func scanTimeOut() {
         // timeout has occurred, stop scanning and give the user the option to try again
         serial.stopScan()
-        GSMessage.showMessageAddedTo("Tempo per la connessione scaduto", type: .error, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
-        print("Scan timed out")
+        if !UserDefaults.standard.bool(forKey: "deviceConnected") {
+            GSMessage.showMessageAddedTo("Tempo per la connessione scaduto", type: .error, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
+            print("Scan timed out")
+        }
+        
         //tryAgainButton.isEnabled = true
     }
     
@@ -251,8 +259,8 @@ extension AppViewController {
         peripherals = []
         //tableView.reloadData()
         //tryAgainButton.isEnabled = false
-        serial.startScan({})
-        Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(ScannerViewController.scanTimeOut), userInfo: nil, repeats: false)
+        serial.startScan()
+        Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(scanTimeOut), userInfo: nil, repeats: false)
     }
     
     func selectPeripheral(indexPath: IndexPath = IndexPath(row: 0, section: 0)) {
