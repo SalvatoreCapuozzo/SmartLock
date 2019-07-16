@@ -22,7 +22,7 @@ enum ReceivedMessageOption: Int {
     newline
 }
 
-extension AccessScreenViewController: BluetoothSerialDelegate {
+extension AppViewController: BluetoothSerialDelegate {
     func initBluetoothSerial() {
         serial = BluetoothSerial(delegate: self)
     }
@@ -78,9 +78,9 @@ extension AccessScreenViewController: BluetoothSerialDelegate {
     }*/
     
     // Message sent to Arduino
-    func textFieldShouldReturn(textToSend: String, completion: () -> ()) {
+    func sendToDevice(textToSend: String, completion: () -> ()) {
         if !serial.isReady {
-            let alert = UIAlertController(title: "Not connected", message: "What am I supposed to send this to?", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Dispositivo non connesso", message: "Connettere prima il dispositivo Bluetooth all'app", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertAction.Style.default, handler: { action -> Void in self.dismiss(animated: true, completion: nil) }))
             present(alert, animated: true, completion: nil)
             //messageField.resignFirstResponder()
@@ -118,9 +118,10 @@ extension AccessScreenViewController: BluetoothSerialDelegate {
             let multMess = intMess*key
             print(multMess)
             print("")
-            self.textFieldShouldReturn(textToSend: String(describing: multMess), completion: {
+            self.sendToDevice(textToSend: String(describing: multMess), completion: {
+                SoundsPlayer.playSound(soundName: "open-ended", ext: "mp3")
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5, execute: {
-                    self.textFieldShouldReturn(textToSend: "chiudi", completion: {})
+                    self.sendToDevice(textToSend: "chiudi", completion: {})
                 })
             })
         default:
@@ -129,17 +130,20 @@ extension AccessScreenViewController: BluetoothSerialDelegate {
     }
 }
 
-extension AccessScreenViewController {
+extension AppViewController {
     func startScan() {
         // start scanning and schedule the time out
-        serial.startScan()
-        Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(ScannerViewController.scanTimeOut), userInfo: nil, repeats: false)
+        serial.startScan({
+            GSMessage.showMessageAddedTo("Connesso all'interfono", type: .success, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
+        })
+        Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(scanTimeOut), userInfo: nil, repeats: false)
     }
     
     /// Should be called 10s after we've begun scanning
     @objc func scanTimeOut() {
         // timeout has occurred, stop scanning and give the user the option to try again
         serial.stopScan()
+        GSMessage.showMessageAddedTo("Tempo per la connessione scaduto", type: .error, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
         print("Scan timed out")
         //tryAgainButton.isEnabled = true
     }
@@ -247,7 +251,7 @@ extension AccessScreenViewController {
         peripherals = []
         //tableView.reloadData()
         //tryAgainButton.isEnabled = false
-        serial.startScan()
+        serial.startScan({})
         Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(ScannerViewController.scanTimeOut), userInfo: nil, repeats: false)
     }
     

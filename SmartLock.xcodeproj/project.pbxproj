@@ -29,6 +29,9 @@
 		8722668522CA978A008CA08F /* CustomBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8722668422CA978A008CA08F /* CustomBuilder.swift */; };
 		87260C3F22CB9EDD001BA297 /* CustomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87260C3E22CB9EDD001BA297 /* CustomColor.swift */; };
 		8730A1E822D65D3C0093CDC9 /* BluetoothProtocolImplementation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8730A1E722D65D3C0093CDC9 /* BluetoothProtocolImplementation.swift */; };
+		8743B07222DDE3E9007E17AB /* AppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8743B07122DDE3E9007E17AB /* AppViewController.swift */; };
+		8743B07422DDF21E007E17AB /* open-ended.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8743B07322DDF21E007E17AB /* open-ended.mp3 */; };
+		8743B07622DDF2AA007E17AB /* SoundsPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8743B07522DDF2AA007E17AB /* SoundsPlayer.swift */; };
 		87C7B7BC22CB4B4B00942B59 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C7B7BB22CB4B4B00942B59 /* DataController.swift */; };
 		87C7B7C322CB51B300942B59 /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C7B7BF22CB51B300942B59 /* User+CoreDataClass.swift */; };
 		87C7B7C422CB51B300942B59 /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C7B7C022CB51B300942B59 /* User+CoreDataProperties.swift */; };
@@ -83,6 +86,9 @@
 		8722668422CA978A008CA08F /* CustomBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBuilder.swift; sourceTree = "<group>"; };
 		87260C3E22CB9EDD001BA297 /* CustomColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColor.swift; sourceTree = "<group>"; };
 		8730A1E722D65D3C0093CDC9 /* BluetoothProtocolImplementation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothProtocolImplementation.swift; sourceTree = "<group>"; };
+		8743B07122DDE3E9007E17AB /* AppViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewController.swift; sourceTree = "<group>"; };
+		8743B07322DDF21E007E17AB /* open-ended.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "open-ended.mp3"; sourceTree = "<group>"; };
+		8743B07522DDF2AA007E17AB /* SoundsPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundsPlayer.swift; sourceTree = "<group>"; };
 		87C7B7BB22CB4B4B00942B59 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		87C7B7BD22CB51B300942B59 /* Access+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Access+CoreDataClass.swift"; sourceTree = "<group>"; };
 		87C7B7BE22CB51B300942B59 /* Access+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Access+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -139,6 +145,7 @@
 		8722663F22CA17EC008CA08F /* SmartLock */ = {
 			isa = PBXGroup;
 			children = (
+				8743B07322DDF21E007E17AB /* open-ended.mp3 */,
 				8722664022CA17EC008CA08F /* AppDelegate.swift */,
 				8722667122CA72B6008CA08F /* Model */,
 				8722667222CA72BF008CA08F /* View */,
@@ -179,6 +186,7 @@
 				8722667622CA7568008CA08F /* UsersIE.swift */,
 				87C7B7BB22CB4B4B00942B59 /* DataController.swift */,
 				871751FB22D62AA100E29FCF /* BluetoothSerial.swift */,
+				8743B07522DDF2AA007E17AB /* SoundsPlayer.swift */,
 				871751FF22D62BB300E29FCF /* SmartLock-Bridging-Header.h */,
 			);
 			path = Model;
@@ -206,6 +214,7 @@
 			isa = PBXGroup;
 			children = (
 				871751FD22D62B6600E29FCF /* ScannerViewController.swift */,
+				8743B07122DDE3E9007E17AB /* AppViewController.swift */,
 				8722664222CA17EC008CA08F /* AccessScreenViewController.swift */,
 				8730A1E722D65D3C0093CDC9 /* BluetoothProtocolImplementation.swift */,
 				8722667822CA7659008CA08F /* IDEvaluationManager.swift */,
@@ -322,6 +331,7 @@
 				8722664E22CA17EE008CA08F /* LaunchScreen.storyboard in Resources */,
 				8722664B22CA17EE008CA08F /* Assets.xcassets in Resources */,
 				8722664622CA17EC008CA08F /* Main.storyboard in Resources */,
+				8743B07422DDF21E007E17AB /* open-ended.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,8 +358,10 @@
 			files = (
 				871751FC22D62AA100E29FCF /* BluetoothSerial.swift in Sources */,
 				8722667722CA7568008CA08F /* UsersIE.swift in Sources */,
+				8743B07622DDF2AA007E17AB /* SoundsPlayer.swift in Sources */,
 				8722667D22CA7BEC008CA08F /* GradientTool.swift in Sources */,
 				8722664322CA17EC008CA08F /* AccessScreenViewController.swift in Sources */,
+				8743B07222DDE3E9007E17AB /* AppViewController.swift in Sources */,
 				8722667B22CA78BC008CA08F /* WaveView.swift in Sources */,
 				8722668522CA978A008CA08F /* CustomBuilder.swift in Sources */,
 				87C7B7C322CB51B300942B59 /* User+CoreDataClass.swift in Sources */,
@@ -543,7 +555,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Z93BPG6NCF;
+				DEVELOPMENT_TEAM = 84543EX3ME;
 				INFOPLIST_FILE = SmartLock/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -565,7 +577,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Z93BPG6NCF;
+				DEVELOPMENT_TEAM = 84543EX3ME;
 				INFOPLIST_FILE = SmartLock/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -12,21 +12,22 @@ import Vision
 import AVFoundation
 import CoreBluetooth
 
-class AccessScreenViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class AccessScreenViewController: AppViewController, UITableViewDelegate, UITableViewDataSource {
     
     var interphoneTableView: UITableView!
     var sequenceHandler = VNSequenceRequestHandler()
     var faceView: FaceView!
     var cameraView: UIView!
-    var codeTextField: UITextField!
+    //var codeTextField: UITextField!
     var searchTextField: UITextField!
     var manualButton: UIView!
-    var scanButton: UIButton!
+    var codeButton: UIButton!
     
-    var users = [[String: AnyObject]]()
+    //var users = [[String: AnyObject]]()
     
     let session = AVCaptureSession()
     var previewLayer: AVCaptureVideoPreviewLayer!
+    var showDetection: Bool = false
     
     let dataOutputQueue = DispatchQueue(
         label: "video data queue",
@@ -34,53 +35,18 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
         attributes: [],
         autoreleaseFrequency: .workItem)
     
-    var receivedMessage: String = ""
-    var messageSent: Bool = false
-    
-    var autoConnect: Bool = true
-    
-    //MARK: Variables
-    
-    /// The peripherals that have been discovered (no duplicates and sorted by asc RSSI)
-    var peripherals: [(peripheral: CBPeripheral, RSSI: Float)] = []
-    
-    /// The peripheral the user has selected
-    var selectedPeripheral: CBPeripheral?
-    
-    /// Progress hud shown
-    var progressHUD: MBProgressHUD?
-    
-    //var maxX: CGFloat = 0.0
-    //var midY: CGFloat = 0.0
-    //var maxY: CGFloat = 0.0
-    
-    var justScanned: Bool = false
-    var key: Int = 5
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupUserInterface(type: 3)
         
-        
-        initBluetoothSerial()
-        
-        
         configureCaptureSession()
-        
-        
-        
-        UserDefaults.standard.addObserver(self, forKeyPath: "receivedMessage", options: NSKeyValueObservingOptions.new, context: nil)
-        
-        //maxX = view.bounds.maxX
-        //midY = view.bounds.midY
-        //maxY = view.bounds.maxY
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tappedOnScreen))
         self.view.addGestureRecognizer(tapGesture)
         
         session.startRunning()
-        
         
         DataController().deleteData(entityName: "User")
         
@@ -105,7 +71,7 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
             }
         }*/
     }
-    
+    /*
     override func viewDidAppear(_ animated: Bool) {
         //serial.delegate = self
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.0) {
@@ -113,7 +79,7 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
         }
         
     }
-
+*/
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return users.count
     }
@@ -130,11 +96,8 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
         return self.interphoneTableView.frame.size.height/6.5
     }
     
-    @objc func tappedOnScreen() {
-        self.view.endEditing(true)
-    }
-    
-    func setupUserInterface(type: Int) {
+    override func setupUserInterface(type: Int) {
+        super.setupUserInterface(type: type)
         // Interphone TableView Setup
         interphoneTableView = UITableView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width*2/3, height: self.view.frame.size.height*3/5))
         interphoneTableView.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height - interphoneTableView.frame.size.height/2 - 16)
@@ -152,10 +115,10 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
         
         interphoneTableView.register(InterphoneTableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
         
-        scanButton = UIButton(frame: CGRect(x: self.view.frame.size.width - 48, y: 28, width: 40, height: 40))
-        scanButton.setImage(UIImage.init(named: "keypad"), for: .normal)
-        scanButton.addTarget(self, action: #selector(goToScan), for: .touchUpInside)
-        self.view.addSubview(scanButton)
+        codeButton = UIButton(frame: CGRect(x: self.view.frame.size.width - self.view.frame.size.width/10 - 8, y: UIApplication.shared.statusBarFrame.height + 8, width: self.view.frame.size.width/10, height: self.view.frame.size.width/10))
+        codeButton.setImage(UIImage.init(named: "keypad"), for: .normal)
+        codeButton.addTarget(self, action: #selector(goToCode), for: .touchUpInside)
+        self.view.addSubview(codeButton)
         
         // CameraView Setup
         cameraView = UIView(frame: CGRect(x: 8, y: 24, width: self.view.frame.size.width/4, height: self.view.frame.size.height/4))
@@ -167,7 +130,9 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
         faceView = FaceView(frame: CGRect(x: 8, y: 24, width: self.view.frame.size.width/4, height: self.view.frame.size.height/4))
         faceView.backgroundColor = .clear
         faceView.layer.zPosition = cameraView.layer.zPosition + 1
-        self.view.addSubview(faceView)
+        if self.showDetection {
+            self.view.addSubview(faceView)
+        }
         
         // Seatch TextField Setup
         searchTextField = CustomBuilder.makeTextField(width: self.view.frame.size.width*2/3, height: self.interphoneTableView.frame.size.height/9, placeholder: "Inserisci condomino da cercare", keyboardType: .alphabet, capitalized: false, isSecure: false)
@@ -175,20 +140,16 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
         self.view.addSubview(searchTextField)
         
         // Code TextField Setup
+        /*
         codeTextField = CustomBuilder.makeTextField(width: self.view.frame.size.width/3, height: self.interphoneTableView.frame.size.height/9, placeholder: "Codice utente", keyboardType: .numberPad, capitalized: false, isSecure: true)
         codeTextField.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height - interphoneTableView.frame.size.height - codeTextField.frame.size.height - searchTextField.frame.size.height - 16)
         self.view.addSubview(codeTextField)
+        */
         
         // Background Setup
         switch type {
         case 1:
             // Green Gradient
-            GradientTool.apply(colors: [
-                CustomColor.bottleGreen.uiColor(),
-                UIColor(red: 0/255, green: 255/255, blue: 192/255, alpha: 1),
-                CustomColor.leafGreen.uiColor()
-                ], middlePos: 0.25, to: self.view)
-            
             manualButton = CustomBuilder.makeButton(width: self.view.frame.size.width/6, height: self.view.frame.size.width/6, text: "", color: UIColor(red: 0/255, green: 255/255, blue: 128/255, alpha: 1), textColor: .clear)
             manualButton.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height/8)
             manualButton.layer.cornerRadius = manualButton.frame.size.height/4
@@ -202,19 +163,6 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
             self.view.addSubview(manualButton)
         case 2:
             // Green Waves
-            let waveView = WaveView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height/3), color: .green)
-            waveView.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height - waveView.frame.size.height/2)
-            waveView.realWaveColor = CustomColor.leafGreen.uiColor().withAlphaComponent(0.8)
-            waveView.maskWaveColor = CustomColor.leafGreen.uiColor().withAlphaComponent(0.5)
-            waveView.waveHeight = 60
-            waveView.waveSpeed = 0.25
-            waveView.waveCurvature = 0.5
-            waveView.layer.zPosition = interphoneTableView.layer.zPosition - 1
-            self.view.addSubview(waveView)
-            waveView.start()
-            
-            self.view.backgroundColor = CustomColor.bottleGreen.uiColor()
-            
             manualButton = CustomBuilder.makeButton(width: self.view.frame.size.width/6, height: self.view.frame.size.width/6, text: "", color: CustomColor.leafGreen.uiColor(), textColor: .clear)
             manualButton.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height/8)
             manualButton.layer.cornerRadius = manualButton.frame.size.height/4
@@ -228,19 +176,6 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
             self.view.addSubview(manualButton)
         case 3:
             // Blue Waves
-            let waveView = WaveView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height/3), color: .green)
-            waveView.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height - waveView.frame.size.height/2)
-            waveView.realWaveColor = CustomColor.sparklingBlue.uiColor().withAlphaComponent(0.8)
-            waveView.maskWaveColor = CustomColor.sparklingBlue.uiColor().withAlphaComponent(0.5)
-            waveView.waveHeight = 60
-            waveView.waveSpeed = 0.25
-            waveView.waveCurvature = 0.5
-            waveView.layer.zPosition = interphoneTableView.layer.zPosition - 1
-            self.view.addSubview(waveView)
-            waveView.start()
-            
-            self.view.backgroundColor = CustomColor.lightBlue.uiColor()
-            
             manualButton = CustomBuilder.makeButton(width: self.view.frame.size.width/6, height: self.view.frame.size.width/6, text: "", color: CustomColor.sparklingBlue.uiColor(), textColor: .clear)
             manualButton.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height/8)
             manualButton.layer.cornerRadius = manualButton.frame.size.height/4
@@ -253,12 +188,13 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
             manualButton.subButton()?.addTarget(self, action: #selector(scanUser), for: .touchUpInside)
             self.view.addSubview(manualButton)
             
+            codeButton.tintColor = CustomColor.sparklingBlue.uiColor()
         default:
             print("Invalid type")
         }
     }
     
-    @objc func goToScan() {
+    @objc func goToCode() {
         performSegue(withIdentifier: "code-access", sender: nil)
     }
     
@@ -276,7 +212,7 @@ class AccessScreenViewController: UIViewController, UITableViewDelegate, UITable
                             // User authenticated successfully, take appropriate action
                             GSMessage.showMessageAddedTo("Accesso effettuato con successo", type: .success, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
                             
-                            self.textFieldShouldReturn(textToSend: "apri", completion: {})
+                            self.sendToDevice(textToSend: "apri", completion: {})
                             
                             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 10.0) {
                                 self.justScanned = false

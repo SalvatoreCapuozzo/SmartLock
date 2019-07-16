@@ -46,7 +46,7 @@ final class ScannerViewController: UIViewController, UITableViewDataSource, UITa
         }
         
         // start scanning and schedule the time out
-        serial.startScan()
+        serial.startScan({})
         Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(ScannerViewController.scanTimeOut), userInfo: nil, repeats: false)
     }
     
@@ -245,7 +245,7 @@ final class ScannerViewController: UIViewController, UITableViewDataSource, UITa
         tableView.reloadData()
         tryAgainButton.isEnabled = false
         title = "Scanning ..."
-        serial.startScan()
+        serial.startScan({})
         Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(ScannerViewController.scanTimeOut), userInfo: nil, repeats: false)
     }
     
