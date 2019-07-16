@@ -123,7 +123,7 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
     }
     
     /// Start scanning for peripherals
-    func startScan() {
+    func startScan(_ completion: () -> (Void)) {
         guard centralManager.state == .poweredOn else { return }
         
         // start scanning for peripherals with correct service UUID
@@ -134,6 +134,7 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
         let peripherals = centralManager.retrieveConnectedPeripherals(withServices: [serviceUUID])
         for peripheral in peripherals {
             delegate.serialDidDiscoverPeripheral(peripheral, RSSI: nil)
+            completion()
         }
     }
     
