@@ -1,0 +1,1001 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass book
+\begin_preamble
+% INTESTAZIONI
+% -----------------
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot{}
+\rfoot{\thepage}
+\chead{\includegraphics[width=\textwidth]{intestazione.pdf}}
+
+
+% SFONDO
+% ----------
+
+\usepackage{eso-pic,graphicx}
+\makeatletter
+\newcommand\BackgroundPicture[2]{
+\setlength{\unitlength}{1pt}
+\put(0,\strip@pt\paperheight){
+\parbox[t][\paperheight]{\paperwidth}{
+\vfill
+\centering\includegraphics[angle=#2]{#1}
+\vfill
+}
+}
+}
+\makeatother
+\end_preamble
+\use_default_options true
+\master tesi.lyx
+\begin_modules
+theorems-ams
+eqs-within-sections
+figs-within-sections
+\end_modules
+\maintain_unincluded_children false
+\language italian
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "times" "default"
+\font_sans "helvet" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement H
+\paperfontsize 12
+\spacing double
+\use_hyperref true
+\pdf_bookmarks false
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize a4paper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date true
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 3.5cm
+\topmargin 3cm
+\rightmargin 2cm
+\bottommargin 2.5cm
+\headheight 2cm
+\headsep 0.5cm
+\secnumdepth 1
+\tocdepth 1
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle empty
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Chapter
+Raccolta ed Analisi Dei Requisiti
+\end_layout
+
+\begin_layout Section
+Specifiche di Massima 
+\end_layout
+
+\begin_layout Standard
+L’applicazione SmartLock nasce con lo scopo di sostituire gli standard sistemi
+ di interfono per palazzi, case e appartamenti, con una versione digitalizzata
+ che integra l’utilizzo del riconoscimento visivo (noto anche come FaceID)
+ di un dispositivo iOS a dei sensori IoT.
+ SmartLock implementerà quindi, oltre alle normali funzionalità di citofono
+ e apertura da remoto di un cancello, anche il riconoscimento facciale degli
+ eventuali inquilini di un appartamento con conseguente apertura automatica
+ del cancello a cui è collegato.
+ 
+\end_layout
+
+\begin_layout Subsection
+Attori
+\end_layout
+
+\begin_layout Standard
+Gli attori coinvolti nell’utilizzo del sistema sono i seguenti: 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+User
+\series default
+: identificato come una persona fisica, tipicamente inquilino di un appartamento
+, il cui volto può essere registrato e mantenuto nella base di dati e utilizzato
+ per l’apertura automatica del cancello.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Manager
+\series default
+: persona fisica con accesso a funzionalità avanzate del sistema.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+External User
+\series default
+: identificato come una persona fisica, non residente all'interno dell'appartame
+nto e richiedente l'accesso attraverso il citofono
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Timer
+\series default
+: dispositivo utilizzato per il collegamento del sistema iOS alla rete IoT.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Vision
+\series default
+: framework di riconoscimento facciale
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Factory Builder
+\series default
+: costruttore del dispositivo, con accesso privilegiato
+\end_layout
+
+\begin_layout Section
+Requisiti Funzionali
+\end_layout
+
+\begin_layout Standard
+Andiamo ora a descrivere i requisiti funzionali dell'applicazione, tutte
+ le funzioni che devono essere implementate affinchè il sistema realizzato
+ svolga il suo lavoro.
+ Il riferimento relativo a tali requisiti è indicato dall'identificativo
+ RF*:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="12" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="left" valignment="top" width="45page%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Riferimento
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Descrizione
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RF01
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Il sistema permette ad un utente di accedere al palazzo con il proprio identific
+ativo (volto).
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RF02
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Il sistema permette ad un utente di registrare/aggiornare il proprio identificat
+ivo (volto).
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RF03
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Il sistema permette ad un utente di utilizzare l’interfaccia per visualizzare
+ le informazioni sul palazzo e citofonare ad uno specifico appartamento.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RF04
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Il sistema permette di attivare manualmente il processo di scansione del
+ volto qualora non si attivasse in automatico.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RF05
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Il sistema permette di inserire un codice di accesso numerico qualora l’utente
+ non venga riconosciuto con il sistema descritto dal RF01.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RF06
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Il sistema permette ad un utente di riprendere e visualizzare chi citofona
+ al proprio appartamento.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RF07
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Il sistema permette di fornire un pass momentaneo ad utenti esterni.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RF08
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Il sistema permette di interfacciarsi con un eventuale sistema di allarme
+ già presente.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RF09
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Il sistema permette al gestore di registrare nuovi utenti.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RF10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Il sistema permette al gestore di visualizzare la cronologia degli accessi.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RF11
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Il sistema permette alla ditta di fabbrica di resettare il sistema, collegarlo
+ al sistema di allarme, di gestire il gestore e di effettuare manutenzioni.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Requisiti Funzionali
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Requisiti Non Funzionali
+\end_layout
+
+\begin_layout Standard
+Analogamente sono stati descritti i requisiti di tipo non funzionale, ossia
+ relativi a richieste di performance e/o particolari scelte HW/SW necessarie
+ per il corretto funzionamento del sistema.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="left" valignment="top" width="45page%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Riferimento
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Descrizione
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+NF01
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+L’applicazione deve essere fluida ed intuitiva, al punto di rendere gradevole
+ il suo utilizzo a discapito della versione classica di interfono.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+NF02
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+L’hardware su cui l’applicazione software sarà sviluppata dovrà avere un
+ sistema operativo iOS di versione 11.0 o successiva.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+NF03
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+L’applicazione dovrà fornire una soluzione trasparente all’utente ad eventuali
+ anomalie al fine di non interrompere il normale utilizzo del sistema.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+NF04
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+L'architettura Hardware del dispositivo utilizzato deve possedere tecnologia
+ FaceID, in particolare una fotocamera TrueDepth.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Requisiti Non Funzionali
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Requisiti Architetturali
+\end_layout
+
+\begin_layout Standard
+I requisiti progettuali esposte fino ad ora comportano una serie di scelte
+ limitate dal punto di vista architetturale che portano l'implementazione
+ a spostarsi in una particolare direzione.
+ In particolare possiamo identificare una serie di requisiti architetturali
+ necessari per la realizzazione di SmartLock.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="left" valignment="top" width="45page%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Riferimento
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Descrizione
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+AR01
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+L’applicazione verrà sviluppata in linguaggio Swift, orientato per applicazioni
+ iOS.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+AR02
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+L’ambiente di sviluppo utilizzato per l’implementazione è Xcode.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+AR03
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+La comunicazione tra dispositivo e cancello sarà gestita dal protocollo
+ Bluetooth, reso disponibile dalle librerie esistenti in Swift e utilizzabile
+ grazie ad un modulo per l’Arduino collegato al relé che controlla il cancello.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+AR04
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+L’applicazione interna al sistema verrà sviluppata seguendo lo standard
+ delle applicazioni iOS, ovvero adottando una architettura di tipo Model-View-Co
+ntroller.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Requisiti Non Funzionali
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Tecnologia True Depth
+\end_layout
+
+\begin_layout Standard
+Il suo scopo è quello di creare una mappa tridimensionale del volto dell’utente
+ possessore dello smartphone, analizzando oltre 30.000 punti del viso e memorizza
+re tali informazioni per l’utilizzo successivo.
+ Attraverso la presenza di numerosi sensori biometrici all'interno della
+ fotocamera il volto di un utente è mappato su una griglia che misura le
+ varie distanze per identificare i punti fondamentali del viso.
+ Tutti questi punti proiettati sul viso saranno le coordinate necessarie
+ per riprodurre fedelmente una copia del viso da memorizzare.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/truedepth.png
+	lyxscale 40
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+True Depth Camera
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+L’utilizzo principale della TrueDepth Camera riguarda lo sblocco del dispositivo
+, ossia la configurazione del FaceID.
+ Nel nostro progetto andiamo ad estendere tale concetto, applicandolo al
+ caso d'uso di interesse che sfrutterà il riconoscimento del volto e la
+ sua memorizzazione per avere accesso a funzionalità che necessitano di
+ autenticazione, in questo caso l'apertura di un cancello.
+ 
+\end_layout
+
+\begin_layout Section
+Analisi in Dettaglio dei Requisiti
+\end_layout
+
+\begin_layout Standard
+La logica generale di funzionamento dell'applicazione riguarda appunto il
+ riconoscimento automatico di un utente autorizzato con il conseguentemente
+ accesso al sistema.
+ In particolare sono previste due modalità di autenticazione: la prima,
+ coincidente anche con il principale metodo di utilizzo del sistema, è il
+ riconoscimento automatico tramite il volto di un Utente ed il conseguente
+ accesso a quella che è la funzionalità di ingresso, ossia l'apertura di
+ un cancello automatico; la seconda modalità è invece inserita come metodo
+ secondario (o di backup) da utilizzare nell'eventualità che il primo metodo
+ fallisca oppure se l'attore che sta utilizzando il sistema non dispone
+ dei requisiti necessari per poter sfruttare il riconoscimento facciale,
+ questa prevede l'utilizzo di un codice numerico univoco che svolge il ruolo
+ di chiave di accesso.
+ 
+\end_layout
+
+\begin_layout Standard
+La logica di funzionamento è anche descritta attraverso il seguente 
+\series bold
+Diagramma dei Casi D'uso
+\series default
+ in cui sono raccolti i casi d'uso relativi al sistema, ricavati analizzando
+ i requisiti descritti in precedenza.
+ Questo evidenzia quindi le modalità di utilizzo dell'applicazione da parte
+ dei fruitori e quindi le interazioni tra il sistema e la componente umana
+ e/o hardware in termini di funzionalità richieste.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/UseCases.png
+	lyxscale 40
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+True Depth Camera
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In particolare nei capitoli successivi faremo riferimento al caso d'uso
+ 
+\series bold
+Accedi con Face ID
+\series default
+ che è stato scelto per essere implementato applicando un'approccio Agile,
+ quindi incrementale.
+ 
+\end_layout
+
+\end_body
+\end_document
