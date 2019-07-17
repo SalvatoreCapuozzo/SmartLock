@@ -236,14 +236,14 @@ class DataController: NSObject {
  
     }*/
     
-    func fetchData(entityName: String, searchBy fields: [SearchField: AnyObject] = [:], completion: ((_ outcome: Bool?, _ results: [[String: AnyObject]]) -> Void)!) {
-        switch entityName {
+    func fetchData(entity: EntityType, searchBy fields: [SearchField: AnyObject] = [:], completion: ((_ outcome: Bool?, _ results: [[String: AnyObject]]) -> Void)!) {
+        switch entity {
             /*
              * USER DATA
              */
-        case "User":
+        case .user:
             let moc = DataController().managedObjectContext
-            let personFetch = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+            let personFetch = NSFetchRequest<NSFetchRequestResult>(entityName: entity.getEntityName())
             
             do {
                 let fetchedPerson = try moc.fetch(personFetch) as! [User]
@@ -324,9 +324,9 @@ class DataController: NSObject {
             /*
              * DEVICE DATA
              */
-        case "Access":
+        case .access:
             let moc = DataController().managedObjectContext
-            let accessFetch = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+            let accessFetch = NSFetchRequest<NSFetchRequestResult>(entityName: entity.getEntityName())
             
             do {
                 let fetchedAccesses = try moc.fetch(accessFetch) as! [Access]
@@ -385,9 +385,6 @@ class DataController: NSObject {
             }
             
             print("DataController - fetchData(Access): Data fetched")
-           
-        default:
-            print("Please insert a valid type of data")
         }
     }
     /*
@@ -512,4 +509,18 @@ enum SearchField {
     case timestampBefore
     case timestampAfter
     case isSuccessful
+}
+
+enum EntityType {
+    case user
+    case access
+    
+    func getEntityName() -> String {
+        switch self {
+        case .user:
+            return "User"
+        case .access:
+            return "Access"
+        }
+    }
 }

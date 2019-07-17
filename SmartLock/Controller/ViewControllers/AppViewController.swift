@@ -35,7 +35,7 @@ class AppViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupUserInterface(type: 3)
+        setupUserInterface()
         
         if let _ = self as? AccessScreenViewController {
             initBluetoothSerial()
@@ -54,47 +54,9 @@ class AppViewController: UIViewController {
         
     }
     
-    func setupUserInterface(type: Int) {
+    func setupUserInterface() {
         // Background Setup
-        switch type {
-        case 1:
-            // Green Gradient
-            GradientTool.apply(colors: [
-                CustomColor.bottleGreen.uiColor(),
-                UIColor(red: 0/255, green: 255/255, blue: 192/255, alpha: 1),
-                CustomColor.leafGreen.uiColor()
-                ], middlePos: 0.25, to: self.view)
-        case 2:
-            // Green Waves
-            let waveView = WaveView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height/3), color: .green)
-            waveView.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height - waveView.frame.size.height/2)
-            waveView.realWaveColor = CustomColor.leafGreen.uiColor().withAlphaComponent(0.8)
-            waveView.maskWaveColor = CustomColor.leafGreen.uiColor().withAlphaComponent(0.5)
-            waveView.waveHeight = 60
-            waveView.waveSpeed = 0.25
-            waveView.waveCurvature = 0.5
-            //waveView.layer.zPosition = interphoneTableView.layer.zPosition - 1
-            self.view.addSubview(waveView)
-            waveView.start()
-            
-            self.view.backgroundColor = CustomColor.bottleGreen.uiColor()
-        case 3:
-            // Blue Waves
-            let waveView = WaveView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height/3), color: .green)
-            waveView.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height - waveView.frame.size.height/2)
-            waveView.realWaveColor = CustomColor.sparklingBlue.uiColor().withAlphaComponent(0.8)
-            waveView.maskWaveColor = CustomColor.sparklingBlue.uiColor().withAlphaComponent(0.5)
-            waveView.waveHeight = 60
-            waveView.waveSpeed = 0.25
-            waveView.waveCurvature = 0.5
-            //waveView.layer.zPosition = interphoneTableView.layer.zPosition - 1
-            self.view.addSubview(waveView)
-            waveView.start()
-            
-            self.view.backgroundColor = CustomColor.lightBlue.uiColor()
-        default:
-            print("Invalid type")
-        }
+        StyleManager.shared.setBackgroundStyle(to: self.view)
     }
     
     @objc func tappedOnScreen() {

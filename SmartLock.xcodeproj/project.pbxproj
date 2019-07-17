@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		870EF69122DF07F3003B43A0 /* BluetoothSerialDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870EF69022DF07F3003B43A0 /* BluetoothSerialDelegate.swift */; };
+		871020F822DF588D00EA1EAE /* StyleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871020F722DF588D00EA1EAE /* StyleManager.swift */; };
 		871751FC22D62AA100E29FCF /* BluetoothSerial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871751FB22D62AA100E29FCF /* BluetoothSerial.swift */; };
 		871751FE22D62B6600E29FCF /* ScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871751FD22D62B6600E29FCF /* ScannerViewController.swift */; };
 		8717520222D62BB400E29FCF /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8717520022D62BB400E29FCF /* MBProgressHUD.m */; };
@@ -56,6 +57,7 @@
 
 /* Begin PBXFileReference section */
 		870EF69022DF07F3003B43A0 /* BluetoothSerialDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothSerialDelegate.swift; sourceTree = "<group>"; };
+		871020F722DF588D00EA1EAE /* StyleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleManager.swift; sourceTree = "<group>"; };
 		871751FB22D62AA100E29FCF /* BluetoothSerial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothSerial.swift; sourceTree = "<group>"; };
 		871751FD22D62B6600E29FCF /* ScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerViewController.swift; sourceTree = "<group>"; };
 		871751FF22D62BB300E29FCF /* SmartLock-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SmartLock-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 				8722667C22CA7BEC008CA08F /* GradientTool.swift */,
 				8722667A22CA78BC008CA08F /* WaveView.swift */,
 				8722668222CA85BA008CA08F /* CoreGraphicsExtensions.swift */,
+				871020F722DF588D00EA1EAE /* StyleManager.swift */,
 			);
 			path = GraphicUtilities;
 			sourceTree = "<group>";
@@ -406,6 +409,7 @@
 				8722667D22CA7BEC008CA08F /* GradientTool.swift in Sources */,
 				8722664322CA17EC008CA08F /* AccessScreenViewController.swift in Sources */,
 				8743B07222DDE3E9007E17AB /* AppViewController.swift in Sources */,
+				871020F822DF588D00EA1EAE /* StyleManager.swift in Sources */,
 				8722667B22CA78BC008CA08F /* WaveView.swift in Sources */,
 				8722668522CA978A008CA08F /* CustomBuilder.swift in Sources */,
 				87C7B7C322CB51B300942B59 /* User+CoreDataClass.swift in Sources */,

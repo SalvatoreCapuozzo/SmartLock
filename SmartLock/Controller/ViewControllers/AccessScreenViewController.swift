@@ -19,7 +19,7 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
     var cameraView: UIView!
     var searchTextField: UITextField!
     var manualButton: UIView!
-    var codeButton: UIButton!
+    var codeButton: UIView!
     
     let session = AVCaptureSession()
     var previewLayer: AVCaptureVideoPreviewLayer!
@@ -37,7 +37,7 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupUserInterface(type: 3)
+        setupUserInterface()
         
         self.isAccessScreenActive = true
         
@@ -61,7 +61,7 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
         super.viewDidAppear(animated)
         self.isAccessScreenActive = true
         
-        DataController().fetchData(entityName: "User") {
+        DataController().fetchData(entity: .user) {
             (outcome, results) in
             if outcome! {
                 self.users = results
@@ -92,8 +92,8 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
         return self.interphoneTableView.frame.size.height/6.5
     }
     
-    override func setupUserInterface(type: Int) {
-        super.setupUserInterface(type: type)
+    override func setupUserInterface() {
+        super.setupUserInterface()
         // Interphone TableView Setup
         interphoneTableView = UITableView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width*2/3, height: self.view.frame.size.height*3/5))
         interphoneTableView.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height - interphoneTableView.frame.size.height/2 - 16)
@@ -113,13 +113,7 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
         self.interphoneTableView.separatorStyle = .none
         
         interphoneTableView.register(InterphoneTableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
-        
-        codeButton = UIButton(frame: CGRect(x: self.view.frame.size.width - self.view.frame.size.width/10 - 8, y: UIApplication.shared.statusBarFrame.height + 8, width: self.view.frame.size.width/10, height: self.view.frame.size.width/10))
-        codeButton.setImage(UIImage.init(named: "keypad")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        codeButton.imageView?.tintColor = .white
-        codeButton.addTarget(self, action: #selector(goToCode), for: .touchUpInside)
-        self.view.addSubview(codeButton)
-        
+
         // CameraView Setup
         cameraView = UIView(frame: CGRect(x: 8, y: 24, width: self.view.frame.size.width/4, height: self.view.frame.size.height/4))
         cameraView.layer.cornerRadius = 20
@@ -140,57 +134,23 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
         searchTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         self.view.addSubview(searchTextField)
         
-        // Background Setup
-        switch type {
-        case 1:
-            // Green Gradient
-            manualButton = CustomBuilder.makeButton(width: self.view.frame.size.width/6, height: self.view.frame.size.width/6, text: "", color: UIColor(red: 0/255, green: 255/255, blue: 128/255, alpha: 1), textColor: .clear)
-            manualButton.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height/8)
-            manualButton.layer.cornerRadius = manualButton.frame.size.height/4
-            manualButton.layer.zPosition = self.interphoneTableView.layer.zPosition
-            let faceid = #imageLiteral(resourceName: "faceid").withRenderingMode(.alwaysTemplate)
-            manualButton.subButton()?.setImage(faceid, for: .normal)
-            manualButton.subButton()?.imageEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
-            manualButton.subButton()?.imageView!.contentMode = .scaleAspectFit
-            manualButton.subButton()?.tintColor = .white
-            manualButton.subButton()?.addTarget(self, action: #selector(scanUser), for: .touchUpInside)
-            self.view.addSubview(manualButton)
-        case 2:
-            // Green Waves
-            manualButton = CustomBuilder.makeButton(width: self.view.frame.size.width/6, height: self.view.frame.size.width/6, text: "", color: CustomColor.leafGreen.uiColor(), textColor: .clear)
-            manualButton.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height/8)
-            manualButton.layer.cornerRadius = manualButton.frame.size.height/4
-            manualButton.layer.zPosition = self.interphoneTableView.layer.zPosition
-            let faceid = #imageLiteral(resourceName: "faceid").withRenderingMode(.alwaysTemplate)
-            manualButton.subButton()?.setImage(faceid, for: .normal)
-            manualButton.subButton()?.imageEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
-            manualButton.subButton()?.imageView!.contentMode = .scaleAspectFit
-            manualButton.subButton()?.tintColor = .white
-            manualButton.subButton()?.addTarget(self, action: #selector(scanUser), for: .touchUpInside)
-            self.view.addSubview(manualButton)
-        case 3:
-            // Blue Waves
-            manualButton = CustomBuilder.makeButton(width: self.view.frame.size.width/6, height: self.view.frame.size.width/6, text: "", color: CustomColor.sparklingBlue.uiColor(), textColor: .clear)
-            manualButton.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height/8)
-            manualButton.layer.cornerRadius = manualButton.frame.size.height/4
-            manualButton.layer.zPosition = self.interphoneTableView.layer.zPosition
-            let faceid = #imageLiteral(resourceName: "faceid").withRenderingMode(.alwaysTemplate)
-            manualButton.subButton()?.setImage(faceid, for: .normal)
-            manualButton.subButton()?.imageEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
-            manualButton.subButton()?.imageView!.contentMode = .scaleAspectFit
-            manualButton.subButton()?.tintColor = .white
-            manualButton.subButton()?.addTarget(self, action: #selector(scanUser), for: .touchUpInside)
-            self.view.addSubview(manualButton)
-            
-            codeButton.tintColor = CustomColor.sparklingBlue.uiColor()
-        default:
-            print("Invalid type")
-        }
+        // Code Button Setup
+        let codeButtonCenter = CGPoint(x: self.view.frame.size.width - self.view.frame.size.width/12 - 8, y: UIApplication.shared.statusBarFrame.height + 8 + self.view.frame.size.width/12)
+        codeButton = StyleManager.shared.getButton(size: CGSize(width: self.view.frame.size.width/8, height: self.view.frame.size.width/8), center: codeButtonCenter, image: #imageLiteral(resourceName: "keypad"))
+        codeButton.subButton()?.addTarget(self, action: #selector(goToCode), for: .touchUpInside)
+        codeButton.layer.zPosition = self.interphoneTableView.layer.zPosition
+        self.view.addSubview(codeButton)
+        
+        // Manual Button Setup
+        manualButton = StyleManager.shared.getButton(size: CGSize(width: self.view.frame.size.width/6, height: self.view.frame.size.width/6), center:  CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height/8), image: #imageLiteral(resourceName: "faceid"))
+        manualButton.subButton()?.addTarget(self, action: #selector(scanUser), for: .touchUpInside)
+        manualButton.layer.zPosition = self.interphoneTableView.layer.zPosition
+        self.view.addSubview(manualButton)
     }
     
     @objc func textFieldDidChange() {
         if self.searchTextField.text == "" {
-            DataController().fetchData(entityName: "User") {
+            DataController().fetchData(entity: .user) {
                 (outcome, results) in
                 if outcome! {
                     self.users = results
@@ -198,7 +158,7 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
                 }
             }
         } else {
-            DataController().fetchData(entityName: "User", searchBy: [.nameOrSurname: self.searchTextField?.text as AnyObject]) {
+            DataController().fetchData(entity: .user, searchBy: [.nameOrSurname: self.searchTextField?.text as AnyObject]) {
                 (outcome, results) in
                 if outcome! {
                     self.users = results

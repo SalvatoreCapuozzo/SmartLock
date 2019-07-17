@@ -20,7 +20,7 @@ class AccessCodeViewController: AppViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupUserInterface(type: 3)
+        setupUserInterface()
         // Dummy Data for Testing
         //DataController().deleteData(entityName: "User")
         //DataController().addUser(name: "Federica", surname: "Ventriglia", code: "1234", isFamily: true, isManager: false)
@@ -43,8 +43,8 @@ class AccessCodeViewController: AppViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    override func setupUserInterface(type: Int) {
-        super.setupUserInterface(type: type)
+    override func setupUserInterface() {
+        super.setupUserInterface()
         goBackButton = UIButton(frame: CGRect(x: 8, y: UIApplication.shared.statusBarFrame.height + 8, width: self.view.frame.size.width/10, height: self.view.frame.size.width/10))
         goBackButton.setBackgroundImage(UIImage.init(named: "back"), for: .normal)
         goBackButton.contentMode = .scaleAspectFill
@@ -56,10 +56,7 @@ class AccessCodeViewController: AppViewController {
         codeTextField.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height/2)
         self.view.addSubview(codeTextField)
         
-        accessButton = CustomBuilder.makeButton(width: self.view.frame.size.width/3, height: self.view.frame.size.width/8, text: "Accedi", color: CustomColor.sparklingBlue.uiColor(), textColor: .white)
-        accessButton.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height/2 + self.codeTextField.frame.height + 30)
-        //accessButton.layer.cornerRadius = accessButton.frame.size.height/4
-        accessButton.subButton()?.tintColor = .white
+        accessButton = StyleManager.shared.getButton(size: CGSize(width: self.view.frame.size.width/3, height: self.view.frame.size.width/8), center: CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height/2 + self.codeTextField.frame.height + 30), text: "Accedi")
         accessButton.subButton()?.addTarget(self, action: #selector(checkCode), for: .touchUpInside)
         self.view.addSubview(accessButton)
     }
@@ -72,7 +69,7 @@ class AccessCodeViewController: AppViewController {
             return
         }
         print("Code inserito \(pass)")
-        DataController().fetchData(entityName: "User", searchBy: [SearchField.code : pass as AnyObject]) {
+        DataController().fetchData(entity: .user, searchBy: [.code : pass as AnyObject]) {
             (outcome, results) in
             if outcome! {
                 self.user = results
