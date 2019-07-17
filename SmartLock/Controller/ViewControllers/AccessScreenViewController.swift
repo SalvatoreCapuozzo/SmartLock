@@ -12,7 +12,7 @@ import Vision
 import AVFoundation
 import CoreBluetooth
 
-class AccessScreenViewController: AppViewController, UITableViewDelegate, UITableViewDataSource {
+class AccessScreenViewController: AppViewController, UITableViewDelegate, UITableViewDataSource, CountdownTimerDelegate {
     var interphoneTableView: UITableView!
     var sequenceHandler = VNSequenceRequestHandler()
     var faceView: FaceView!
@@ -20,6 +20,8 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
     var searchTextField: UITextField!
     var manualButton: UIView!
     var codeButton: UIView!
+    
+    var timerView: CountdownTimer!
     
     let session = AVCaptureSession()
     var previewLayer: AVCaptureVideoPreviewLayer!
@@ -146,6 +148,19 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
         manualButton.subButton()?.addTarget(self, action: #selector(scanUser), for: .touchUpInside)
         manualButton.layer.zPosition = self.interphoneTableView.layer.zPosition
         self.view.addSubview(manualButton)
+        
+        // Countdown Timer Setup
+        timerView = CountdownTimer(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width/8, height: self.view.frame.size.width/8))
+        timerView.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height/4)
+        timerView.lineWidth = 3.0
+        timerView.lineColor = .white
+        timerView.trailLineColor = self.view.backgroundColor!
+        timerView.backgroundColor = .clear
+        timerView.isLabelHidden = true
+        timerView.start(beginingValue: 0)
+        timerView.delegate = self
+        self.view.addSubview(timerView)
+        
     }
     
     @objc func textFieldDidChange() {
@@ -186,13 +201,12 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
                     DispatchQueue.main.async {
                         if success {
                             // User authenticated successfully, take appropriate action
-                            GSMessage.showMessageAddedTo("Accesso effettuato con successo", type: .success, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
-                            
-                            self.sendToDevice(textToSend: "apri", completion: {})
-                            
-                            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 10.0) {
-                                self.justScanned = false
+                            if UserDefaults.standard.bool(forKey: "deviceConnected") {
+                                GSMessage.showMessageAddedTo("Accesso effettuato con successo", type: .success, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
                             }
+                            
+                            self.timerView.start(beginingValue: 10)
+                            self.sendToDevice(textToSend: "apri", completion: {})
                         } else {
                             // User did not authenticate successfully, look at error and take appropriate action
                             GSMessage.showMessageAddedTo("Accesso fallito, prova con codice", type: .error, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
@@ -206,9 +220,7 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
                             }))
 
                             alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { [unowned self] (action: UIAlertAction!) in
-                                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.0) {
-                                    self.justScanned = false
-                                }
+                                self.timerView.start(beginingValue: 3)
                             }))
                             self.present(alert, animated: true, completion: nil)
                         }
@@ -237,6 +249,10 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
                 }
             }
         }
+    }
+    
+    func timerDidEnd() {
+        self.justScanned = false
     }
     
     func configureCaptureSession() {
@@ -397,7 +413,9 @@ extension AccessScreenViewController {
         
         updateFaceView(for: result)
         
-        if !justScanned && isAccessScreenActive {
+        let devConnected = UserDefaults.standard.bool(forKey: "deviceConnected")
+        
+        if !justScanned && isAccessScreenActive && devConnected {
             justScanned = true
             scanUser()
         }

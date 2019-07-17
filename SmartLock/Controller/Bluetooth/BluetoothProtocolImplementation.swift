@@ -81,7 +81,10 @@ extension AppViewController: BluetoothSerialDelegate {
     func sendToDevice(textToSend: String, completion: () -> ()) {
         if !serial.isReady {
             let alert = UIAlertController(title: "Dispositivo non connesso", message: "Connettere prima il dispositivo Bluetooth all'app", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertAction.Style.default, handler: { action -> Void in self.dismiss(animated: true, completion: nil) }))
+            alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertAction.Style.default, handler: { action -> Void in
+                self.dismiss(animated: true, completion: nil)
+                self.tryAgain()
+            }))
             present(alert, animated: true, completion: nil)
             //messageField.resignFirstResponder()
             //return true
@@ -256,7 +259,7 @@ extension AppViewController {
         //dismiss(animated: true, completion: nil)
     }
     
-    @objc func tryAgain(_ sender: AnyObject) {
+    @objc func tryAgain() {
         // empty array an start again
         peripherals = []
         //tableView.reloadData()
