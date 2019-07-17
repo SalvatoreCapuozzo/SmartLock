@@ -115,7 +115,8 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
         interphoneTableView.register(InterphoneTableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
         
         codeButton = UIButton(frame: CGRect(x: self.view.frame.size.width - self.view.frame.size.width/10 - 8, y: UIApplication.shared.statusBarFrame.height + 8, width: self.view.frame.size.width/10, height: self.view.frame.size.width/10))
-        codeButton.setImage(UIImage.init(named: "keypad"), for: .normal)
+        codeButton.setImage(UIImage.init(named: "keypad")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        codeButton.imageView?.tintColor = .white
         codeButton.addTarget(self, action: #selector(goToCode), for: .touchUpInside)
         self.view.addSubview(codeButton)
         

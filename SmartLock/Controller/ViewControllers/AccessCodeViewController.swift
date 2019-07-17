@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class CodeAccessViewController: AppViewController {
+class AccessCodeViewController: AppViewController {
     
     var goBackButton: UIButton!
     var codeTextField: UITextField!
