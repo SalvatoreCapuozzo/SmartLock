@@ -26,9 +26,52 @@ class SmartLockUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    
+    func testCodeAccessEmpty() {
+        
+        let app = XCUIApplication()
+        app.otherElements.containing(.button, identifier:"keypad").children(matching: .button).matching(identifier: "keypad").element(boundBy: 1).tap()
+        
+        
+        app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).buttons["Accedi"].tap()
+        let alert = app.alerts["Errore"].buttons["Riprova"]
+        XCTAssert(alert.exists, "Error Alert Didn't Display")
     }
+    
+    
+    func testCodeAccessWrong() {
+        
+        let app = XCUIApplication()
+        app.otherElements.containing(.button, identifier:"keypad").children(matching: .button).matching(identifier: "keypad").element(boundBy: 1).tap()
+        
+        app/*@START_MENU_TOKEN@*/.keys["1"]/*[[".keyboards.keys[\"1\"]",".keys[\"1\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app/*@START_MENU_TOKEN@*/.keys["2"]/*[[".keyboards.keys[\"2\"]",".keys[\"2\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app/*@START_MENU_TOKEN@*/.keys["3"]/*[[".keyboards.keys[\"3\"]",".keys[\"3\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app/*@START_MENU_TOKEN@*/.keys["5"]/*[[".keyboards.keys[\"5\"]",".keys[\"5\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+
+        app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).buttons["Accedi"].tap()
+        let alert = app.alerts["Errore"].buttons["Riprova"]
+        XCTAssert(alert.exists, "Error Alert Didn't Display")
+    }
+    
+    
+    func testCodeAccessCorrect() {
+        
+        let app = XCUIApplication()
+        app.otherElements.containing(.button, identifier:"keypad").children(matching: .button).matching(identifier: "keypad").element(boundBy: 1).tap()
+        
+        app/*@START_MENU_TOKEN@*/.keys["1"]/*[[".keyboards.keys[\"1\"]",".keys[\"1\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app/*@START_MENU_TOKEN@*/.keys["2"]/*[[".keyboards.keys[\"2\"]",".keys[\"2\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app/*@START_MENU_TOKEN@*/.keys["3"]/*[[".keyboards.keys[\"3\"]",".keys[\"3\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.keys["4"].tap()
+        app/*@START_MENU_TOKEN@*/.keys["5"]/*[[".keyboards.keys[\"5\"]",".keys[\"5\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app/*@START_MENU_TOKEN@*/.keys["6"]/*[[".keyboards.keys[\"6\"]",".keys[\"6\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+      
+        app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).buttons["Accedi"].tap()
+        let alert = app.alerts["Accesso"].buttons["Done"]
+        XCTAssert(alert.exists, "Access Alert Didn't Display")
+    }
+   
+    
 
 }

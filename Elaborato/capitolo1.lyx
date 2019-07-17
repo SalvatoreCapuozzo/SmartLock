@@ -967,8 +967,8 @@ Assistant Editor.
 Identificazione e Correzione degli errori.
  
 \series default
-Xcode ispeziona il source code in real time, evidenziando sia errori ortografi􏰀c
-i che errori di programmazione.
+Xcode ispeziona il codice in tempo reale ed identifica anche errori di programma
+zione.
  La riga errata viene evidenziata fornendo i dettagli relativi all'errore,
  talvolta vengono proposte delle possibili soluzioni per risolverli.
  
@@ -1002,10 +1002,9 @@ o i servizi e le tecnologie più sofisticati.
 \series bold
 framework
 \series default
- di alto livello piuttosto che dei servizi o􏰂erti dai livelli inferiori.
+ di alto livello piuttosto che dei servizi provenienti da livelli inferiori.
  Infatti i frameworks di livello superiore sono stati creati appositamente
- per fornire astrazioni orientate agli oggetti dei servizi e delle funzioni
- o􏰂erti dai costrutti dei livelli inferiori.
+ per fornire astrazioni ai livelli inferiori.
  Queste astrazioni, in genere, rendono molto più facile la scrittura di
  codice, perché riducono la quantità di righe di codice da scrivere e racchiudon
 o caratteristiche potenzialmente complesse, come i socket per le connessioni
@@ -1049,6 +1048,87 @@ iOS Architettura a Strati
 \end_layout
 
 \begin_layout Subsection
+Collegamento al Cancello: Arduino Project
+\end_layout
+
+\begin_layout Standard
+Per la realizzazione del componente di sensoristica relativo all'apertura
+ del cancello abbiamo sfruttato un controller Arduino collegato ad un modulo
+ Bluetooth ed un Relay per l'invio del segnale di apertura al cancello.
+ Di seguito riportiamo i dettagli del microcontrollore e del modulo bluetooth
+ scelti:
+\end_layout
+
+\begin_layout Itemize
+Arduino Uno
+\end_layout
+
+\begin_layout Itemize
+Modulo DSD TECH HM-10 Bluetooth 4.0 BLE IBeacon UART
+\end_layout
+
+\begin_layout Standard
+Per la prima realizzazione del sistema si è sostituito al cancello un collegamen
+to ad un LED per testare la bontà del collegamento bluetooth.
+ Lo schema di funzionamento è il seguente:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/arduinoschema.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Schema Arduino
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+I programmi di Arduino vengono caricati tramite l'Arduino IDE.
+ Il programma caricato viene preso in gestione da un 
+\series bold
+bootstrapper
+\series default
+ che però, a differenza degli altri sistemi comuni, rimane in esecuzione
+ per tutto il tempo.
+ Infatti i programmi per Arduino non hanno main, ma hanno una funzione di
+ loop che viene chiamata ripetutamente dal bootstrapper.
+ Dalla definizione di Sistema Operativo ricordiamo che: un sistema operativo
+ è un programma che viene avviato al momento del boot e rimane in esecuzione
+ per tutto il tempo.
+ Notiamo quindi che nel caso dell'Arduino il bootstrapper potrebbe essere
+ considerato una sorta di sistema operativo, sebbene i programmi abbiano
+ accesso diretto all'hardware.
+ Il bootstrapper quindi alcune funzioni di un sistema operativo ma non tutte.
+ Puo' essere assimilato a un "monitor residente" storicamente in uso nei
+ sistemi batch.
+\end_layout
+
+\begin_layout Subsection
 iOS SDK: Model View Controller Pattern
 \end_layout
 
@@ -1068,19 +1148,17 @@ Una qualsiasi applicazione per iOS o per OS X che utilizza gli strumenti
 Model
 \series default
 : gli oggetti che costituiscono il modello rappresentano parti- colari conoscenz
-e e competenze, contengono i dati di un'applicazione e de􏰀niscono la logica
- che regola la manipolazione dei dati.
- Un'applicazione MVC ben progettata ha tutti i dati importanti incapsulati
- in oggetti del modello.
+e e competenze, contengono i dati di un'applicazione e definiscono la logica
+ di utilizzo di tali dati.
+ Infatti una applicazione con MVC ben progettata ha tutti i dati importanti
+ incapsulati in oggetti del modello.
  Tutti i dati che fanno parte dello stato persistente dell'applicazione
  devono risiedere negli oggetti del modello una volta che i dati vengono
  caricati nell'applicazione.
  Idealmente, un oggetto del modello non ha alcun collegamento esplicito
- con l'interfaccia utente utilizzata per presentarlo e modi􏰀carlo.
- Tuttavia nella pratica la separazione dall'interfaccia non è sempre la
- cosa migliore, infatti vi è un certo margine di 􏰃essibilità nel modello
- realizzato in iOS, ma in generale un oggetto del modello non dovrebbe occuparsi
- di come è realizzata l'interfaccia.
+ con l'interfaccia utente.
+ In generale un oggetto del model non dovrebbe occuparsi di compe è realizzata
+ la grafica relativa ad esso.
 \end_layout
 
 \begin_layout Itemize
@@ -1088,18 +1166,14 @@ e e competenze, contengono i dati di un'applicazione e de􏰀niscono la logica
 \series bold
 View
 \series default
-: Un oggetto di tipo vista è in grado di visualizzare, e in alcuni casi
- di modi􏰀care, i dati del modello dell'applicazione.
+: Un oggetto di tipo vista è in grado di visualizzar e a volte modificare
+ i dati del modello.
  La view non dovrebbe essere responsabile per la memorizzazione dei dati
  che presenta, ma può memorizzare nella cache alcuni dati per motivi di
  prestazioni.
- Un oggetto della vista può essere responsabile della visualizzazione di
- solo una parte di un oggetto del modello, di un oggetto intero del modello
- o anche di molti oggetti del modello di􏰂erenti.
- Il framework UIKit de􏰀nisce un gran numero di oggetti di visualizzazione
- che possono essere riutilizzati assicurando lo stesso funzionamento in
- diverse applicazioni, garantendo un elevato livello di coerenza per aspetto
- e comportamento tra le applicazioni.
+ Il framework UIKit definisce oggetti che possono essere riutilizzati assicurand
+o lo stesso funzionamento in diverse applicazioni, garantendo un elevato
+ livello di coerenza per aspetto e comportamento tra le applicazioni.
 \end_layout
 
 \begin_layout Itemize
@@ -1109,13 +1183,11 @@ Controller
 \series default
 : Un oggetto di controllo funge da intermediario tra gli oggetti della view
  dell'applicazione e gli oggetti del modello.
- Gli oggetti del controller possono anche con􏰀gurare e coordinare le attività
- di una applicazione e gestire i cicli di vita di altri oggetti.
  In un tipico modello MVC, quando gli utenti immettono un valore o indicano
  una scelta attraverso un oggetto di visualizzazione, il valore o la scelta
  viene comunicato ad un oggetto di controllo.
  L'oggetto di controllo può interpretare l'input dell'utente in alcune applicazi
-oni speci􏰀che o può indicare ad un oggetto del modello cosa fare con questo
+oni specifiche o può indicare ad un oggetto del modello cosa fare con questo
  ingresso.
 \end_layout
 
@@ -1177,6 +1249,28 @@ La logica generale di funzionamento dell'applicazione riguarda appunto il
 \end_layout
 
 \begin_layout Standard
+Per migliorare la descrizione sono stati utilizzati vari diagrammi UML per
+ modellare il funzionamento precedentemente descritto testualmente.
+ In particolare presentiamo:
+\end_layout
+
+\begin_layout Itemize
+Diagramma di Contesto con Boundary
+\end_layout
+
+\begin_layout Itemize
+System Domain Model 
+\end_layout
+
+\begin_layout Itemize
+Diagramma dei Casi D'Uso.
+\end_layout
+
+\begin_layout Subsection
+Diagramma dei Casi D'Uso
+\end_layout
+
+\begin_layout Standard
 La logica di funzionamento è anche descritta attraverso il seguente 
 \series bold
 Diagramma dei Casi D'uso
@@ -1211,7 +1305,140 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-True Depth Camera
+Diagramma dei Casi D'Uso
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Diagramma di Contesto
+\end_layout
+
+\begin_layout Standard
+Lo scopo è mostrare il contesto di una 
+\series bold
+View
+\series default
+.
+ Il context rappresenta l’ambiente con cui il sistema o una specifica parte
+ del sistema interagisce.
+ UML non fornisce stereotipi per la realizzazione del diagramma di contesto
+ pertanto sono stati utilizzati degli stereotipi custom per descrivere le
+ entità coinvolte.
+ Le entità principali che sono evidenziate nel diagramma di contesto sono:
+\end_layout
+
+\begin_layout Enumerate
+Vision Framework: (framework) utilizzato per il riconoscimento del volto
+\end_layout
+
+\begin_layout Enumerate
+GUI: (interfaccia utente) utilizzato per permettere l'interazione dell'utente
+ con l'applicazione tramite interfaccia grafica
+\end_layout
+
+\begin_layout Enumerate
+Alarm System: (sistema esterno)gestore di allarme da poter collegare al
+ sistema per implementare eventuali sistemi di detection
+\end_layout
+
+\begin_layout Enumerate
+Relay: (device esterno di output) interfaccia con il sistema di apertura
+ del cancello
+\end_layout
+
+\begin_layout Standard
+Le interazioni tra queste entità ed il nostro sistema sono gestite dal GRASP
+ Controller, che andrà poi in dettaglio ad essere l'implementazione dell'applica
+zione, il quale si interfaccia con il System Domain Model il quale descrive
+ le relazioni tra le entità interne al sistema.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/context.png
+	lyxscale 40
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Diagramma di Contesto Caso D'Uso
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+System Domain Model
+\end_layout
+
+\begin_layout Standard
+Il modello di dominio invece descrive il modello concettuale del sistema,
+ in particolare del caso d'uso a cui facciamo riferimento Nel seguente domain
+ model sono descritte le entità che compongono il sistema con maggiore rilevanza
+ ed evidenziate le relazioni tra esse.
+ La realizzazione in UML di tale diagramma si basa su un Class Diagram,
+ dato che non sono forniti diagrammi specifici per un modello di dominio.
+ Nel SDM presentato ogni classe fa riferimento ad un'entità in gioco nel
+ sistema, in particolare le relazioni non trattegiate fanno riferimento
+ a relazioni che sono di interesse per il caso d'uso che si sta studiando.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/sdm.png
+	lyxscale 40
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+System Domain Model Caso D'Uso
 \end_layout
 
 \end_inset

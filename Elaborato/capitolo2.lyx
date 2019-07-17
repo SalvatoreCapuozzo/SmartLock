@@ -194,161 +194,10 @@ e nel database, necessaria per poter realizzare le funzionalità di accesso.
 \end_layout
 
 \begin_layout Section
-Analisi Dettagliata
+Viste Dinamiche
 \end_layout
 
-\begin_layout Standard
-Per migliorare la descrizione sono stati utilizzati vari diagrammi UML per
- modellare il funzionamento precedentemente descritto testualmente.
- In particolare presentiamo:
-\end_layout
-
-\begin_layout Itemize
-Diagramma di Contesto con Boundary
-\end_layout
-
-\begin_layout Itemize
-System Domain Model 
-\end_layout
-
-\begin_layout Itemize
-Sequence Diagrams di alto livello.
-\end_layout
-
-\begin_layout Paragraph
-Diagramma di Contesto
-\end_layout
-
-\begin_layout Standard
-Lo scopo è mostrare il contesto di una 
-\series bold
-View
-\series default
-.
- Il context rappresenta l’ambiente con cui il sistema o una specifica parte
- del sistema interagisce.
- UML non fornisce stereotipi per la realizzazione del diagramma di contesto
- pertanto sono stati utilizzati degli stereotipi custom per descrivere le
- entità coinvolte.
- Le entità principali che sono evidenziate nel diagramma di contesto sono:
-\end_layout
-
-\begin_layout Enumerate
-Vision Framework: (framework) utilizzato per il riconoscimento del volto
-\end_layout
-
-\begin_layout Enumerate
-GUI: (interfaccia utente) utilizzato per permettere l'interazione dell'utente
- con l'applicazione tramite interfaccia grafica
-\end_layout
-
-\begin_layout Enumerate
-Alarm System: (sistema esterno)gestore di allarme da poter collegare al
- sistema per implementare eventuali sistemi di detection
-\end_layout
-
-\begin_layout Enumerate
-Relay: (device esterno di output) interfaccia con il sistema di apertura
- del cancello
-\end_layout
-
-\begin_layout Standard
-Le interazioni tra queste entità ed il nostro sistema sono gestite dal GRASP
- Controller, che andrà poi in dettaglio ad essere l'implementazione dell'applica
-zione, il quale si interfaccia con il System Domain Model il quale descrive
- le relazioni tra le entità interne al sistema.
- 
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-placement H
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename immagini/context.png
-	lyxscale 40
-	scale 40
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Diagramma di Contesto Caso D'Uso
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Paragraph
-System Domain Model
-\end_layout
-
-\begin_layout Standard
-Il modello di dominio invece desceive il modello concettuale del sistema,
- in particolare del caso d'uso a cui facciamo riferimento Nel seguente domain
- model sono descritte le entità che compongono il sistema con maggiore rilevanza
- ed evidenziate le relazioni tra esse.
- La realizzazione in UML di tale diagramma si basa su un Class Diagram,
- dato che non sono forniti diagrammi specifici per un modello di dominio.
- Nel SDM presentato ogni classe fa riferimento ad un'entità in gioco nel
- sistema, in particolare le relazioni non trattegiate fanno riferimento
- a relazioni che sono di interesse per il caso d'uso che si sta studiando.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-placement H
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename immagini/sdm.png
-	lyxscale 40
-	scale 40
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-System Domain Model Caso D'Uso
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Paragraph
+\begin_layout Subsection
 Sequence Diagram
 \end_layout
 
@@ -361,13 +210,21 @@ Per descrivere più dettagliatamente il flow delle attività da implementare
 \end_layout
 
 \begin_layout Enumerate
-Accesso Automatico: si presuppone che l'applicazione sia in uno stato di
- polling, in attesa di riconoscere un volto dal sensore della fotocamera
- che prevede un'interrogazione continua dello stato;
+
+\series bold
+Accesso Automatico
+\series default
+: si presuppone che l'applicazione sia in uno stato di polling, in attesa
+ di riconoscere un volto dal sensore della fotocamera che prevede un'interrogazi
+one continua dello stato;
 \end_layout
 
 \begin_layout Enumerate
-Accesso Manuale: nell'eventualità in cui la modalità di 
+
+\series bold
+Accesso Manuale
+\series default
+: nell'eventualità in cui la modalità di 
 \begin_inset Quotes eld
 \end_inset
 
@@ -382,9 +239,13 @@ o di accesso.
 \end_layout
 
 \begin_layout Enumerate
-Accesso con Codice: accessibile sia manualmente tramite GUI, sia su richiesta
- nell'eventualità in cui il riconoscimento del volto non sia andato a buon
- fine dopo un numero pari a 3 tentativi consecutivi del sistema.
+
+\series bold
+Accesso con Codice
+\series default
+: accessibile sia manualmente tramite GUI, sia su richiesta nell'eventualità
+ in cui il riconoscimento del volto non sia andato a buon fine dopo un numero
+ pari a 3 tentativi consecutivi del sistema.
  
 \end_layout
 
