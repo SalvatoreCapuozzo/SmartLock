@@ -348,5 +348,117 @@ System Domain Model Caso D'Uso
 
 \end_layout
 
+\begin_layout Paragraph
+Sequence Diagram
+\end_layout
+
+\begin_layout Standard
+Per descrivere più dettagliatamente il flow delle attività da implementare
+ si scelto un Sequence Diagram, in questo diagramma si possono evidenziare
+ chiaramente tre modalità di accesso, ossia tre possibili casi in cui l'utente
+ può autenticarsi nel sistema.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Accesso Automatico: si presuppone che l'applicazione sia in uno stato di
+ polling, in attesa di riconoscere un volto dal sensore della fotocamera
+ che prevede un'interrogazione continua dello stato;
+\end_layout
+
+\begin_layout Enumerate
+Accesso Manuale: nell'eventualità in cui la modalità di 
+\begin_inset Quotes eld
+\end_inset
+
+polling
+\begin_inset Quotes erd
+\end_inset
+
+ del sistema sia inattiva per guasti o preferenze dell'utilizzatore, l'utente
+ può attivare manualmente il sensore facciale attraverso la GUI dell'applicazion
+e, che provvederà ad eseguire le stesse operazioni conseguenti al caso automatic
+o di accesso.
+\end_layout
+
+\begin_layout Enumerate
+Accesso con Codice: accessibile sia manualmente tramite GUI, sia su richiesta
+ nell'eventualità in cui il riconoscimento del volto non sia andato a buon
+ fine dopo un numero pari a 3 tentativi consecutivi del sistema.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/sequenceFaceId.png
+	lyxscale 40
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Sequence Diagram Caso D'Uso
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/sequenceCodice.png
+	lyxscale 40
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Sequence Diagram Caso D'Uso
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \end_body
 \end_document
