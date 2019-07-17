@@ -81,7 +81,10 @@ extension AppViewController: BluetoothSerialDelegate {
     func sendToDevice(textToSend: String, completion: () -> ()) {
         if !serial.isReady {
             let alert = UIAlertController(title: "Dispositivo non connesso", message: "Connettere prima il dispositivo Bluetooth all'app", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertAction.Style.default, handler: { action -> Void in self.dismiss(animated: true, completion: nil) }))
+            alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertAction.Style.default, handler: { action -> Void in
+                self.dismiss(animated: true, completion: nil)
+                self.tryAgain()
+            }))
             present(alert, animated: true, completion: nil)
             //messageField.resignFirstResponder()
             //return true
@@ -110,37 +113,10 @@ extension AppViewController: BluetoothSerialDelegate {
         //messageField.text = ""
         //return true
     }
-    
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        switch keyPath {
-        case "receivedMessage":
-            let intMess = UserDefaults.standard.integer(forKey: "receivedMessage")
-            let multMess = intMess*key
-            print(multMess)
-            print("")
-            self.sendToDevice(textToSend: String(describing: multMess), completion: {
-                DispatchQueue.main.async {
-                    SoundsPlayer.playSound(soundName: "open-ended", ext: "mp3")
-                }
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5, execute: {
-                    self.sendToDevice(textToSend: "chiudi", completion: {})
-                })
-            })
-        case "deviceConnected":
-            let connected = UserDefaults.standard.bool(forKey: "deviceConnected")
-            if connected {
-                GSMessage.showMessageAddedTo("Connesso all'interfono", type: .success, options: [.height(100), .textNumberOfLines(2), .autoHideDelay(1)], inView: self.view, inViewController: self)
-                self.justScanned = false
-            }
-        default:
-            print("Error")
-        }
-    }
 }
 
 extension AppViewController {
     func startScan() {
-        UserDefaults.standard.addObserver(self, forKeyPath: "deviceConnected", options: NSKeyValueObservingOptions.new, context: nil)
         // start scanning and schedule the time out
         serial.startScan()
         Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(scanTimeOut), userInfo: nil, repeats: false)
@@ -179,6 +155,32 @@ extension AppViewController {
         hud?.mode = MBProgressHUDMode.text
         hud?.labelText = "Failed to connect"
         hud?.hide(true, afterDelay: 2)
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        switch keyPath {
+        case "receivedMessage":
+            let intMess = UserDefaults.standard.integer(forKey: "receivedMessage")
+            let multMess = intMess*key
+            print(multMess)
+            print("")
+            self.sendToDevice(textToSend: String(describing: multMess), completion: {
+                DispatchQueue.main.async {
+                    SoundsPlayer.playSound(soundName: "open-ended", ext: "mp3")
+                }
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5, execute: {
+                    self.sendToDevice(textToSend: "chiudi", completion: {})
+                })
+            })
+        case "deviceConnected":
+            let connected = UserDefaults.standard.bool(forKey: "deviceConnected")
+            if connected {
+                GSMessage.showMessageAddedTo("Connesso all'interfono", type: .success, options: [.height(100), .textNumberOfLines(2), .autoHideDelay(1)], inView: self.view, inViewController: self)
+                self.justScanned = false
+            }
+        default:
+            print("Error")
+        }
     }
     
     //MARK: BluetoothSerialDelegate
@@ -256,7 +258,7 @@ extension AppViewController {
         //dismiss(animated: true, completion: nil)
     }
     
-    @objc func tryAgain(_ sender: AnyObject) {
+    @objc func tryAgain() {
         // empty array an start again
         peripherals = []
         //tableView.reloadData()

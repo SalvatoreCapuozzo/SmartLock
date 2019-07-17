@@ -15,7 +15,7 @@ class AccessCodeViewController: AppViewController {
     var codeTextField: UITextField!
     var accessButton: UIView!
     var user = [[String: AnyObject]]()
-    var justSent: Bool = false
+    //var justSent: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,16 +26,6 @@ class AccessCodeViewController: AppViewController {
         //DataController().addUser(name: "Federica", surname: "Ventriglia", code: "1234", isFamily: true, isManager: false)
 
         codeTextField.becomeFirstResponder()
-        UserDefaults.standard.addObserver(self, forKeyPath: "receivedMessage", options: NSKeyValueObservingOptions.new, context: nil)
-        
-        //maxX = view.bounds.maxX
-        //midY = view.bounds.midY
-        //maxY = view.bounds.maxY
-        //self.sendToDevice(textToSend: "chiudi", completion: {})
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        self.justSent = false
     }
     
     @objc override func cancel(_ sender: AnyObject) {
@@ -93,15 +83,12 @@ class AccessCodeViewController: AppViewController {
     private func didLogin(method: String, info: String) {
         let message = "Grazie \(info)\nAccesso effettuato con successo"
         let alert = UIAlertController(title: "Accesso", message: message, preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "Done", style: UIAlertAction.Style.default, handler: { [unowned self] (action: UIAlertAction!) in
+        alert.addAction(UIAlertAction(title: "Indietro", style: UIAlertAction.Style.cancel, handler: { [unowned self] (action: UIAlertAction!) in
             self.codeTextField.text = ""
             self.dismiss(animated: true, completion: nil)
         }))
         self.present(alert, animated: true, completion: nil)
-        if !justSent {
-            justSent = true
-            self.sendToDevice(textToSend: "apri", completion: {})
-        }
+        self.sendToDevice(textToSend: "apri", completion: {})
     }
     
     private func failLogin(method: String, info: String) {
