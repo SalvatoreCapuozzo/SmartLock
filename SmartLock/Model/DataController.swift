@@ -271,7 +271,8 @@ class DataController: NSObject {
                                         foundArray[j] = true
                                     }
                                 case .code:
-                                    if (user.code?.contains(field.value as! String))! {
+                                    if (user.code == (field.value as! String)) {
+                                   // if (user.code?.contains(field.value as! String))! {
                                         foundArray[j] = true
                                     }
                                 case .isFamily:
