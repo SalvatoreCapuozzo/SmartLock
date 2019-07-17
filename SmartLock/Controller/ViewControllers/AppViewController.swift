@@ -38,8 +38,9 @@ class AppViewController: UIViewController {
         setupUserInterface()
         
         if let _ = self as? AccessScreenViewController {
-            initBluetoothSerial()
             UserDefaults.standard.addObserver(self, forKeyPath: "receivedMessage", options: NSKeyValueObservingOptions.new, context: nil)
+            UserDefaults.standard.addObserver(self, forKeyPath: "deviceConnected", options: NSKeyValueObservingOptions.new, context: nil)
+            initBluetoothSerial()
         }
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tappedOnScreen))
@@ -51,7 +52,6 @@ class AppViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.0) {
             self.startScan()
         }
-        
     }
     
     func setupUserInterface() {
