@@ -140,8 +140,189 @@ Catalogo Dei Componenti
 Dettagli Implementativi
 \end_layout
 
+\begin_layout Standard
+Per l'implementazione di SmartLock sono stati utilizzati diversi Design
+ Pattern tra cui:
+\end_layout
+
+\begin_layout Itemize
+Singleton
+\end_layout
+
+\begin_layout Itemize
+Creator
+\end_layout
+
+\begin_layout Itemize
+Information Expert 
+\end_layout
+
+\begin_layout Itemize
+Observer
+\end_layout
+
+\begin_layout Subsection
+Singleton
+\end_layout
+
+\begin_layout Standard
+Il design pattern singleton, presentato dalla Gang of Four, è una soluzione
+ a problemi ricorrenti relativi alla programmazione ad oggetti.
+ In particolare è un Pattern Creazionale utilizzato per ottenere un'unica
+ istanza di un oggetto, fornendo un unico punto di accesso globale.
+ La classe StyleManager implementata tramite Singleton Pattern prevede la
+ scelta di diversi Temi per l'UI dell'applicazione.
+ Le funzioni implementate all'interno di tale classe riguardano la creazione
+ di elementi dell'User Inferface, riutilizzati nei relativi controller per
+ creare gli oggetti dell'interfaccia.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/singleton-style.png
+	lyxscale 30
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+StyleManager con Singleton Pattern
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Tramite la costante shared definiamo un unico punto di accesso alla classe
+ StyleManager, che sarà richiamata nei ViewController AccessScreenViewController
+ e CodeAccessViewController.
+ Nel seguente esempio è stato utilizzato StyleManager per creare l'istanza
+ di un UIButton personalizzato:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=Python,basicstyle={\tiny\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+accessButton = StyleManager.shared.getButton(size: CGSize(width: self.view.frame.size.
+width/3, 
+\end_layout
+
+\begin_layout Plain Layout
+
+				height: self.view.frame.size.width/8),
+\end_layout
+
+\begin_layout Plain Layout
+
+				center: CGPoint(x: self.view.frame.size.width/2,
+\end_layout
+
+\begin_layout Plain Layout
+
+				y: self.view.frame.size.height/2 + self.codeTextField.frame.height + 30),
+\end_layout
+
+\begin_layout Plain Layout
+
+				text: "Accedi")
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Creator
+\end_layout
+
+\begin_layout Standard
+Il Pattern Creator fa parte dei Pattern GRASP i quali forniscono in generale
+ delle linee guida per l'assegnazione delle responsabilità ad oggetti che
+ collaborano all'interno del sistema.
+ In particolare il pattern creator definisce chi crea un oggetto e chi deve
+ crearne un'istanza.
+ La classe DataController è stata implementata utilizzando il pattern Creator
+ per l'accesso alle query del database Core Data.
+ All'interno dell'oggetto DataManager sono contenute le funzionalità di
+ accesso al database (fetch, delete, insert) e tale oggetto è chiamato all'inter
+no delle classi che implementano la logica di business per accedere al metodo
+ richiesto.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/creator-data.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+DataController con Pattern Creator
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Deployment
+\end_layout
+
+\begin_layout Subsection
+Deployment Diagram
+\end_layout
+
+\begin_layout Subsection
+Simulazione
 \end_layout
 
 \end_body

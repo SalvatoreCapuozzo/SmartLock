@@ -28,7 +28,8 @@ class SmartLockUITests: XCTestCase {
 
     
     func testCodeAccessEmpty() {
-        
+//        Test di accesso con codice errato = nessun inserimento
+//        L'applicazione deve mostrare un'alert dove avvisa dell'errato inserimento
         let app = XCUIApplication()
         app.otherElements.containing(.button, identifier:"keypad").children(matching: .button).matching(identifier: "keypad").element(boundBy: 1).tap()
         
@@ -40,7 +41,8 @@ class SmartLockUITests: XCTestCase {
     
     
     func testCodeAccessWrong() {
-        
+//        Test di accesso con codice errato
+//        L'applicazione deve mostrare un'alert dove avvisa dell'errato inserimento
         let app = XCUIApplication()
         app.otherElements.containing(.button, identifier:"keypad").children(matching: .button).matching(identifier: "keypad").element(boundBy: 1).tap()
         
@@ -56,7 +58,9 @@ class SmartLockUITests: XCTestCase {
     
     
     func testCodeAccessCorrect() {
-        
+//        Test di accesso con codice corretto
+//        L'applicazione deve mostrare un'alert dove conferma l'accesso
+
         let app = XCUIApplication()
         app.otherElements.containing(.button, identifier:"keypad").children(matching: .button).matching(identifier: "keypad").element(boundBy: 1).tap()
         
@@ -70,6 +74,18 @@ class SmartLockUITests: XCTestCase {
         app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).buttons["Accedi"].tap()
         let alert = app.alerts["Accesso"].buttons["Done"]
         XCTAssert(alert.exists, "Access Alert Didn't Display")
+    }
+    
+    func testFaceAccessNoConnection() {
+//        Test di accesso con volto in assenza di dispositivo bluetooth collegato al citofono
+//        L'applicazione deve mostrare un'alert dove conferma l'assenza del dispositivo bluetooth
+//        Il volto deve essere riconosciuto con successo
+        
+        
+        let app = XCUIApplication()
+        app.otherElements.containing(.button, identifier:"keypad").children(matching: .other).element(boundBy: 3).buttons["faceid"].tap()
+        let alert = app.alerts["Dispositivo non connesso"].buttons["Dismiss"]
+        XCTAssert(alert.exists, "Device Unavailable Alert Didn't Display")
     }
    
     
