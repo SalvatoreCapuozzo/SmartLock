@@ -43,7 +43,7 @@ figs-within-sections
 \maintain_unincluded_children false
 \language italian
 \language_package default
-\inputencoding auto
+\inputencoding utf8
 \fontencoding global
 \font_roman "times" "default"
 \font_sans "helvet" "default"

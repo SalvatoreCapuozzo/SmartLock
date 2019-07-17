@@ -44,7 +44,7 @@ figs-within-sections
 \maintain_unincluded_children false
 \language italian
 \language_package default
-\inputencoding auto
+\inputencoding utf8
 \fontencoding global
 \font_roman "times" "default"
 \font_sans "helvet" "default"
@@ -115,7 +115,7 @@ figs-within-sections
 \is_math_indent 0
 \math_numbering_side default
 \quotes_style english
-\dynamic_quotes 0
+\dynamic_quotes 1
 \papercolumns 1
 \papersides 1
 \paperpagestyle empty
@@ -915,6 +915,244 @@ L’utilizzo principale della TrueDepth Camera riguarda lo sblocco del dispositi
  sua memorizzazione per avere accesso a funzionalità che necessitano di
  autenticazione, in questo caso l'apertura di un cancello.
  
+\end_layout
+
+\begin_layout Subsection
+Xcode 
+\end_layout
+
+\begin_layout Standard
+Xcode è l'ambiente di sviluppo integrato utilizzato per creare, testare,
+ effettuare il debug delle applicazioni su piattaforma iOS.
+\end_layout
+
+\begin_layout Standard
+Le principali caratteristiche di di Xcode sono le seguenti: 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Interface Builder.
+
+\series default
+ E' possibile costruire ogni vista relativa alla propria applicazione utilizzand
+o un apposito editor chiamato Interface Builder.
+ Questo permette di inserire oggetti nella GUI attraverso un'interfaccia
+ semplice da utilizzare e che permette di aggiungere diverse informazioni
+ all'oggetto (posizione, funzionalità, tipologia) e anche la loro connessione
+ con l'applicazione stessa.
+ Esiste comunque la possibilità di implementare tali oggetti via codice.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Assistant Editor.
+
+\series default
+ Durante la fase di programmazione si è spesso portati a dover modificare
+ file correlati tra loro, l'assistant editor permette al programmatore di
+ visualizzare i documenti in questione nella stessa finestra senza bisogno
+ di aprire più editor alla volta.
+ Questa caratteristica velocizza di molto il flusso di lavoro, aiutando
+ molto il programmatore.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Identificazione e Correzione degli errori.
+ 
+\series default
+Xcode ispeziona il source code in real time, evidenziando sia errori ortografi􏰀c
+i che errori di programmazione.
+ La riga errata viene evidenziata fornendo i dettagli relativi all'errore,
+ talvolta vengono proposte delle possibili soluzioni per risolverli.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Controllo del Codice Sorgente,
+\series default
+ permette di salvare i file di progetto in una repository (Git, Bitbucket
+ ecc.) direttamente da Xcode, mantenendo così un controllo della versione
+ del progetto.
+ Grazie a questa caratteristica è possibile lavorare in team allo stesso
+ progetto, tenendo traccia delle modifiche fatte dai vari team members.
+\end_layout
+
+\begin_layout Subsection
+Architettura iOS
+\end_layout
+
+\begin_layout Standard
+L'architettura del sistema operativo iOS si articola in più livelli sovrapposti.
+ Al livello più basso, iOS agisce come intermediario tra l'hardware sottostante
+ e le applicazioni che appaiono sullo schermo.
+ Ai livelli più bassi del sistema ci sono i servizi fondamentali e le tecnologie
+ sulle quali si basano tutte le applicazioni mentre i livelli più alti contengon
+o i servizi e le tecnologie più sofisticati.
+ Quando si sviluppa una applicazione, dove possibile, si deve prediligere
+ l'uso di 
+\series bold
+framework
+\series default
+ di alto livello piuttosto che dei servizi o􏰂erti dai livelli inferiori.
+ Infatti i frameworks di livello superiore sono stati creati appositamente
+ per fornire astrazioni orientate agli oggetti dei servizi e delle funzioni
+ o􏰂erti dai costrutti dei livelli inferiori.
+ Queste astrazioni, in genere, rendono molto più facile la scrittura di
+ codice, perché riducono la quantità di righe di codice da scrivere e racchiudon
+o caratteristiche potenzialmente complesse, come i socket per le connessioni
+ e i thread.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/iOSArch.png
+	lyxscale 40
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+iOS Architettura a Strati
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+iOS SDK: Model View Controller Pattern
+\end_layout
+
+\begin_layout Standard
+Una qualsiasi applicazione per iOS o per OS X che utilizza gli strumenti
+ messi a disposizione dai vari framework, se progettata correttamente, è
+ basata su un modello Model View Controller (MVC).
+ MVC non solo realizza la separazione tra dati e interfaccia utente ma svincola
+ anche la logica di controllo dell'applicazione dai dati.
+ Il modello è basato sulla separazione dei compiti fra tre componenti software
+ che interpretano tre ruoli principali:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Model
+\series default
+: gli oggetti che costituiscono il modello rappresentano parti- colari conoscenz
+e e competenze, contengono i dati di un'applicazione e de􏰀niscono la logica
+ che regola la manipolazione dei dati.
+ Un'applicazione MVC ben progettata ha tutti i dati importanti incapsulati
+ in oggetti del modello.
+ Tutti i dati che fanno parte dello stato persistente dell'applicazione
+ devono risiedere negli oggetti del modello una volta che i dati vengono
+ caricati nell'applicazione.
+ Idealmente, un oggetto del modello non ha alcun collegamento esplicito
+ con l'interfaccia utente utilizzata per presentarlo e modi􏰀carlo.
+ Tuttavia nella pratica la separazione dall'interfaccia non è sempre la
+ cosa migliore, infatti vi è un certo margine di 􏰃essibilità nel modello
+ realizzato in iOS, ma in generale un oggetto del modello non dovrebbe occuparsi
+ di come è realizzata l'interfaccia.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+View
+\series default
+: Un oggetto di tipo vista è in grado di visualizzare, e in alcuni casi
+ di modi􏰀care, i dati del modello dell'applicazione.
+ La view non dovrebbe essere responsabile per la memorizzazione dei dati
+ che presenta, ma può memorizzare nella cache alcuni dati per motivi di
+ prestazioni.
+ Un oggetto della vista può essere responsabile della visualizzazione di
+ solo una parte di un oggetto del modello, di un oggetto intero del modello
+ o anche di molti oggetti del modello di􏰂erenti.
+ Il framework UIKit de􏰀nisce un gran numero di oggetti di visualizzazione
+ che possono essere riutilizzati assicurando lo stesso funzionamento in
+ diverse applicazioni, garantendo un elevato livello di coerenza per aspetto
+ e comportamento tra le applicazioni.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Controller
+\series default
+: Un oggetto di controllo funge da intermediario tra gli oggetti della view
+ dell'applicazione e gli oggetti del modello.
+ Gli oggetti del controller possono anche con􏰀gurare e coordinare le attività
+ di una applicazione e gestire i cicli di vita di altri oggetti.
+ In un tipico modello MVC, quando gli utenti immettono un valore o indicano
+ una scelta attraverso un oggetto di visualizzazione, il valore o la scelta
+ viene comunicato ad un oggetto di controllo.
+ L'oggetto di controllo può interpretare l'input dell'utente in alcune applicazi
+oni speci􏰀che o può indicare ad un oggetto del modello cosa fare con questo
+ ingresso.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/mvc.png
+	lyxscale 40
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+MVC in iOS
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
