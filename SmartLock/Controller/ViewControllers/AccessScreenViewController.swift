@@ -214,6 +214,7 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
     }
     
     @objc func scanUser() {
+        self.justScanned = true
         let myContext = LAContext()
         let myLocalizedReasonString = "Posizionati di fronte alla fotocamera per la scansione"
         

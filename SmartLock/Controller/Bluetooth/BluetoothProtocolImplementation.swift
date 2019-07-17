@@ -119,7 +119,9 @@ extension AppViewController: BluetoothSerialDelegate {
             print(multMess)
             print("")
             self.sendToDevice(textToSend: String(describing: multMess), completion: {
-                SoundsPlayer.playSound(soundName: "open-ended", ext: "mp3")
+                DispatchQueue.main.async {
+                    SoundsPlayer.playSound(soundName: "open-ended", ext: "mp3")
+                }
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5, execute: {
                     self.sendToDevice(textToSend: "chiudi", completion: {})
                 })
@@ -127,7 +129,7 @@ extension AppViewController: BluetoothSerialDelegate {
         case "deviceConnected":
             let connected = UserDefaults.standard.bool(forKey: "deviceConnected")
             if connected {
-                GSMessage.showMessageAddedTo("Connesso all'interfono", type: .success, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
+                GSMessage.showMessageAddedTo("Connesso all'interfono", type: .success, options: [.height(100), .textNumberOfLines(2), .autoHideDelay(1)], inView: self.view, inViewController: self)
                 self.justScanned = false
             }
         default:
