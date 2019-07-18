@@ -48,6 +48,8 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tappedOnScreen))
         self.view.addGestureRecognizer(tapGesture)
         
+        tapGesture.cancelsTouchesInView = false
+
         session.startRunning()
         
         DataController().deleteData(entityName: "User")
@@ -94,6 +96,31 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
         return self.interphoneTableView.frame.size.height/6.5
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath) as! InterphoneTableViewCell
+        
+        guard let name = cell.nameLabel.text else {
+            return
+        }
+        
+        GSMessage.showMessageAddedTo("Stai bussando \(name) \n ...", type: .info, options: [
+            .animationDuration(0.3),
+            .autoHide(true),
+            .autoHideDelay(2.0),
+            .cornerRadius(10.0),
+            .height(100),
+            .hideOnTap(true),
+            .position(.bottom),
+            .textAlignment(.center),
+            .textColor(.white),
+            .textNumberOfLines(2),
+            ]
+            , inView: self.view, inViewController: self)
+       
+//        print("Bussa \(name)")
+    }
+    
+    
     override func setupUserInterface() {
         super.setupUserInterface()
         // Interphone TableView Setup
@@ -105,12 +132,12 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
         interphoneTableView.layer.masksToBounds = true
         interphoneTableView.layer.borderColor = UIColor.white.cgColor
         interphoneTableView.layer.borderWidth = 5
-        
         self.view.addSubview(interphoneTableView)
         
         self.interphoneTableView.delegate = self
         self.interphoneTableView.dataSource = self
-        
+        self.interphoneTableView.allowsSelection = true
+        self.interphoneTableView.isUserInteractionEnabled = true
         self.interphoneTableView.separatorColor = .clear
         self.interphoneTableView.separatorStyle = .none
         

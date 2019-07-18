@@ -68,35 +68,24 @@ class AccessCodeViewController: AppViewController {
                     self.failLogin(method: "code", info: "Codice Errato/Non Trovato")
                     return
                 }
-//                print(results[0]["name"])
                 self.didLogin(method: "code", info: (results[0]["name"] as! String) )
             }
         }
-        //didLogin(method: "password", info: "Password: \(pass)")
     }
-    
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        codeTextField.resignFirstResponder()
-//    }
+
 
     
     private func didLogin(method: String, info: String) {
         let message = "Grazie \(info)\nAccesso effettuato con successo"
-        let alert = UIAlertController(title: "Accesso", message: message, preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "Indietro", style: UIAlertAction.Style.cancel, handler: { [unowned self] (action: UIAlertAction!) in
-            self.codeTextField.text = ""
-            self.dismiss(animated: true, completion: nil)
-        }))
-        self.present(alert, animated: true, completion: nil)
-        self.sendToDevice(textToSend: "apri", completion: {})
+        self.sendToDevice(textToSend: "apri") {
+            GSMessage.showMessageAddedTo(message, type: .success, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
+        }
+        self.codeTextField.text = ""
     }
     
     private func failLogin(method: String, info: String) {
         let message = "Accesso Negato: \(info)"
-        let alert = UIAlertController(title: "Errore", message: message, preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "Riprova", style: UIAlertAction.Style.default, handler: { [unowned self] (action: UIAlertAction!) in
-            self.codeTextField.text = ""
-        }))
-        self.present(alert, animated: true, completion: nil)
+        GSMessage.showMessageAddedTo(message, type: .error, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
+        self.codeTextField.text = ""
     }
 }
