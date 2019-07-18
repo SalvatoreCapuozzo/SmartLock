@@ -10,7 +10,6 @@
 		870EF69122DF07F3003B43A0 /* BluetoothSerialDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870EF69022DF07F3003B43A0 /* BluetoothSerialDelegate.swift */; };
 		871020F822DF588D00EA1EAE /* StyleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871020F722DF588D00EA1EAE /* StyleManager.swift */; };
 		871020FA22DF745400EA1EAE /* CountdownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871020F922DF745400EA1EAE /* CountdownTimer.swift */; };
-		8710211422DFE45100EA1EAE /* CapuozzoSalvatoreModel_1775790060.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8710211322DFE45100EA1EAE /* CapuozzoSalvatoreModel_1775790060.mlmodel */; };
 		8710211A22E0976500EA1EAE /* StringUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8710211922E0976500EA1EAE /* StringUtilities.swift */; };
 		8710211C22E0A13200EA1EAE /* SmartLockModel_1450859332.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8710211B22E0A13200EA1EAE /* SmartLockModel_1450859332.mlmodel */; };
 		871751FC22D62AA100E29FCF /* BluetoothSerial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871751FB22D62AA100E29FCF /* BluetoothSerial.swift */; };
@@ -63,7 +62,6 @@
 		870EF69022DF07F3003B43A0 /* BluetoothSerialDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothSerialDelegate.swift; sourceTree = "<group>"; };
 		871020F722DF588D00EA1EAE /* StyleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleManager.swift; sourceTree = "<group>"; };
 		871020F922DF745400EA1EAE /* CountdownTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownTimer.swift; sourceTree = "<group>"; };
-		8710211322DFE45100EA1EAE /* CapuozzoSalvatoreModel_1775790060.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = CapuozzoSalvatoreModel_1775790060.mlmodel; sourceTree = "<group>"; };
 		8710211922E0976500EA1EAE /* StringUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtilities.swift; sourceTree = "<group>"; };
 		8710211B22E0A13200EA1EAE /* SmartLockModel_1450859332.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = SmartLockModel_1450859332.mlmodel; sourceTree = "<group>"; };
 		871751FB22D62AA100E29FCF /* BluetoothSerial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothSerial.swift; sourceTree = "<group>"; };
@@ -203,7 +201,6 @@
 			isa = PBXGroup;
 			children = (
 				8710211B22E0A13200EA1EAE /* SmartLockModel_1450859332.mlmodel */,
-				8710211322DFE45100EA1EAE /* CapuozzoSalvatoreModel_1775790060.mlmodel */,
 			);
 			path = CoreMLModels;
 			sourceTree = "<group>";
@@ -427,7 +424,6 @@
 				871751FC22D62AA100E29FCF /* BluetoothSerial.swift in Sources */,
 				871020FA22DF745400EA1EAE /* CountdownTimer.swift in Sources */,
 				8743B07622DDF2AA007E17AB /* SoundsPlayer.swift in Sources */,
-				8710211422DFE45100EA1EAE /* CapuozzoSalvatoreModel_1775790060.mlmodel in Sources */,
 				8722667D22CA7BEC008CA08F /* GradientTool.swift in Sources */,
 				8722664322CA17EC008CA08F /* AccessScreenViewController.swift in Sources */,
 				8743B07222DDE3E9007E17AB /* AppViewController.swift in Sources */,

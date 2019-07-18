@@ -43,7 +43,6 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
     lazy var classificationRequest: VNCoreMLRequest = {
         do {
             // Insert here model to recognize faces
-            //let model = try VNCoreMLModel(for: CapuozzoSalvatoreModel_1775790060().model)
             let model = try VNCoreMLModel(for: SmartLockModel_1450859332().model)
             
             let request = VNCoreMLRequest(model: model, completionHandler: { [weak self] request, error in
@@ -313,13 +312,6 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
                 }
             }
         }
-        
-        /*
-        getTableController { tableController, drawer in
-            tableController.classifications = data
-            self.dismiss(animated: false, completion: nil)
-            drawer.setDrawerPosition(position: .partiallyRevealed, animated: true)
-        }*/
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
