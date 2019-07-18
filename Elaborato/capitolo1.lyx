@@ -853,7 +853,7 @@ Requisiti Non Funzionali
 \end_layout
 
 \begin_layout Subsection
-Tecnologia True Depth
+Tecnologia True Depth e FaceID
 \end_layout
 
 \begin_layout Standard
@@ -910,7 +910,23 @@ True Depth Camera
 \begin_layout Standard
 L’utilizzo principale della TrueDepth Camera riguarda lo sblocco del dispositivo
 , ossia la configurazione del FaceID.
- Nel nostro progetto andiamo ad estendere tale concetto, applicandolo al
+ 
+\end_layout
+
+\begin_layout Standard
+Per ottenere il riconoscimento di un volto viene utilizzato il cosiddetto
+ Dual Sensor.
+ Questo sensore si basa sull'integrazione di almeno due telecamere nel dispositi
+vo, nel fare questo, garantisce che lo scatto fatto acquisiti profondità
+ e quindi rileva se è una foto o una persona.
+ FaceID è in grado di riconoscere il viso in meno di un secondo, raggiungendo
+ la massima sicurezza in qualsiasi installazione ad un prezzo accessibile
+ per qualsiasi utente.
+ 
+\end_layout
+
+\begin_layout Standard
+Nel nostro progetto andiamo ad estendere tale concetto, applicandolo al
  caso d'uso di interesse che sfrutterà il riconoscimento del volto e la
  sua memorizzazione per avere accesso a funzionalità che necessitano di
  autenticazione, in questo caso l'apertura di un cancello.

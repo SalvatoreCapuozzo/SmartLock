@@ -454,8 +454,66 @@ Deployment Diagram - SmartLock
 
 \end_layout
 
-\begin_layout Subsection
-Simulazione
+\begin_layout Section
+Funzionalità Aggiuntiva: Core ML Visual Recognition
+\end_layout
+
+\begin_layout Standard
+Al termine dello sprint finale dello sviluppo, avvenuto in contesto Agile,
+ è stato possibile testare una nuova funizonalità aggiunta al sistema che
+ prevede l'integrazione di un algoritmo di Image Recognition basato sulla
+ libreria di Machine Learning CoreML.
+ Grazie a questa libreria è stato possibile integrare un modello istriuto
+ di machile learning nella nostra applicazione.
+ In particolare abbiamo utilizzato il modello Visual Recognition di Watson.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/coreml.png
+	lyxscale 35
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+CoreML Image Recognition
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Per istruire il modello sono state utilizzate immagini degli utenti.
+ Attraverso l'aggiunta di questo modello è stato possibile creare una relazione
+ tra Utente ed Accesso effettuato con successo, prima nascosta dall'utilizzo
+ automatico del FaceID che, per motivi di privacy, non permette di salvare
+ informazioni sul volto riconosciuto.
+ Utilizzando CoreML e Watson l'applicazione è in grado di autenticare l'utente
+ tramite FaceID e consentire l'accesso e contemporaneamente ottenere informazion
+i sull'accesso da poter aggiungere nel log di sistema.
+ 
 \end_layout
 
 \end_body
