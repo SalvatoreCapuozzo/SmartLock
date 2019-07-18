@@ -25,6 +25,7 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
     
     let session = AVCaptureSession()
     var previewLayer: AVCaptureVideoPreviewLayer!
+    
     var showDetection: Bool = false
     
     let dataOutputQueue = DispatchQueue(
@@ -35,6 +36,38 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
     
     var isAccessScreenActive: Bool = false
     
+    var stillPhoto: UIImage!
+    var currentUserName: String = ""
+    
+    /// - Tag: MLModelSetup
+    lazy var classificationRequest: VNCoreMLRequest = {
+        do {
+            // Insert here model to recognize faces
+            //let model = try VNCoreMLModel(for: CapuozzoSalvatoreModel_1775790060().model)
+            let model = try VNCoreMLModel(for: SmartLockModel_1450859332().model)
+            
+            let request = VNCoreMLRequest(model: model, completionHandler: { [weak self] request, error in
+                DispatchQueue.main.async {
+                    guard let results = request.results else {
+                        print("Unable to classify image.\n\(error!.localizedDescription)")
+                        return
+                    }
+                    // The `results` will always be `VNClassificationObservation`s, as specified by the Core ML model in this project.
+                    let classifications = results as! [VNClassificationObservation]
+                    
+                    if classifications.isEmpty {
+                        print("Nothing recognized.")
+                    } else {
+                        self?.push(data: classifications)
+                    }
+                }
+            })
+            request.imageCropAndScaleOption = .centerCrop
+            return request
+        } catch {
+            fatalError("Failed to load Vision ML model: \(error)")
+        }
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -189,6 +222,7 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
     }
     
     @objc func scanUser() {
+        self.classifyCurrentFrame(frame: self.stillPhoto)
         self.justScanned = true
         let myContext = LAContext()
         let myLocalizedReasonString = "Posizionati di fronte alla fotocamera per la scansione"
@@ -202,11 +236,12 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
                         if success {
                             // User authenticated successfully, take appropriate action
                             if UserDefaults.standard.bool(forKey: "deviceConnected") {
-                                GSMessage.showMessageAddedTo("Accesso effettuato con successo", type: .success, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
+                                GSMessage.showMessageAddedTo("Grazie \(self.currentUserName)\nAccesso effettuato con successo", type: .success, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
                             }
                             
                             self.timerView.start(beginingValue: 10)
                             self.sendToDevice(textToSend: "apri", completion: {})
+                            
                         } else {
                             // User did not authenticate successfully, look at error and take appropriate action
                             GSMessage.showMessageAddedTo("Accesso fallito, prova con codice", type: .error, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
@@ -235,6 +270,56 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
             
             GSMessage.showMessageAddedTo("Funzione di scansione non supportata", type: .error, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
         }
+    }
+    
+    // Core ML Methods
+    
+    // Classification method.
+    func classify(_ image: CGImage) {
+        DispatchQueue.global(qos: .userInitiated).async {
+            let handler = VNImageRequestHandler(cgImage: image)
+            do {
+                try handler.perform([self.classificationRequest])
+            } catch {
+                /*
+                 This handler catches general image processing errors. The `classificationRequest`'s
+                 completion handler `processClassifications(_:error:)` catches errors specific
+                 to processing that request.
+                 */
+                print("Failed to perform classification.\n\(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func classifyCurrentFrame(frame: UIImage) {
+        let cgImage = frame.cgImage!
+        classify(cgImage)
+    }
+    
+    // Convenience method for closing the TableView.
+    func push(data: [VNClassificationObservation]) {
+        for res in data {
+            print("\(res.identifier) \(res.confidence)")
+        }
+        let orderedData = data.sorted(by: ({
+            (a, b) -> Bool in
+            return a.confidence > b.confidence
+        }))
+        if let first = orderedData.first {
+            DataController().fetchData(entity: .user, searchBy: [.modelIdentifier: first.identifier as AnyObject]) {
+                (outcome, results) in
+                if outcome! {
+                    self.currentUserName = results.first?["name"] as! String
+                }
+            }
+        }
+        
+        /*
+        getTableController { tableController, drawer in
+            tableController.classifications = data
+            self.dismiss(animated: false, completion: nil)
+            drawer.setDrawerPosition(position: .partiallyRevealed, animated: true)
+        }*/
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -299,6 +384,13 @@ extension AccessScreenViewController: AVCaptureVideoDataOutputSampleBufferDelega
             return
         }
         
+        guard let image = getImageFromSampleBuffer(sampleBuffer) else {
+            return
+        }
+        
+        // Save UIImage got from buffer in an accessible variable
+        self.stillPhoto = image
+        
         let detectFaceRequest = VNDetectFaceLandmarksRequest(completionHandler: detectedFace)
         
         do {
@@ -311,6 +403,27 @@ extension AccessScreenViewController: AVCaptureVideoDataOutputSampleBufferDelega
         }
     }
     
+    func getImageFromSampleBuffer(_ sampleBuffer: CMSampleBuffer) -> UIImage? {
+        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
+            return nil
+        }
+        CVPixelBufferLockBaseAddress(pixelBuffer, .readOnly)
+        let baseAddress = CVPixelBufferGetBaseAddress(pixelBuffer)
+        let width = CVPixelBufferGetWidth(pixelBuffer)
+        let height = CVPixelBufferGetHeight(pixelBuffer)
+        let bytesPerRow = CVPixelBufferGetBytesPerRow(pixelBuffer)
+        let colorSpace = CGColorSpaceCreateDeviceRGB()
+        let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedFirst.rawValue | CGBitmapInfo.byteOrder32Little.rawValue)
+        guard let context = CGContext(data: baseAddress, width: width, height: height, bitsPerComponent: 8, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo.rawValue) else {
+            return nil
+        }
+        guard let cgImage = context.makeImage() else {
+            return nil
+        }
+        let image = UIImage(cgImage: cgImage, scale: 1, orientation:.right)
+        CVPixelBufferUnlockBaseAddress(pixelBuffer, .readOnly)
+        return image
+    }
     
 }
 
