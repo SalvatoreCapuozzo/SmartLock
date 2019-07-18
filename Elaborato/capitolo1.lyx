@@ -1068,8 +1068,9 @@ Modulo DSD TECH HM-10 Bluetooth 4.0 BLE IBeacon UART
 \end_layout
 
 \begin_layout Standard
-Per la prima realizzazione del sistema si è sostituito al cancello un collegamen
-to ad un LED per testare la bontà del collegamento bluetooth.
+Per la prima realizzazione del sistema si è sostituito al relè che è connesso
+ al cancello un collegamento ad un LED per testare la bontà del collegamento
+ bluetooth.
  Lo schema di funzionamento è il seguente:
 \end_layout
 

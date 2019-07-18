@@ -137,7 +137,7 @@ Catalogo Dei Componenti
 \end_layout
 
 \begin_layout Section
-Dettagli Implementativi
+Dettagli Implementativi: Design Patterns
 \end_layout
 
 \begin_layout Standard
@@ -159,6 +159,10 @@ Information Expert
 
 \begin_layout Itemize
 Observer
+\end_layout
+
+\begin_layout Itemize
+Polimorfismo
 \end_layout
 
 \begin_layout Subsection
@@ -188,8 +192,8 @@ status open
 \align center
 \begin_inset Graphics
 	filename immagini/singleton-style.png
-	lyxscale 30
-	scale 30
+	lyxscale 45
+	scale 45
 
 \end_inset
 
@@ -330,12 +334,124 @@ o delle richieste gestite dal DataController e vengono risolte solamente
  
 \end_layout
 
+\begin_layout Subsection
+Observer
+\end_layout
+
+\begin_layout Standard
+Assegna all'oggetto monitorato il ruolo di registrare al suo interno un
+ riferimento agli altri oggetti che devono essere avvisati dei cambiamenti
+ (osservatori concreti) tramite l'invocazione di un loro metodo.
+ Nell'applicazione si è applicato il pattern Observer per in due casi, infatti
+ AppViewController monitora due eventi:
+\end_layout
+
+\begin_layout Itemize
+“receivedMessage” : per ottimizzare la comunicazione bluetooth si è utilizzata
+ un'architettura ad eventi, si riceve una risposta solo all'invio di un
+ particolare messaggio (apri, chiudi..).
+ 
+\end_layout
+
+\begin_layout Itemize
+“deviceConnected”: per notificare l'applicazione dell'evento relativo alla
+ presenza del dispositivo bluetooth a cui collegarsi.
+ 
+\end_layout
+
+\begin_layout Subsection
+Polimorfismo
+\end_layout
+
+\begin_layout Standard
+E' stato poi utilizzato il Pattern GRASP relativo al Polimorfismo per la
+ realizzazione dei ViewController dato che questi condividevano una stessa
+ struttura di base relativa all'interfaccia grafica, da estendere in entrambi
+ in base alle esigenze.
+ Questo si può osservare anche nel Class Diagram dei controller dove AccessScree
+nViewController e CodeAccessViewController ereditano AppViewController e
+ in particolare estendono il metodo setupUserInterface() per estendere la
+ GUI.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/cd-controllers.png
+	lyxscale 35
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Class Diagram - Controllers
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Deployment
 \end_layout
 
 \begin_layout Subsection
 Deployment Diagram
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/deployment.png
+	lyxscale 35
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Deployment Diagram - SmartLock
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
