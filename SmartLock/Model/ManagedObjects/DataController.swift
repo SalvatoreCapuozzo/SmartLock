@@ -270,6 +270,21 @@ class DataController: NSObject {
                                     if (user.name?.lowercased().contains((field.value as! String).lowercased()))! || (user.surname?.lowercased().contains((field.value as! String).lowercased()))! {
                                         foundArray[j] = true
                                     }
+                                case .modelIdentifier:
+                                    let fieldString = field.value as! String
+                                    let splitted = fieldString
+                                        .splitBefore(separator: { $0.isUppercase })
+                                        .map{String($0)}
+                                    if let firstString = splitted.first, let lastString = splitted.last {
+                                        // Identifier Without Spaces
+                                        let firstCondition = (user.name?.lowercased().contains(lastString.lowercased()))! && (user.surname?.lowercased().contains(firstString.lowercased()))!
+                                        let fullName = "\(String(describing: (user.surname?.lowercased())!)) \(String(describing: (user.name?.lowercased())!))"
+                                        // Identifier With Spaces
+                                        let secondCondition = fullName == fieldString.lowercased()
+                                        if firstCondition || secondCondition {
+                                            foundArray[j] = true
+                                        }
+                                    }
                                 case .code:
                                     if (user.code == (field.value as! String)) {
                                    // if (user.code?.contains(field.value as! String))! {
@@ -503,6 +518,7 @@ enum SearchField {
     case name
     case surname
     case nameOrSurname
+    case modelIdentifier
     case code
     case isFamily
     case isManager
