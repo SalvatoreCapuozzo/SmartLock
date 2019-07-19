@@ -35,8 +35,8 @@ class SmartLockUITests: XCTestCase {
         
         
         app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).buttons["Accedi"].tap()
-        let alert = app.alerts["Errore"].buttons["Riprova"]
-        XCTAssert(alert.exists, "Error Alert Didn't Display")
+        let alert = app.otherElements.matching(identifier: "GSMessageView").element
+        XCTAssert(alert.exists, "Access View Didn't Display")
     }
     
     
@@ -52,8 +52,8 @@ class SmartLockUITests: XCTestCase {
         app/*@START_MENU_TOKEN@*/.keys["5"]/*[[".keyboards.keys[\"5\"]",".keys[\"5\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
 
         app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).buttons["Accedi"].tap()
-        let alert = app.alerts["Errore"].buttons["Riprova"]
-        XCTAssert(alert.exists, "Error Alert Didn't Display")
+        let alert = app.otherElements.matching(identifier: "GSMessageView").element
+        XCTAssert(alert.exists, "Access View Didn't Display")
     }
     
     
@@ -72,22 +72,34 @@ class SmartLockUITests: XCTestCase {
         app/*@START_MENU_TOKEN@*/.keys["6"]/*[[".keyboards.keys[\"6\"]",".keys[\"6\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
       
         app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).buttons["Accedi"].tap()
-        let alert = app.alerts["Accesso"].buttons["Done"]
-        XCTAssert(alert.exists, "Access Alert Didn't Display")
+//        print(app.debugDescription)
+        let alert = app.otherElements.matching(identifier: "GSMessageView").element
+        XCTAssert(alert.exists, "Access View Didn't Display")
     }
     
     func testFaceAccessNoConnection() {
 //        Test di accesso con volto in assenza di dispositivo bluetooth collegato al citofono
 //        L'applicazione deve mostrare un'alert dove conferma l'assenza del dispositivo bluetooth
 //        Il volto deve essere riconosciuto con successo
-        
-        
         let app = XCUIApplication()
-        app.otherElements.containing(.button, identifier:"keypad").children(matching: .other).element(boundBy: 3).buttons["faceid"].tap()
+        XCUIApplication().otherElements.containing(.textField, identifier:"Inserisci condomino da cercare").children(matching: .other).element(boundBy: 5).buttons["faceid"].tap()
         let alert = app.alerts["Dispositivo non connesso"].buttons["Dismiss"]
         XCTAssert(alert.exists, "Device Unavailable Alert Didn't Display")
     }
    
-    
+    func testSearchUser() {
+        
+        let app = XCUIApplication()
+        let inserisciCondominoDaCercareTextField = app.otherElements.containing(.textField, identifier:"Inserisci condomino da cercare").children(matching: .textField).matching(identifier: "Inserisci condomino da cercare").element(boundBy: 1)
+        XCTAssert(inserisciCondominoDaCercareTextField.exists, "SearchField doesn't exist")
+        inserisciCondominoDaCercareTextField.tap()
+        inserisciCondominoDaCercareTextField.typeText("Salvatore")
+        let foundCell = app.tables/*@START_MENU_TOKEN@*/.staticTexts["Capuozzo Salvatore"]/*[[".cells.staticTexts[\"Capuozzo Salvatore\"]",".staticTexts[\"Capuozzo Salvatore\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
+        foundCell.tap()
+        
+        XCTAssert(foundCell.exists, "Utente Esistente Non Trovato")
+      
+        
+    }
 
 }

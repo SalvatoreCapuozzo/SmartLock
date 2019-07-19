@@ -53,6 +53,7 @@ public enum GSMessageOption {
     case textAlignment(GSMessageTextAlignment)
     case textColor(UIColor)
     case textNumberOfLines(Int)
+    case contentDescription(String)
 }
 
 extension UIViewController {
@@ -185,6 +186,7 @@ public class GSMessage: NSObject {
     public private(set) var textColor: UIColor = .white
     public private(set) var textAlignment: GSMessageTextAlignment = .center
     public private(set) var textNumberOfLines: Int = 1
+    public private(set) var contentDescription: String = "GSMessageView"
     
     public var messageWidth:  CGFloat {
         return inView.frame.width - margin.horizontal
@@ -219,6 +221,7 @@ public class GSMessage: NSObject {
             case let .textColor(value): textColor = value
             case let .textAlignment(value): textAlignment = value
             case let .textNumberOfLines(value): textNumberOfLines = value
+            case let .contentDescription(value): contentDescription = value
             }
         }
         
@@ -228,6 +231,8 @@ public class GSMessage: NSObject {
             observingTableVC = vc
             vc.tableView.addObserver(self, forKeyPath: "contentOffset", options: [.new], context: &observerContext)
         }
+        
+        messageView.accessibilityIdentifier = contentDescription
         
         switch type {
         case .success:
