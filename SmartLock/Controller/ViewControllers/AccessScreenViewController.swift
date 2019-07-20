@@ -20,7 +20,7 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
     var searchTextField: UITextField!
     var manualButton: UIView!
     var codeButton: UIView!
-    
+    var settingsButton: UIView!
     var timerView: CountdownTimer!
     
     let session = AVCaptureSession()
@@ -157,14 +157,16 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
         super.setupUserInterface()
         // Interphone TableView Setup
         interphoneTableView = UITableView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width*2/3, height: self.view.frame.size.height*3/5))
-        interphoneTableView.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height - interphoneTableView.frame.size.height/2 - 16)
+        interphoneTableView.center = CGPoint(x: self.view.frame.size.width/2, y:self.view.frame.size.height - interphoneTableView.frame.size.height/2 - 16)
         interphoneTableView.backgroundColor = .clear
-        
+        interphoneTableView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 10)
         interphoneTableView.layer.cornerRadius = 20
         interphoneTableView.layer.masksToBounds = true
         interphoneTableView.layer.borderColor = UIColor.white.cgColor
         interphoneTableView.layer.borderWidth = 5
         self.view.addSubview(interphoneTableView)
+        
+//        interphoneTableView.topAnchor.constraint(equalTo: .manualButton.bottomAnchor, constant: 20)
         
         self.interphoneTableView.delegate = self
         self.interphoneTableView.dataSource = self
@@ -172,7 +174,6 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
         self.interphoneTableView.isUserInteractionEnabled = true
         self.interphoneTableView.separatorColor = .clear
         self.interphoneTableView.separatorStyle = .none
-        
         interphoneTableView.register(InterphoneTableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
 
         // CameraView Setup
@@ -189,6 +190,12 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
             self.view.addSubview(faceView)
         }
         
+        // Manual Button Setup
+        manualButton = StyleManager.shared.getButton(size: CGSize(width: self.view.frame.size.width/6, height: self.view.frame.size.width/6), center:  CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height/8), image: #imageLiteral(resourceName: "faceid"))
+        manualButton.subButton()?.addTarget(self, action: #selector(scanUser), for: .touchUpInside)
+        manualButton.layer.zPosition = self.interphoneTableView.layer.zPosition
+        self.view.addSubview(manualButton)
+        
         // Seatch TextField Setup
         searchTextField = CustomBuilder.makeTextField(width: self.view.frame.size.width*2/3, height: self.interphoneTableView.frame.size.height/9, placeholder: "Inserisci condomino da cercare", keyboardType: .alphabet, capitalized: false, isSecure: false)
         searchTextField.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height - interphoneTableView.frame.size.height - searchTextField.frame.size.height)
@@ -202,11 +209,17 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
         codeButton.layer.zPosition = self.interphoneTableView.layer.zPosition
         self.view.addSubview(codeButton)
         
-        // Manual Button Setup
-        manualButton = StyleManager.shared.getButton(size: CGSize(width: self.view.frame.size.width/6, height: self.view.frame.size.width/6), center:  CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height/8), image: #imageLiteral(resourceName: "faceid"))
-        manualButton.subButton()?.addTarget(self, action: #selector(scanUser), for: .touchUpInside)
-        manualButton.layer.zPosition = self.interphoneTableView.layer.zPosition
-        self.view.addSubview(manualButton)
+//        codeButton = StyleManager.shared.getButton(size: CGSize(width: self.view.frame.size.width/3, height: self.view.frame.size.width/8), center: CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height - interphoneTableView.frame.height/3 + 32), text: "Accedi con Codice")
+//        codeButton.subButton()?.addTarget(self, action: #selector(goToCode), for: .touchUpInside)
+//        codeButton.layer.zPosition = self.interphoneTableView.layer.zPosition
+//        self.view.addSubview(codeButton)
+        // Settings Button Setup
+        let settingsButtonCenter = CGPoint(x: self.view.frame.size.width - self.view.frame.size.width/12 - 8, y: self.view.frame.height - 8 - self.view.frame.size.width/12)
+        settingsButton = StyleManager.shared.getButton(size: CGSize(width: self.view.frame.size.width/12, height: self.view.frame.size.width/12), center: settingsButtonCenter, image : #imageLiteral(resourceName: "settings") )
+        settingsButton.subButton()?.addTarget(self, action: #selector(goToSettings), for: .touchUpInside)
+        settingsButton.layer.zPosition = self.interphoneTableView.layer.zPosition
+        self.view.addSubview(settingsButton)
+       
         
         // Countdown Timer Setup
         timerView = CountdownTimer(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width/8, height: self.view.frame.size.width/8))
@@ -219,6 +232,7 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
         timerView.start(beginingValue: 0)
         timerView.delegate = self
         self.view.addSubview(timerView)
+  
         
     }
     
@@ -247,6 +261,10 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
         performSegue(withIdentifier: "code-access", sender: nil)
     }
     
+    @objc func goToSettings() {
+       GSMessage.showMessageAddedTo("Questa funzionalità non è momentaneamente disponibile", type: .warning, options: [.height(100), .textNumberOfLines(2),.position(.bottom)], inView: self.view, inViewController: self)
+    }
+    
     @objc func scanUser() {
         self.classifyCurrentFrame(frame: self.stillPhoto)
         self.justScanned = true
@@ -261,6 +279,10 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
                     DispatchQueue.main.async {
                         if success {
                             // User authenticated successfully, take appropriate action
+                            
+                            //test senza modulo bluetooth: commentare 
+                            GSMessage.showMessageAddedTo("Grazie \(self.currentUserName)\nAccesso effettuato con successo", type: .success, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
+                            
                             if UserDefaults.standard.bool(forKey: "deviceConnected") {
                                 GSMessage.showMessageAddedTo("Grazie \(self.currentUserName)\nAccesso effettuato con successo", type: .success, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
                             }
@@ -547,9 +569,15 @@ extension AccessScreenViewController {
         
         let devConnected = UserDefaults.standard.bool(forKey: "deviceConnected")
         
-        if !justScanned && isAccessScreenActive && devConnected {
+        //test senza modulo bluetooth
+        if !justScanned && isAccessScreenActive {
             justScanned = true
             scanUser()
         }
+       /*
+        if !justScanned && isAccessScreenActive && devConnected {
+            justScanned = true
+            scanUser()
+        } */
     }
 }

@@ -221,40 +221,38 @@ StyleManager con Singleton Pattern
 Tramite la costante shared definiamo un unico punto di accesso alla classe
  StyleManager, che sarà richiamata nei ViewController AccessScreenViewController
  e CodeAccessViewController.
- Nel seguente esempio è stato utilizzato StyleManager per creare l'istanza
- di un UIButton personalizzato:
+ 
 \end_layout
 
 \begin_layout Standard
-\begin_inset listings
-lstparams "language=Python,basicstyle={\tiny\ttfamily}"
-inline false
+\begin_inset Float figure
+placement H
+wide false
+sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/cd-views.png
+	lyxscale 35
+	scale 35
 
-accessButton = StyleManager.shared.getButton(size: CGSize(width: self.view.frame.size.
-width/3, 
+\end_inset
+
+
 \end_layout
 
 \begin_layout Plain Layout
-
-				height: self.view.frame.size.width/8),
-\end_layout
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
-
-				center: CGPoint(x: self.view.frame.size.width/2,
+Class Diagram - Views
 \end_layout
 
-\begin_layout Plain Layout
+\end_inset
 
-				y: self.view.frame.size.height/2 + self.codeTextField.frame.height + 30),
-\end_layout
 
-\begin_layout Plain Layout
-
-				text: "Accedi")
 \end_layout
 
 \end_inset
@@ -334,6 +332,42 @@ o delle richieste gestite dal DataController e vengono risolte solamente
  
 \end_layout
 
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/cd-model.png
+	lyxscale 35
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Class Diagram - Model
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
 Observer
 \end_layout
@@ -408,6 +442,137 @@ Class Diagram - Controllers
 \end_inset
 
 
+\end_layout
+
+\begin_layout Section
+Progetto Arduino
+\end_layout
+
+\begin_layout Standard
+Il sottosistema che gestisce l'apertura del cancello automatica è stato
+ realizzato, come descritto nel Capitolo 1, utilizzando un progetto Arduino
+ che prevede l'utilizzo dei seguenti componenti:
+\end_layout
+
+\begin_layout Itemize
+Arduino Uno Board
+\end_layout
+
+\begin_layout Itemize
+Modulo Bluetooth HM-10
+\end_layout
+
+\begin_layout Itemize
+Relay da collegare al Cancello Automatico
+\end_layout
+
+\begin_layout Standard
+I programmi di Arduino vengono caricati tramite l'Arduino IDE.
+ Il codice caricato viene preso in gestione da un 
+\series bold
+bootstrapper
+\series default
+ che però, a differenza degli altri sistemi comuni, rimane in esecuzione
+ per tutto il tempo.
+ Infatti i programmi per Arduino non hanno main, ma hanno una funzione di
+ loop che viene chiamata ripetutamente dal bootstrapper.
+ Dalla definizione di Sistema Operativo ricordiamo che: un sistema operativo
+ è un programma che viene avviato al momento del boot e rimane in esecuzione
+ per tutto il tempo.
+ Notiamo quindi che nel caso dell'Arduino il bootstrapper potrebbe essere
+ considerato una sorta di sistema operativo, sebbene i programmi abbiano
+ accesso diretto all'hardware.
+ Il bootstrapper quindi alcune funzioni di un sistema operativo ma non tutte.
+ Puo' essere assimilato a un "monitor residente" storicamente in uso nei
+ sistemi batch.
+\end_layout
+
+\begin_layout Standard
+Di fatto l'implementazione di questo sottosistema è stata ottenuta applicando
+ il pattern architetturale Sense Compute Control schematizzato nella seguente
+ figura.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/scc-arduino.png
+	lyxscale 35
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Arduino Sense Compute Control Pattern Schema
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In particolare distinguiamo i tre componenti principali dell'architettura:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Sense Lettura dei dati provenienti dal modulo Bluetooth HM-10.
+ La lettura avviene interrogando il modulo per verificare che questo sia
+ attivo e in caso positivo viene letto il valore attraverso la chiamata
+ ble.read().
+ Il dato letto è una sequenza di caratteri che devono essere manipolati.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Compute Il dato letto dal modulo bluetooth viene modificato ottenendo il
+ messaggio di apertura o chiusura, quindi componendo una stringa con i caratteri
+ ricevuti.
+ Tale stringa può essere di due tipi 
+\begin_inset Quotes eld
+\end_inset
+
+apri
+\begin_inset Quotes erd
+\end_inset
+
+ oppure 
+\begin_inset Quotes eld
+\end_inset
+
+chiudi
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Control Ai dati opportunamente modificati per essere utilizzati viene applicata
+ la logica di business che nel nostro caso si traduce nell'invio al relè
+ del segnale conforme con i dati letti (apertura o chiusura).
+ 
 \end_layout
 
 \begin_layout Section

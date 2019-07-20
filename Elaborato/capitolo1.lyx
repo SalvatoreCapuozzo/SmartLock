@@ -1100,7 +1100,9 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename immagini/arduinoschema.png
+	filename immagini/arduinoschema.jpeg
+	lyxscale 40
+	scale 40
 
 \end_inset
 
@@ -1122,27 +1124,6 @@ Schema Arduino
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-I programmi di Arduino vengono caricati tramite l'Arduino IDE.
- Il programma caricato viene preso in gestione da un 
-\series bold
-bootstrapper
-\series default
- che però, a differenza degli altri sistemi comuni, rimane in esecuzione
- per tutto il tempo.
- Infatti i programmi per Arduino non hanno main, ma hanno una funzione di
- loop che viene chiamata ripetutamente dal bootstrapper.
- Dalla definizione di Sistema Operativo ricordiamo che: un sistema operativo
- è un programma che viene avviato al momento del boot e rimane in esecuzione
- per tutto il tempo.
- Notiamo quindi che nel caso dell'Arduino il bootstrapper potrebbe essere
- considerato una sorta di sistema operativo, sebbene i programmi abbiano
- accesso diretto all'hardware.
- Il bootstrapper quindi alcune funzioni di un sistema operativo ma non tutte.
- Puo' essere assimilato a un "monitor residente" storicamente in uso nei
- sistemi batch.
 \end_layout
 
 \begin_layout Subsection
