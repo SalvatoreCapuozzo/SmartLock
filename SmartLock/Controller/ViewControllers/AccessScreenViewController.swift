@@ -86,11 +86,11 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
         
         DataController().deleteData(entityName: "User")
         
-        DataController().addUser(name: "Maria Luisa", surname: "Farina", code: "270693", isFamily: true, isManager: false)
-        DataController().addUser(name: "Salvatore", surname: "Capuozzo", code: "190596", isFamily: true, isManager: true)
+        DataController().addUser(name: "Maria Luisa", surname: "Farina", code: "270693", number: "3387499411", isFamily: true, isManager: false)
+        DataController().addUser(name: "Salvatore", surname: "Capuozzo", code: "190596", number: "3394272543", isFamily: true, isManager: true)
  
-        DataController().addUser(name: "Filippo", surname: "Ferrandino", code: "123456", isFamily: true, isManager: false)
-        DataController().addUser(name: "Federica", surname: "Ventriglia", code: "789012", isFamily: true, isManager: false)
+        DataController().addUser(name: "Filippo", surname: "Ferrandino", code: "123456", number: "3382705855", isFamily: true, isManager: false)
+        DataController().addUser(name: "Federica", surname: "Ventriglia", code: "789012", number: "3272487201", isFamily: true, isManager: false)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -135,6 +135,8 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
             return
         }
         
+        let phoneNumber = users[indexPath.row]["number"] as! String
+        
         GSMessage.showMessageAddedTo("Stai bussando \(name) \n ...", type: .info, options: [
             .animationDuration(0.3),
             .autoHide(true),
@@ -148,6 +150,9 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
             .textNumberOfLines(2),
             ]
             , inView: self.view, inViewController: self)
+        
+        print("Sto chiamando \(name) al \(phoneNumber)")
+        self.sendToDevice(textToSend: phoneNumber, completion: {})
        
 //        print("Bussa \(name)")
     }
@@ -215,7 +220,8 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
 //        self.view.addSubview(codeButton)
         // Settings Button Setup
         let settingsButtonCenter = CGPoint(x: self.view.frame.size.width - self.view.frame.size.width/12 - 8, y: self.view.frame.height - 8 - self.view.frame.size.width/12)
-        settingsButton = StyleManager.shared.getButton(size: CGSize(width: self.view.frame.size.width/12, height: self.view.frame.size.width/12), center: settingsButtonCenter, image : #imageLiteral(resourceName: "settings") )
+        settingsButton = StyleManager.shared.getButton(size: CGSize(width: self.view.frame.size.width/12, height: self.view.frame.size.width/12), center: settingsButtonCenter, image: #imageLiteral(resourceName: "settings"))
+        settingsButton.backgroundColor = CustomColor.defaultBlue.uiColor()
         settingsButton.subButton()?.addTarget(self, action: #selector(goToSettings), for: .touchUpInside)
         settingsButton.layer.zPosition = self.interphoneTableView.layer.zPosition
         self.view.addSubview(settingsButton)
@@ -281,7 +287,7 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
                             // User authenticated successfully, take appropriate action
                             
                             //test senza modulo bluetooth: commentare 
-                            GSMessage.showMessageAddedTo("Grazie \(self.currentUserName)\nAccesso effettuato con successo", type: .success, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
+                            //GSMessage.showMessageAddedTo("Grazie \(self.currentUserName)\nAccesso effettuato con successo", type: .success, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
                             
                             if UserDefaults.standard.bool(forKey: "deviceConnected") {
                                 GSMessage.showMessageAddedTo("Grazie \(self.currentUserName)\nAccesso effettuato con successo", type: .success, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
@@ -570,14 +576,15 @@ extension AccessScreenViewController {
         let devConnected = UserDefaults.standard.bool(forKey: "deviceConnected")
         
         //test senza modulo bluetooth
+        /*
         if !justScanned && isAccessScreenActive {
             justScanned = true
             scanUser()
-        }
-       /*
+        }*/
+       
         if !justScanned && isAccessScreenActive && devConnected {
             justScanned = true
             scanUser()
-        } */
+        }
     }
 }

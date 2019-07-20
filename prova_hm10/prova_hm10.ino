@@ -61,6 +61,9 @@ void loop() {
       digitalWrite(6, LOW);
       digitalWrite(7, HIGH);
     } 
+    else if (stringa.charAt(0) == ('3')) {
+      Serial.println(stringa);
+    }
     else {
       ble.print("Messaggio inviato: ");
       ble.println(stringa);

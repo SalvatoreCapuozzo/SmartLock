@@ -42,13 +42,8 @@ class CustomBuilder {
         let btnView = UIView(frame: CGRect(x: 0, y: 0, width: width, height: height))
         btnView.backgroundColor = color
         btnView.layer.cornerRadius = height/2
-        btnView.layer.masksToBounds = true
+        btnView.layer.masksToBounds = false
         btnView.layer.zPosition = 5
-        
-        btnView.layer.shadowColor = UIColor.black.cgColor
-        btnView.layer.shadowOpacity = 1
-        btnView.layer.shadowRadius = 12
-        btnView.layer.shadowOffset = CGSize(width: 52.0, height: 52.0)
         
         let button = UIButton(frame: btnView.frame)
         button.titleLabel?.font = UIFont.systemFont(ofSize: height/3.5)
@@ -58,6 +53,11 @@ class CustomBuilder {
         button.frame.origin = .zero
         button.titleLabel?.textAlignment = .center
         button.setTitle(text, for: .normal)
+        
+        btnView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        btnView.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        btnView.layer.shadowOpacity = 0.25
+        btnView.layer.shadowRadius = 0.0
         
         btnView.addSubview(button)
         
