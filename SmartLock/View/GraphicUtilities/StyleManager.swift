@@ -27,7 +27,7 @@ class StyleManager {
         var button = UIView()
         switch styleType {
         case .greenGradient:
-            button = CustomBuilder.makeButton(width: size.width, height: size.height, text: buttonText, color: UIColor(red: 0/255, green: 255/255, blue: 128/255, alpha: 1), textColor: .clear)
+            button = CustomBuilder.makeButton(width: size.width, height: size.height, text: buttonText, color: UIColor(red: 20/255, green: 255/255, blue: 170/255, alpha: 1), textColor: .white)
         case .greenWave:
             button = CustomBuilder.makeButton(width: size.width, height: size.height, text: buttonText, color: CustomColor.leafGreen.uiColor(), textColor: color)
         case .blueWave:
@@ -41,7 +41,11 @@ class StyleManager {
         button.subButton()?.imageEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         button.subButton()?.imageView!.contentMode = .scaleAspectFit
         button.subButton()?.tintColor = .white
-        
+        button.subButton()?.layer.shadowOffset = CGSize(width: 0, height: 6)
+        button.subButton()?.layer.shadowRadius = 0
+        button.subButton()?.layer.shadowOpacity = 0.1
+        button.subButton()?.layer.masksToBounds = false
+
         return button
     }
     

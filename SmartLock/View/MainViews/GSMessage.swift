@@ -91,7 +91,7 @@ public class GSMessage: NSObject {
     public static var infoBackgroundColor    : UIColor = UIColor(red: 44.0/255,  green: 187.0/255, blue: 255.0/255, alpha: 0.90)
  */
     public static var successBackgroundColor : UIColor = UIColor(red: 0/255, green: 152/255, blue: 116/255, alpha: 0.90)
-    public static var warningBackgroundColor : UIColor = UIColor.yellow.withAlphaComponent(0.90)
+    public static var warningBackgroundColor : UIColor = UIColor.orange.withAlphaComponent(0.90)
     public static var errorBackgroundColor   : UIColor = UIColor.red.withAlphaComponent(0.90)
     public static var infoBackgroundColor    : UIColor = UIColor(red: 0/255, green: 127/255, blue: 255/255, alpha: 0.90)
     
