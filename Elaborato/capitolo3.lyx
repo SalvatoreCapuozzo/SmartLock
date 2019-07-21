@@ -143,7 +143,7 @@ Riportiamo di seguito il diagramma dei Componenti e Connettori che permette
  (applicazione sviluppata sul device, iPad e iOS) e Arduino Controller (sistema
  di interfacciamento con il cancello automatico).
  I due componenti comunicano tra loro attraverso un'interfaccia Bluetooth.
-  
+ 
 \end_layout
 
 \begin_layout Standard
@@ -886,6 +886,142 @@ Database Entiry Relationship Diagram
 \end_inset
 
 
+\end_layout
+
+\begin_layout Chapter
+Conclusioni
+\end_layout
+
+\begin_layout Section
+Vantaggi dello sviluppo Agile
+\end_layout
+
+\begin_layout Standard
+Per la realizzazione del progetto Smart Lock sono state applicate le best
+ practices di Agile, in un team di sviluppo composto da 4 sviluppatori ed
+ in un tempo totale di 2 mesi.
+ I vantaggi di utilizzare questo tipo di approccio allo sviluppo software
+ sono notevoli, in particolare quelli che sono stati i riscontri maggiori
+ nel nostro Team sono:
+\end_layout
+
+\begin_layout Itemize
+adattamento al cambiamento: il continuo interfacciamento con il cliente
+ per la realizzazione del progetto ha fatto si che applicare le tecniche
+ agile di sviluppo iterativo facilitassero i vari rework avvenuti nelle
+ fasi di analisi e descrizione dell'architettura del progetto.
+ Infatti grazie alla produzione veloce di output da presentare al cliente,
+ il feedback è stato raccolto in modo estremamente veloce e continuamente
+ sfruttato per migliorare il prodotto con ogni iterazione del processo di
+ sviluppo.
+\end_layout
+
+\begin_layout Itemize
+suddivisione del lavoro facilitata dalle iterazioni: l'utilizzo di un approccio
+ iterativo ed evolutivo di tipo Agile ha consentito al team di poter collaborare
+ in modo efficiente e giornaliero per la risoluzione di problemi e la realizzazi
+one delle funzionalità scelte per l'implementazione.
+ 
+\end_layout
+
+\begin_layout Itemize
+utilizzo di sistemi di version management distribuiti (GitHub): la scelta
+ di utilizzare la piattaforma GitHub per la condivisione del progetto è
+ stata dettata non solo dalla familiarità dei team members ma anche dai
+ vantaggi di poter lavorare su una clonazione locale del progetto, in modo
+ che ogni membro del team avesse pieno accesso all'intero sistema e potesse
+ testarne l'intero funzionamento prima di eseguire commit e push sulla repositor
+y master.
+ Inoltre sistemi come Github (distribuiti) permettono di mantenere sempre
+ una copia di backup del sistema da utilizzare in casi di perdita di informazion
+e.
+ 
+\end_layout
+
+\begin_layout Itemize
+utilizzo di sistemi di comunicazione virtuali e face-to-face: nonostante
+ la maggior parte delle decisioni principali del progetto siano state ottenute
+ da meeting face-to-face tra i team members, l'implementazione ha fatto
+ anche molto uso di moderni software di comunicazione e collaborazione disponibi
+li per lo sviluppo software i quali hanno permesso al team di restare in
+ continuo contatto virtuale, aumentando la produttività e le ore di lavoro.
+ 
+\end_layout
+
+\begin_layout Standard
+In particolare ogni milestone/meeting con il cliente è stato riportato in
+ uno Spreadsheet condiviso e aggiornato con i task da completare e i task
+ portati a termine e approvati dal cliente.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/taskmanagement.png
+	lyxscale 35
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Work Managment Spreadsheet
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Tool Utilizzati
+\end_layout
+
+\begin_layout Itemize
+Slack
+\end_layout
+
+\begin_layout Itemize
+Visual Paradigm Enterprise Edition: Teamwork
+\end_layout
+
+\begin_layout Itemize
+Github (Private Repository)
+\end_layout
+
+\begin_layout Itemize
+Google Spreadsheet
+\end_layout
+
+\begin_layout Section
+Implementazioni Future
+\end_layout
+
+\begin_layout Standard
+Tra le funzionalità ancora da implementare per il progetto SmartLock evidenziamo
+ quella di utilizzo del citofono.
+ La realizzazione di tale caso d'uso si baserà sul sistema pre-esistente
+ nell'appartamento, interfacciandolo con il microcontrollore in modo da
+ poterlo controllare tramite la GUI dell'applicazione, senza dover re-implementa
+re la parte hardware.
+ 
 \end_layout
 
 \end_body
