@@ -83,7 +83,7 @@ class SmartLockUITests: XCTestCase {
 //        Il volto deve essere riconosciuto con successo
         let app = XCUIApplication()
         XCUIApplication().otherElements.containing(.textField, identifier:"Inserisci condomino da cercare").children(matching: .other).element(boundBy: 5).buttons["faceid"].tap()
-        let alert = app.alerts["Dispositivo non connesso"].buttons["Dismiss"]
+        let alert = app.alerts["Dispositivo non connesso"].buttons["Ok"]
         XCTAssert(alert.exists, "Device Unavailable Alert Didn't Display")
     }
    

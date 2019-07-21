@@ -97,6 +97,8 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
         super.viewDidAppear(animated)
         self.isAccessScreenActive = true
         
+        self.justScanned = true
+        
         DataController().fetchData(entity: .user) {
             (outcome, results) in
             if outcome! {
@@ -153,8 +155,6 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
         
         print("Sto chiamando \(name) al \(phoneNumber)")
         self.sendToDevice(textToSend: phoneNumber, completion: {})
-       
-//        print("Bussa \(name)")
     }
     
     
@@ -205,6 +205,8 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
         searchTextField = CustomBuilder.makeTextField(width: self.view.frame.size.width*2/3, height: self.interphoneTableView.frame.size.height/9, placeholder: "Inserisci condomino da cercare", keyboardType: .alphabet, capitalized: false, isSecure: false)
         searchTextField.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height - interphoneTableView.frame.size.height - searchTextField.frame.size.height)
         searchTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        searchTextField.addTarget(self, action: #selector(textFieldSelected), for: .allTouchEvents)
+        searchTextField.addTarget(self, action: #selector(textFieldUnselected), for: .editingDidEnd)
         self.view.addSubview(searchTextField)
         
         // Code Button Setup
@@ -218,6 +220,7 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
 //        codeButton.subButton()?.addTarget(self, action: #selector(goToCode), for: .touchUpInside)
 //        codeButton.layer.zPosition = self.interphoneTableView.layer.zPosition
 //        self.view.addSubview(codeButton)
+        
         // Settings Button Setup
         let settingsButtonCenter = CGPoint(x: self.view.frame.size.width - self.view.frame.size.width/12 - 8, y: self.view.frame.height - 8 - self.view.frame.size.width/12)
         settingsButton = StyleManager.shared.getButton(size: CGSize(width: self.view.frame.size.width/12, height: self.view.frame.size.width/12), center: settingsButtonCenter, image: #imageLiteral(resourceName: "settings"))
@@ -226,7 +229,6 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
         settingsButton.layer.zPosition = self.interphoneTableView.layer.zPosition
         self.view.addSubview(settingsButton)
        
-        
         // Countdown Timer Setup
         timerView = CountdownTimer(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width/8, height: self.view.frame.size.width/8))
         timerView.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height/4)
@@ -238,11 +240,18 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
         timerView.start(beginingValue: 0)
         timerView.delegate = self
         self.view.addSubview(timerView)
-  
-        
+    }
+    
+    @objc func textFieldSelected() {
+        self.timerView.pause()
+    }
+    
+    @objc func textFieldUnselected() {
+        self.timerView.resume()
     }
     
     @objc func textFieldDidChange() {
+        self.timerView.pause()
         if self.searchTextField.text == "" {
             DataController().fetchData(entity: .user) {
                 (outcome, results) in
@@ -288,9 +297,9 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
                             
                             //test senza modulo bluetooth: commentare 
                             //GSMessage.showMessageAddedTo("Grazie \(self.currentUserName)\nAccesso effettuato con successo", type: .success, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
-                            
                             if UserDefaults.standard.bool(forKey: "deviceConnected") {
                                 GSMessage.showMessageAddedTo("Grazie \(self.currentUserName)\nAccesso effettuato con successo", type: .success, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
+                                UserDefaults.standard.set(0, forKey: "attempts")
                             }
                             
                             self.timerView.start(beginingValue: 10)
@@ -298,8 +307,6 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
                             
                         } else {
                             // User did not authenticate successfully, look at error and take appropriate action
-                            GSMessage.showMessageAddedTo("Accesso fallito, prova con codice", type: .error, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
-                            
                             self.justScanned = true
                             // Call Code Access ViewController
                             let message = "Effettuare l'accesso con codice?"
@@ -309,7 +316,8 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
                             }))
 
                             alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { [unowned self] (action: UIAlertAction!) in
-                                self.timerView.start(beginingValue: 3)
+                                self.timerView.start(beginingValue: 4)
+                                GSMessage.showMessageAddedTo("Accesso fallito", type: .error, options: [.height(100), .textNumberOfLines(2), .autoHideDelay(1)], inView: self.view, inViewController: self)
                             }))
                             self.present(alert, animated: true, completion: nil)
                         }
@@ -317,7 +325,15 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
                 }
             } else {
                 // Could not evaluate policy; look at authError and present an appropriate message to user
-                GSMessage.showMessageAddedTo("Non è possibile effettuare la scansione", type: .error, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
+                myContext.evaluatePolicy(LAPolicy.deviceOwnerAuthentication, localizedReason: "Per motivi di sicurezza, il device è stato bloccato. Inserire il codice 159632 per sbloccare.") {
+                    [weak self] (success, error) in
+                    
+                    guard success else {
+                        return
+                    }
+                    self?.timerView.start(beginingValue: 4)
+                }
+                //GSMessage.showMessageAddedTo("Non è possibile effettuare la scansione", type: .error, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
             }
         } else {
             // Fallback on earlier versions
@@ -582,9 +598,9 @@ extension AccessScreenViewController {
             scanUser()
         }*/
        
-        if !justScanned && isAccessScreenActive && devConnected {
+        if !justScanned && isAccessScreenActive && devConnected && self.view.installedMessage == nil {
             justScanned = true
-            scanUser()
+            self.scanUser()
         }
     }
 }

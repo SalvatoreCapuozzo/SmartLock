@@ -474,7 +474,7 @@ extension GSMessage {
     
 }
 
-fileprivate extension UIView {
+extension UIView {
     
     var installedMessage: GSMessage? {
         get { return objc_getAssociatedObject(self, &installedMessageKey) as? GSMessage }

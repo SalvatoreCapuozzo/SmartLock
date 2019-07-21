@@ -94,7 +94,9 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
     func connectToPeripheral(_ peripheral: CBPeripheral) {
         pendingPeripheral = peripheral
         centralManager.connect(peripheral, options: nil)
-        UserDefaults.standard.set(true, forKey: "deviceConnected")
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.0) {
+            UserDefaults.standard.set(true, forKey: "deviceConnected")
+        }
     }
     
     /// Disconnect from the connected peripheral or stop connecting to it
