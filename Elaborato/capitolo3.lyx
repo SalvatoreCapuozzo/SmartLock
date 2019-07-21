@@ -746,8 +746,63 @@ Sequence Diagram - Comunicazione Bluetooth
 Deployment
 \end_layout
 
+\begin_layout Standard
+Di seguito descriviamo le procedure di deploy dell'applicazione, ossia i
+ metodi con cui avverrà la consegna del prodotto al cliente.
+ Per fare ciò ci si è avvalsi dell'utilizzo di un Deployment Diagram.
+\end_layout
+
 \begin_layout Subsection
 Deployment Diagram
+\end_layout
+
+\begin_layout Standard
+Tale diagramma descrive le associazioni tra i nodi componenti il sistema.
+ In paticolare evidenziamo tre tipi di device: 
+\end_layout
+
+\begin_layout Itemize
+iPad su cui sarà installata l'applicazione SmartLock 
+\end_layout
+
+\begin_layout Itemize
+Arduino sul quale sarà installa la logica di controllo per l'apertura del
+ cancello.
+ 
+\end_layout
+
+\begin_layout Itemize
+Relay sul quale troveremo l'aggancio fisico con il cablaggio del cancello.
+\end_layout
+
+\begin_layout Standard
+Le comunicazioni tra i 3 device avverrano secondo un protocollo bluetooth
+ per iPad e Arduino, mentre per il collegamento tra Arduino e Relay saranno
+ utilizzati connettori fisici.
+ 
+\end_layout
+
+\begin_layout Standard
+Per quanto riguarda invece i nodi relativi all'ambiente di esecuzione, distingui
+amo due tipologie, relative ai device Arduino e iPad, questi infatti supportano
+ due ambienti di esecuzione distinti i quali sono iOS e Bootstrapper, e
+ su tali ambienti di esecuzione saranno eseguiti gli artifacts rappresentati.
+ 
+\end_layout
+
+\begin_layout Standard
+L'artefatto SmartLock è relativo all'applicazione per dispositivo iPad,
+ è un eseguibile che manifesta il componente SmartLock, contenente l'implementaz
+ione del sistema.
+ L'artefatto prova_Hm10.hex invece manifesta il modulo relativo al controller
+ della logica implementata su Arduino.
+ 
+\end_layout
+
+\begin_layout Standard
+Per maggiori dettagli su questi componenti manifestati si può far riferimento
+ al C&C Diagram esposto nella Sezione 3.1 e ai dettagli implementativi che
+ lo seguono.
 \end_layout
 
 \begin_layout Standard
@@ -758,11 +813,13 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\noindent
 \align center
 \begin_inset Graphics
 	filename immagini/deployment.png
-	lyxscale 35
-	scale 35
+	lyxscale 70
+	scale 70
+	rotateAngle 90
 
 \end_inset
 
