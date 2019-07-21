@@ -651,8 +651,8 @@ status open
 \align center
 \begin_inset Graphics
 	filename immagini/sequenceFaceId.png
-	lyxscale 40
-	scale 40
+	lyxscale 60
+	scale 60
 
 \end_inset
 
@@ -699,7 +699,43 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Sequence Diagram Caso D'Uso
+Sub Sequence Diagram Accedi Con Codice
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/sequenceApertura.png
+	lyxscale 40
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Sub Sequence Richiedi Apertura
 \end_layout
 
 \end_inset
