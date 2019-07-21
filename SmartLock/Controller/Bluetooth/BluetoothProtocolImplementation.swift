@@ -81,7 +81,7 @@ extension AppViewController: BluetoothSerialDelegate {
     func sendToDevice(textToSend: String, completion: () -> ()) {
         if !serial.isReady {
             let alert = UIAlertController(title: "Dispositivo non connesso", message: "Connettere prima il dispositivo Bluetooth all'app", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertAction.Style.default, handler: { action -> Void in
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: { action -> Void in
                 self.dismiss(animated: true, completion: nil)
                 self.tryAgain()
             }))

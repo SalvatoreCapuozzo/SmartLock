@@ -15,7 +15,6 @@ class AccessCodeViewController: AppViewController {
     var codeTextField: UITextField!
     var accessButton: UIView!
     var user = [[String: AnyObject]]()
-    //var justSent: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +37,9 @@ class AccessCodeViewController: AppViewController {
         transition.subtype = CATransitionSubtype.fromLeft
         self.view.window!.layer.add(transition, forKey: nil)
         self.dismiss(animated: false, completion: nil)*/
+        if let accessVC = self.presentingViewController as? AccessScreenViewController {
+            accessVC.timerView.start(beginingValue: 4)
+        }
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -73,7 +75,7 @@ class AccessCodeViewController: AppViewController {
                 self.user = results
                 guard !(results.isEmpty) else {
                     // It should never get here
-                    self.failLogin(method: "code", info: "Codice Errato/Non Trovato")
+                    self.failLogin(method: "code", info: "Codice Errato")
                     return
                 }
                 self.didLogin(method: "code", info: (results[0]["name"] as! String) )
@@ -87,6 +89,7 @@ class AccessCodeViewController: AppViewController {
         let message = "Grazie \(info)\nAccesso effettuato con successo"
         self.sendToDevice(textToSend: "apri") {
             GSMessage.showMessageAddedTo(message, type: .success, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
+            UserDefaults.standard.set(0, forKey: "attempts")
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 4.0, execute: {
                 /*
                 let transition = CATransition()
@@ -96,6 +99,9 @@ class AccessCodeViewController: AppViewController {
                 transition.subtype = CATransitionSubtype.fromLeft
                 self.view.window!.layer.add(transition, forKey: nil)
                 self.dismiss(animated: false, completion: nil)*/
+                if let accessVC = self.presentingViewController as? AccessScreenViewController {
+                    accessVC.timerView.start(beginingValue: 10)
+                }
                 self.dismiss(animated: true, completion: nil)
             })
         }
@@ -103,8 +109,39 @@ class AccessCodeViewController: AppViewController {
     }
     
     private func failLogin(method: String, info: String) {
-        let message = "Accesso Negato: \(info)"
-        GSMessage.showMessageAddedTo(message, type: .error, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
+        var attempts = UserDefaults.standard.integer(forKey: "attempts")
+        attempts += 1
+        UserDefaults.standard.set(attempts, forKey: "attempts")
+
+        let message = "Accesso Negato: \(info) Tentativi Rimasti: \(3 - attempts)"
+        let finalMessage = "Accesso Negato: Numero Massimo di Tentativi Raggiunto"
+        if attempts < 3 {
+            GSMessage.showMessageAddedTo(message, type: .error, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
+        } else {
+            GSMessage.showMessageAddedTo(finalMessage, type: .error, options: [.height(100), .textNumberOfLines(2)], inView: self.view, inViewController: self)
+            if let accessVC = self.presentingViewController as? AccessScreenViewController {
+                accessVC.timerView.start(beginingValue: 4)
+            }
+            DataController().fetchData(entity: .user, searchBy: [.isManager: true as AnyObject]) {
+                outcome, results in
+                if outcome! {
+                    if let manager = results.first {
+                        let name = "\(String(describing: manager["surname"]!)) \(String(describing: manager["name"]!))"
+                        let phoneNumber = manager["number"] as! String
+                        print("Sto chiamando \(name) al \(phoneNumber)")
+                        self.sendToDevice(textToSend: phoneNumber, completion: {})
+                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 4.0, execute: {
+                            if let accessVC = self.presentingViewController as? AccessScreenViewController {
+                                accessVC.timerView.start(beginingValue: 4)
+                            }
+                            self.dismiss(animated: true, completion: nil)
+                        })
+                    }
+                }
+            }
+        }
+        
         self.codeTextField.text = ""
+        
     }
 }
