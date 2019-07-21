@@ -133,7 +133,82 @@ Implementazione
 \end_layout
 
 \begin_layout Section
-Catalogo Dei Componenti
+Package Diagram: MVC
+\end_layout
+
+\begin_layout Standard
+Per una descrizione semplificata della struttura del sistema si è scelto
+ un Package Diagram, questo ci permette di mostrare l'applicazione del pattern
+ MVC applicato per lo sviluppo.
+\end_layout
+
+\begin_layout Standard
+E' possibile identificare infatti le 3 componenti principali:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Model contenente i dati del sistema, collegamenti con il database e procedure
+ di accesso al database;
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Controller contenente gli oggetti Controller utilizzati per gestire l'interfacci
+amento tra UI e dati dell'applicazione.
+ In particolare distinguiamo 3 macro controller per la gestione della UI
+ (ViewControllers), comunicazione Bluetooth con il modulo HM-10 (Bluetooth)
+ e Controller di Utilities utilizzati per supporto nella definizione della
+ GUI;
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+View contiene le viste dell'interfaccia grafica, UIViews ed elementi Custom
+ richiamati nella GUI dell'applicazione e delle funzioni di supporto per
+ la loro creazione.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/packagediagram.png
+	lyxscale 35
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Package Diagram Smart Lock
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Questo diagramma è collegato ai vari Class Diagram che descrivono nel dettaglio
+ Model, View e Controller, mostrati nel paragrafo successivo.
 \end_layout
 
 \begin_layout Section
@@ -713,7 +788,11 @@ CoreML Image Recognition
 
 \begin_layout Standard
 Per istruire il modello sono state utilizzate immagini degli utenti.
- Attraverso l'aggiunta di questo modello è stato possibile creare una relazione
+ 
+\end_layout
+
+\begin_layout Standard
+Attraverso l'aggiunta di questo modello è stato possibile creare una relazione
  tra Utente ed Accesso effettuato con successo, prima nascosta dall'utilizzo
  automatico del FaceID che, per motivi di privacy, non permette di salvare
  informazioni sul volto riconosciuto.
@@ -721,6 +800,42 @@ Per istruire il modello sono state utilizzate immagini degli utenti.
  tramite FaceID e consentire l'accesso e contemporaneamente ottenere informazion
 i sull'accesso da poter aggiungere nel log di sistema.
  
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/dbschema.png
+	lyxscale 35
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Database Entiry Relationship Diagram
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_body

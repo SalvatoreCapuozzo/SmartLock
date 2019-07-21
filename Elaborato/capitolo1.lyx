@@ -1924,11 +1924,11 @@ System Domain Model
 
 \begin_layout Standard
 Il modello di dominio invece descrive il modello concettuale del sistema,
- in particolare del caso d'uso a cui facciamo riferimento Nel seguente domain
- model sono descritte le entità che compongono il sistema con maggiore rilevanza
- ed evidenziate le relazioni tra esse.
- La realizzazione in UML di tale diagramma si basa su un Class Diagram,
- dato che non sono forniti diagrammi specifici per un modello di dominio.
+ in particolare del caso d'uso a cui facciamo riferimento.
+ Nel seguente domain model sono descritte le entità che compongono il progetto
+ con maggiore rilevanza ed evidenziate le relazioni tra esse.
+ La realizzazione in UML si basa su un Class Diagram, dato che non sono
+ forniti diagrammi specifici per un modello di dominio in Visual Paradigm.
  Nel SDM presentato ogni classe fa riferimento ad un'entità in gioco nel
  sistema, in particolare le relazioni non trattegiate fanno riferimento
  a relazioni che sono di interesse per il caso d'uso che si sta studiando.
