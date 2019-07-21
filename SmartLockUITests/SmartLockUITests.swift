@@ -82,23 +82,7 @@ class SmartLockUITests: XCTestCase {
 //        L'applicazione deve mostrare un'alert dove conferma l'assenza del dispositivo bluetooth
 //        Il volto deve essere riconosciuto con successo
         let app = XCUIApplication()
-        let faceidButton = app.otherElements.containing(.textField, identifier:"Inserisci condomino da cercare").children(matching: .other).element(boundBy: 5).buttons["faceid"]
-        faceidButton.tap()
-        XCUIDevice.shared.orientation = .portrait
-        print(app.debugDescription)
-//        app.alerts["TouchId"].tap()
-        app.alerts.buttons["Enter Password"].tap()
-        XCUIDevice.shared.orientation = .portrait
-        app.alerts["Accesso"].buttons["Sì"].tap()
-        
-        app/*@START_MENU_TOKEN@*/.keys["1"]/*[[".keyboards.keys[\"1\"]",".keys[\"1\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-        app/*@START_MENU_TOKEN@*/.keys["2"]/*[[".keyboards.keys[\"2\"]",".keys[\"2\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-        app/*@START_MENU_TOKEN@*/.keys["3"]/*[[".keyboards.keys[\"3\"]",".keys[\"3\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-        app.keys["4"].tap()
-        app/*@START_MENU_TOKEN@*/.keys["5"]/*[[".keyboards.keys[\"5\"]",".keys[\"5\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-        app/*@START_MENU_TOKEN@*/.keys["6"]/*[[".keyboards.keys[\"6\"]",".keys[\"6\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-        app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).buttons["Accedi"].tap()
-        
+        XCUIApplication().otherElements.containing(.textField, identifier:"Inserisci condomino da cercare").children(matching: .other).element(boundBy: 5).buttons["faceid"].tap()
         let alert = app.alerts["Dispositivo non connesso"].buttons["Dismiss"]
         XCTAssert(alert.exists, "Device Unavailable Alert Didn't Display")
     }
