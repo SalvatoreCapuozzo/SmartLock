@@ -990,6 +990,120 @@ Work Managment Spreadsheet
 
 \end_layout
 
+\begin_layout Standard
+Tramite Github è possibile anche valutare le performance del team sulla
+ base di statistiche relative a commit e code frequency basati sui collaboratori
+ della repository come mostrato di seguito.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/git-commits.png
+	lyxscale 35
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Github Insights - Commits
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/git-commits-time.png
+	lyxscale 35
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Github Insights - Weekly Commits
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/git-codefreq.png
+	lyxscale 35
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Github Insights - Code Frequency
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Paragraph
 Tool Utilizzati
 \end_layout
@@ -1021,6 +1135,13 @@ Tra le funzionalità ancora da implementare per il progetto SmartLock evidenziam
  nell'appartamento, interfacciandolo con il microcontrollore in modo da
  poterlo controllare tramite la GUI dell'applicazione, senza dover re-implementa
 re la parte hardware.
+ Questa proposta prevede un'ottimizzazione di sistemi già esistenti, favorendo
+ il 
+\series bold
+riuso
+\series default
+ di tecnologie funzionanti e testate e riducendo i tempi di produzione che
+ si avrebbero dovendo realizzare l'intera architettura ex-novo.
  
 \end_layout
 
