@@ -41,11 +41,6 @@ class StyleManager {
         button.subButton()?.imageEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         button.subButton()?.imageView!.contentMode = .scaleAspectFit
         button.subButton()?.tintColor = .white
-        button.subButton()?.layer.shadowOffset = CGSize(width: 0, height: 6)
-        button.subButton()?.layer.shadowRadius = 0
-        button.subButton()?.layer.shadowOpacity = 0.1
-        button.subButton()?.layer.masksToBounds = false
-
         return button
     }
     
