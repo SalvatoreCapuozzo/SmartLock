@@ -122,11 +122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartLock/Controller/ViewControllers/AccessScreenViewController.swift"
-            timestampString = "585397146.114597"
+            timestampString = "585399372.871298"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "290"
-            endingLineNumber = "290"
+            startingLineNumber = "301"
+            endingLineNumber = "301"
             landmarkName = "scanUser()"
             landmarkType = "7">
          </BreakpointContent>

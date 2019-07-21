@@ -205,6 +205,8 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
         searchTextField = CustomBuilder.makeTextField(width: self.view.frame.size.width*2/3, height: self.interphoneTableView.frame.size.height/9, placeholder: "Inserisci condomino da cercare", keyboardType: .alphabet, capitalized: false, isSecure: false)
         searchTextField.center = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height - interphoneTableView.frame.size.height - searchTextField.frame.size.height)
         searchTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        searchTextField.addTarget(self, action: #selector(textFieldSelected), for: .allTouchEvents)
+        searchTextField.addTarget(self, action: #selector(textFieldUnselected), for: .editingDidEnd)
         self.view.addSubview(searchTextField)
         
         // Code Button Setup
@@ -240,7 +242,16 @@ class AccessScreenViewController: AppViewController, UITableViewDelegate, UITabl
         self.view.addSubview(timerView)
     }
     
+    @objc func textFieldSelected() {
+        self.timerView.pause()
+    }
+    
+    @objc func textFieldUnselected() {
+        self.timerView.resume()
+    }
+    
     @objc func textFieldDidChange() {
+        self.timerView.pause()
         if self.searchTextField.text == "" {
             DataController().fetchData(entity: .user) {
                 (outcome, results) in
