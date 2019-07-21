@@ -230,6 +230,7 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="12" columns="2">
 <features tabularvalignment="middle">
@@ -537,6 +538,7 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="2">
 <features tabularvalignment="middle">
@@ -702,6 +704,7 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="2">
 <features tabularvalignment="middle">
@@ -887,6 +890,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
@@ -1856,20 +1860,24 @@ View
 \end_layout
 
 \begin_layout Enumerate
+\noindent
 Vision Framework: (framework) utilizzato per il riconoscimento del volto
 \end_layout
 
 \begin_layout Enumerate
+\noindent
 GUI: (interfaccia utente) utilizzato per permettere l'interazione dell'utente
  con l'applicazione tramite interfaccia grafica
 \end_layout
 
 \begin_layout Enumerate
+\noindent
 Alarm System: (sistema esterno)gestore di allarme da poter collegare al
  sistema per implementare eventuali sistemi di detection
 \end_layout
 
 \begin_layout Enumerate
+\noindent
 Relay: (device esterno di output) interfaccia con il sistema di apertura
  del cancello
 \end_layout

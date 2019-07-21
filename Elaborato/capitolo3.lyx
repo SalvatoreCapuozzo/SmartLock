@@ -133,6 +133,56 @@ Implementazione
 \end_layout
 
 \begin_layout Section
+Component & Connector Diagram
+\end_layout
+
+\begin_layout Standard
+Riportiamo di seguito il diagramma dei Componenti e Connettori che permette
+ di descrivere il sistema con una vista dei componenti.
+ In particolare evidenziamo i due componenti principali quali SmartLock
+ (applicazione sviluppata sul device, iPad e iOS) e Arduino Controller (sistema
+ di interfacciamento con il cancello automatico).
+ I due componenti comunicano tra loro attraverso un'interfaccia Bluetooth.
+  
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/ccdiagram.png
+	lyxscale 35
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Package Diagram Smart Lock
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
 Package Diagram: MVC
 \end_layout
 

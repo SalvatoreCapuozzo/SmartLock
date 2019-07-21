@@ -117,6 +117,7 @@ figs-within-sections
 \papercolumns 1
 \papersides 2
 \paperpagestyle default
+\listings_params "lineskip={-1.5pt}"
 \tracking_changes false
 \output_changes false
 \html_math_output 0
