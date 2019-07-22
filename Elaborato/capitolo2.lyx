@@ -685,6 +685,8 @@ status open
 \align center
 \begin_inset Graphics
 	filename immagini/DetailedSequence-AccediConFaceID.png
+	lyxscale 75
+	scale 75
 
 \end_inset
 
