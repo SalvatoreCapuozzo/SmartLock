@@ -589,7 +589,7 @@ Viste Dinamiche
 \end_layout
 
 \begin_layout Subsection
-Sequence Diagram
+Sequence Diagram per le funzionalità dell'app SmartLock
 \end_layout
 
 \begin_layout Standard
@@ -650,7 +650,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename immagini/sequenceFaceId.png
+	filename immagini/Sequence-AccediConFaceID.png
 	lyxscale 60
 	scale 60
 
@@ -668,6 +668,43 @@ Sequence Diagram Caso D'Uso
 
 \end_inset
 
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/DetailedSequence-AccediConFaceID.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Detailed Sequence Diagram Caso D'Uso
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -740,6 +777,60 @@ Sub Sequence Richiedi Apertura
 
 \end_inset
 
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Sequence Diagram per la funzionalità dell'Arduino
+\end_layout
+
+\begin_layout Standard
+Finora abbiamo descritto le funzionalità presenti in app, tuttavia c'è da
+ considerare il fatto che il sistema è costituito non solo da questo, ma
+ anche dal componente Arduino, che permette l'effettiva comunicazione tra
+ l'app e il relay collegato alla porta del condominio.
+ Pertanto, tramite un'ulteriore grafico della dinamica, anche in questo
+ caso un Sequence Diagram, abbiamo rappresentato la funzionalità che si
+ avvia alla ricezione di un determinato segnale Bluetooth da parte dell'app,
+ ricordando che intanto la funzionalità generata nell'Arduino è sempre in
+ attesa di essere attivata dal momento che si trova in una funzione iterativa
+ loop() equivalente al main dei programmi classici in Java.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename immagini/sequenceArduino.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Sequence Arduino
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
 
 \end_layout
 

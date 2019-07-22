@@ -514,8 +514,41 @@ Assegna all'oggetto monitorato il ruolo di registrare al suo interno un
 
 \begin_layout Itemize
 “deviceConnected”: per notificare l'applicazione dell'evento relativo alla
- presenza del dispositivo bluetooth a cui collegarsi.
+ presenza del dispositivo Bluetooth a cui collegarsi.
  
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename immagini/2560px-Observer_w_update.svg.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Observer Pattern
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -819,7 +852,6 @@ status open
 	filename immagini/deployment.png
 	lyxscale 70
 	scale 70
-	rotateAngle 90
 
 \end_inset
 
@@ -1148,7 +1180,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Github Insights - Code Frequency
+GitHub Insights - Code Frequency
 \end_layout
 
 \end_inset
@@ -1174,7 +1206,7 @@ Visual Paradigm Enterprise Edition: Teamwork
 \end_layout
 
 \begin_layout Itemize
-Github (Private Repository)
+GitHub (Private Repository)
 \end_layout
 
 \begin_layout Itemize
@@ -1200,6 +1232,83 @@ riuso
  di tecnologie funzionanti e testate e riducendo i tempi di produzione che
  si avrebbero dovendo realizzare l'intera architettura ex-novo.
  
+\end_layout
+
+\begin_layout Standard
+L'idea principale di sviluppo consisterebbe nell'aggiungere un ulteriore
+ componente che si interfaccia direttamente con l'Arduino, ovvero una GSM
+ Shield, un componente che permette all'Arduino di poter effettuare da codice
+ tra le tante cose chiamate a numeri telefonici.
+ Lo scopo principale difatti sarebbe quello di telefonare gli utenti richiesti
+ dall'utente che utilizza l'interfono, così da permettere al condomino di
+ rispondere ed eventualmente aprire la porta con le tecnologie preesistenti,
+ ma anche quello di notificare il manager dell'applicazione e dunque del
+ condominio in caso di numero di tentativi massimo raggiunto nell'inserimento
+ del codice per accedere.
+\end_layout
+
+\begin_layout Standard
+In tale maniera, l'unica cosa sufficiente da compiere a livello di codice
+ è inserire una casistica nella funzionalità dell'Arduino di ricezione di
+ un numero telefonico ed implementare una chiamata di funzione a livello
+ di app che invii tale numero con i protocolli Bluetooth già esistenti ed
+ implementati.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename immagini/GPRS_Interfacing_Diagram.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Esempio di collegamento Arduino - GSM Shield
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Ovviamente non è da escludere un futuro sistema Client-Server dove il condomino,
+ oltre ad essere 
+\begin_inset Quotes eld
+\end_inset
+
+citofonato
+\begin_inset Quotes erd
+\end_inset
+
+ dall'utente, può anche visualizzare in tempo reale l'utente all'esterno
+ mediante la fotocamera del device stesso installato come interfono, che
+ considereremmo il Server, tramite il proprio device personale in cui verrebbe
+ installata una versione Client della stessa.
+\end_layout
+
+\begin_layout Standard
+Le prospettive future possono potenzialmente essere tanto estese quanto
+ risulterà solida la base, pertanto ci siamo garantiti di aver scritto già
+ a monte un codice quanto più riusabile, modulare a livello di classi ed
+ adattabile possibile.
 \end_layout
 
 \end_body

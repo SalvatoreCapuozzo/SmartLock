@@ -133,11 +133,136 @@ Implementazione
 \end_layout
 
 \begin_layout Section
-Catalogo Dei Componenti
+Component & Connector Diagram
+\end_layout
+
+\begin_layout Standard
+Riportiamo di seguito il diagramma dei Componenti e Connettori che permette
+ di descrivere il sistema con una vista dei componenti.
+ In particolare evidenziamo i due componenti principali quali SmartLock
+ (applicazione sviluppata sul device, iPad e iOS) e Arduino Controller (sistema
+ di interfacciamento con il cancello automatico).
+ I due componenti comunicano tra loro attraverso un'interfaccia Bluetooth.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/ccdiagram.png
+	lyxscale 35
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Package Diagram Smart Lock
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
-Dettagli Implementativi
+Package Diagram: MVC
+\end_layout
+
+\begin_layout Standard
+Per una descrizione semplificata della struttura del sistema si è scelto
+ un Package Diagram, questo ci permette di mostrare l'applicazione del pattern
+ MVC applicato per lo sviluppo.
+\end_layout
+
+\begin_layout Standard
+E' possibile identificare infatti le 3 componenti principali:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Model contenente i dati del sistema, collegamenti con il database e procedure
+ di accesso al database;
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Controller contenente gli oggetti Controller utilizzati per gestire l'interfacci
+amento tra UI e dati dell'applicazione.
+ In particolare distinguiamo 3 macro controller per la gestione della UI
+ (ViewControllers), comunicazione Bluetooth con il modulo HM-10 (Bluetooth)
+ e Controller di Utilities utilizzati per supporto nella definizione della
+ GUI;
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+View contiene le viste dell'interfaccia grafica, UIViews ed elementi Custom
+ richiamati nella GUI dell'applicazione e delle funzioni di supporto per
+ la loro creazione.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/packagediagram.png
+	lyxscale 35
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Package Diagram Smart Lock
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Questo diagramma è collegato ai vari Class Diagram che descrivono nel dettaglio
+ Model, View e Controller, mostrati nel paragrafo successivo.
+\end_layout
+
+\begin_layout Section
+Dettagli Implementativi: Design Patterns
 \end_layout
 
 \begin_layout Standard
@@ -221,40 +346,38 @@ StyleManager con Singleton Pattern
 Tramite la costante shared definiamo un unico punto di accesso alla classe
  StyleManager, che sarà richiamata nei ViewController AccessScreenViewController
  e CodeAccessViewController.
- Nel seguente esempio è stato utilizzato StyleManager per creare l'istanza
- di un UIButton personalizzato:
+ 
 \end_layout
 
 \begin_layout Standard
-\begin_inset listings
-lstparams "language=Python,basicstyle={\tiny\ttfamily}"
-inline false
+\begin_inset Float figure
+placement H
+wide false
+sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/cd-views.png
+	lyxscale 35
+	scale 35
 
-accessButton = StyleManager.shared.getButton(size: CGSize(width: self.view.frame.size.
-width/3, 
+\end_inset
+
+
 \end_layout
 
 \begin_layout Plain Layout
-
-				height: self.view.frame.size.width/8),
-\end_layout
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
-
-				center: CGPoint(x: self.view.frame.size.width/2,
+Class Diagram - Views
 \end_layout
 
-\begin_layout Plain Layout
+\end_inset
 
-				y: self.view.frame.size.height/2 + self.codeTextField.frame.height + 30),
-\end_layout
 
-\begin_layout Plain Layout
-
-				text: "Accedi")
 \end_layout
 
 \end_inset
@@ -334,6 +457,42 @@ o delle richieste gestite dal DataController e vengono risolte solamente
  
 \end_layout
 
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/cd-model.png
+	lyxscale 35
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Class Diagram - Model
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
 Observer
 \end_layout
@@ -355,8 +514,41 @@ Assegna all'oggetto monitorato il ruolo di registrare al suo interno un
 
 \begin_layout Itemize
 “deviceConnected”: per notificare l'applicazione dell'evento relativo alla
- presenza del dispositivo bluetooth a cui collegarsi.
+ presenza del dispositivo Bluetooth a cui collegarsi.
  
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename immagini/2560px-Observer_w_update.svg.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Observer Pattern
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -411,11 +603,53 @@ Class Diagram - Controllers
 \end_layout
 
 \begin_layout Section
-Deployment
+Progetto Arduino
 \end_layout
 
-\begin_layout Subsection
-Deployment Diagram
+\begin_layout Standard
+Il sottosistema che gestisce l'apertura del cancello automatica è stato
+ realizzato, come descritto nel Capitolo 1, utilizzando un progetto Arduino
+ che prevede l'utilizzo dei seguenti componenti:
+\end_layout
+
+\begin_layout Itemize
+Arduino Uno Board
+\end_layout
+
+\begin_layout Itemize
+Modulo Bluetooth HM-10
+\end_layout
+
+\begin_layout Itemize
+Relay da collegare al Cancello Automatico
+\end_layout
+
+\begin_layout Standard
+I programmi di Arduino vengono caricati tramite l'Arduino IDE.
+ Il codice caricato viene preso in gestione da un 
+\series bold
+bootstrapper
+\series default
+ che però, a differenza degli altri sistemi comuni, rimane in esecuzione
+ per tutto il tempo.
+ Infatti i programmi per Arduino non hanno main, ma hanno una funzione di
+ loop che viene chiamata ripetutamente dal bootstrapper.
+ Dalla definizione di Sistema Operativo ricordiamo che: un sistema operativo
+ è un programma che viene avviato al momento del boot e rimane in esecuzione
+ per tutto il tempo.
+ Notiamo quindi che nel caso dell'Arduino il bootstrapper potrebbe essere
+ considerato una sorta di sistema operativo, sebbene i programmi abbiano
+ accesso diretto all'hardware.
+ Il bootstrapper quindi alcune funzioni di un sistema operativo ma non tutte.
+ Puo' essere assimilato a un "monitor residente" storicamente in uso nei
+ sistemi batch.
+\end_layout
+
+\begin_layout Standard
+Di fatto l'implementazione di questo sottosistema è stata ottenuta applicando
+ il pattern architetturale Sense Compute Control schematizzato nella seguente
+ figura.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -428,9 +662,196 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename immagini/deployment.png
+	filename immagini/scc-arduino.png
 	lyxscale 35
 	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Arduino Sense Compute Control Pattern Schema
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In particolare distinguiamo i tre componenti principali dell'architettura:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Sense Lettura dei dati provenienti dal modulo Bluetooth HM-10.
+ La lettura avviene interrogando il modulo per verificare che questo sia
+ attivo e in caso positivo viene letto il valore attraverso la chiamata
+ ble.read().
+ Il dato letto è una sequenza di caratteri che devono essere manipolati.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Compute Il dato letto dal modulo bluetooth viene modificato ottenendo il
+ messaggio di apertura o chiusura, quindi componendo una stringa con i caratteri
+ ricevuti.
+ Tale stringa può essere di due tipi 
+\begin_inset Quotes eld
+\end_inset
+
+apri
+\begin_inset Quotes erd
+\end_inset
+
+ oppure 
+\begin_inset Quotes eld
+\end_inset
+
+chiudi
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Control Ai dati opportunamente modificati per essere utilizzati viene applicata
+ la logica di business che nel nostro caso si traduce nell'invio al relè
+ del segnale conforme con i dati letti (apertura o chiusura).
+ 
+\end_layout
+
+\begin_layout Standard
+Di seguito riportiamo un Sequence Diagram che descrive il processo di crittazion
+e del messaggio di apertura del cancello tramite scambio di messaggi tra
+ il microcontrollore e l'applicazione, tramite il modulo bluetooth citato.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/sequenceArduino.png
+	lyxscale 35
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Sequence Diagram - Comunicazione Bluetooth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Deployment
+\end_layout
+
+\begin_layout Standard
+Di seguito descriviamo le procedure di deploy dell'applicazione, ossia i
+ metodi con cui avverrà la consegna del prodotto al cliente.
+ Per fare ciò ci si è avvalsi dell'utilizzo di un Deployment Diagram.
+\end_layout
+
+\begin_layout Subsection
+Deployment Diagram
+\end_layout
+
+\begin_layout Standard
+Tale diagramma descrive le associazioni tra i nodi componenti il sistema.
+ In paticolare evidenziamo tre tipi di device: 
+\end_layout
+
+\begin_layout Itemize
+iPad su cui sarà installata l'applicazione SmartLock 
+\end_layout
+
+\begin_layout Itemize
+Arduino sul quale sarà installa la logica di controllo per l'apertura del
+ cancello.
+ 
+\end_layout
+
+\begin_layout Itemize
+Relay sul quale troveremo l'aggancio fisico con il cablaggio del cancello.
+\end_layout
+
+\begin_layout Standard
+Le comunicazioni tra i 3 device avverrano secondo un protocollo bluetooth
+ per iPad e Arduino, mentre per il collegamento tra Arduino e Relay saranno
+ utilizzati connettori fisici.
+ 
+\end_layout
+
+\begin_layout Standard
+Per quanto riguarda invece i nodi relativi all'ambiente di esecuzione, distingui
+amo due tipologie, relative ai device Arduino e iPad, questi infatti supportano
+ due ambienti di esecuzione distinti i quali sono iOS e Bootstrapper, e
+ su tali ambienti di esecuzione saranno eseguiti gli artifacts rappresentati.
+ 
+\end_layout
+
+\begin_layout Standard
+L'artefatto SmartLock è relativo all'applicazione per dispositivo iPad,
+ è un eseguibile che manifesta il componente SmartLock, contenente l'implementaz
+ione del sistema.
+ L'artefatto prova_Hm10.hex invece manifesta il modulo relativo al controller
+ della logica implementata su Arduino.
+ 
+\end_layout
+
+\begin_layout Standard
+Per maggiori dettagli su questi componenti manifestati si può far riferimento
+ al C&C Diagram esposto nella Sezione 3.1 e ai dettagli implementativi che
+ lo seguono.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename immagini/deployment.png
+	lyxscale 70
+	scale 70
 
 \end_inset
 
@@ -454,8 +875,384 @@ Deployment Diagram - SmartLock
 
 \end_layout
 
-\begin_layout Subsection
-Simulazione
+\begin_layout Section
+Funzionalità Aggiuntiva: Core ML Visual Recognition
+\end_layout
+
+\begin_layout Standard
+Al termine dello sprint finale dello sviluppo, avvenuto in contesto Agile,
+ è stato possibile testare una nuova funizonalità aggiunta al sistema che
+ prevede l'integrazione di un algoritmo di Image Recognition basato sulla
+ libreria di Machine Learning CoreML.
+ Grazie a questa libreria è stato possibile integrare un modello istriuto
+ di machile learning nella nostra applicazione.
+ In particolare abbiamo utilizzato il modello Visual Recognition di Watson.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/coreml.png
+	lyxscale 35
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+CoreML Image Recognition
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Per istruire il modello sono state utilizzate immagini degli utenti.
+ 
+\end_layout
+
+\begin_layout Standard
+Attraverso l'aggiunta di questo modello è stato possibile creare una relazione
+ tra Utente ed Accesso effettuato con successo, prima nascosta dall'utilizzo
+ automatico del FaceID che, per motivi di privacy, non permette di salvare
+ informazioni sul volto riconosciuto.
+ Utilizzando CoreML e Watson l'applicazione è in grado di autenticare l'utente
+ tramite FaceID e consentire l'accesso e contemporaneamente ottenere informazion
+i sull'accesso da poter aggiungere nel log di sistema.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/dbschema.png
+	lyxscale 35
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Database Entiry Relationship Diagram
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Conclusioni
+\end_layout
+
+\begin_layout Section
+Vantaggi dello sviluppo Agile
+\end_layout
+
+\begin_layout Standard
+Per la realizzazione del progetto Smart Lock sono state applicate le best
+ practices di Agile, in un team di sviluppo composto da 4 sviluppatori ed
+ in un tempo totale di 2 mesi.
+ I vantaggi di utilizzare questo tipo di approccio allo sviluppo software
+ sono notevoli, in particolare quelli che sono stati i riscontri maggiori
+ nel nostro Team sono:
+\end_layout
+
+\begin_layout Itemize
+adattamento al cambiamento: il continuo interfacciamento con il cliente
+ per la realizzazione del progetto ha fatto si che applicare le tecniche
+ agile di sviluppo iterativo facilitassero i vari rework avvenuti nelle
+ fasi di analisi e descrizione dell'architettura del progetto.
+ Infatti grazie alla produzione veloce di output da presentare al cliente,
+ il feedback è stato raccolto in modo estremamente veloce e continuamente
+ sfruttato per migliorare il prodotto con ogni iterazione del processo di
+ sviluppo.
+\end_layout
+
+\begin_layout Itemize
+suddivisione del lavoro facilitata dalle iterazioni: l'utilizzo di un approccio
+ iterativo ed evolutivo di tipo Agile ha consentito al team di poter collaborare
+ in modo efficiente e giornaliero per la risoluzione di problemi e la realizzazi
+one delle funzionalità scelte per l'implementazione.
+ 
+\end_layout
+
+\begin_layout Itemize
+utilizzo di sistemi di version management distribuiti (GitHub): la scelta
+ di utilizzare la piattaforma GitHub per la condivisione del progetto è
+ stata dettata non solo dalla familiarità dei team members ma anche dai
+ vantaggi di poter lavorare su una clonazione locale del progetto, in modo
+ che ogni membro del team avesse pieno accesso all'intero sistema e potesse
+ testarne l'intero funzionamento prima di eseguire commit e push sulla repositor
+y master.
+ Inoltre sistemi come Github (distribuiti) permettono di mantenere sempre
+ una copia di backup del sistema da utilizzare in casi di perdita di informazion
+e.
+ 
+\end_layout
+
+\begin_layout Itemize
+utilizzo di sistemi di comunicazione virtuali e face-to-face: nonostante
+ la maggior parte delle decisioni principali del progetto siano state ottenute
+ da meeting face-to-face tra i team members, l'implementazione ha fatto
+ anche molto uso di moderni software di comunicazione e collaborazione disponibi
+li per lo sviluppo software i quali hanno permesso al team di restare in
+ continuo contatto virtuale, aumentando la produttività e le ore di lavoro.
+ 
+\end_layout
+
+\begin_layout Standard
+In particolare ogni milestone/meeting con il cliente è stato riportato in
+ uno Spreadsheet condiviso e aggiornato con i task da completare e i task
+ portati a termine e approvati dal cliente.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/taskmanagement.png
+	lyxscale 35
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Work Managment Spreadsheet
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Tramite Github è possibile anche valutare le performance del team sulla
+ base di statistiche relative a commit e code frequency basati sui collaboratori
+ della repository come mostrato di seguito.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/git-commits.png
+	lyxscale 35
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Github Insights - Commits
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/git-commits-time.png
+	lyxscale 35
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Github Insights - Weekly Commits
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename immagini/git-codefreq.png
+	lyxscale 35
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+GitHub Insights - Code Frequency
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Tool Utilizzati
+\end_layout
+
+\begin_layout Itemize
+Slack
+\end_layout
+
+\begin_layout Itemize
+Visual Paradigm Enterprise Edition: Teamwork
+\end_layout
+
+\begin_layout Itemize
+GitHub (Private Repository)
+\end_layout
+
+\begin_layout Itemize
+Google Spreadsheet
+\end_layout
+
+\begin_layout Section
+Implementazioni Future
+\end_layout
+
+\begin_layout Standard
+Tra le funzionalità ancora da implementare per il progetto SmartLock evidenziamo
+ quella di utilizzo del citofono.
+ La realizzazione di tale caso d'uso si baserà sul sistema pre-esistente
+ nell'appartamento, interfacciandolo con il microcontrollore in modo da
+ poterlo controllare tramite la GUI dell'applicazione, senza dover re-implementa
+re la parte hardware.
+ Questa proposta prevede un'ottimizzazione di sistemi già esistenti, favorendo
+ il 
+\series bold
+riuso
+\series default
+ di tecnologie funzionanti e testate e riducendo i tempi di produzione che
+ si avrebbero dovendo realizzare l'intera architettura ex-novo.
+ 
+\end_layout
+
+\begin_layout Standard
+L'idea principale di sviluppo consisterebbe nell'aggiungere un ulteriore
+ componente che si interfaccia direttamente con l'Arduino, ovvero una GSM
+ Shield, un componente che permette all'Arduino di poter effettuare da codice
+ tra le tante cose chiamate a numeri telefonici.
+ Lo scopo principale difatti sarebbe quello di telefonare gli utenti richiesti
+ dall'utente che utilizza l'interfono, così da permettere al condomino di
+ rispondere ed eventualmente aprire la porta con le tecnologie preesistenti,
+ ma anche quello di notificare il manager dell'applicazione e dunque del
+ condominio in caso di numero di tentativi massimo raggiunto nell'inserimento
+ del codice per accedere.
+\end_layout
+
+\begin_layout Standard
+In tale maniera, l'unica cosa sufficiente da compiere a livello di codice
+ è inserire una casistica nella funzionalità dell'Arduino di ricezione di
+ un numero telefonico ed implementare una chiamata di funzione a livello
+ di app che invii tale numero con i protocolli Bluetooth già esistenti ed
+ implementati.
 \end_layout
 
 \end_body

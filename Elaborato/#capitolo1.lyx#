@@ -1149,7 +1149,7 @@ Una qualsiasi applicazione per iOS o per OS X che utilizza gli strumenti
 \series bold
 Model
 \series default
-: gli oggetti che costituiscono il modello rappresentano parti- colari conoscenz
+: Gli oggetti che costituiscono il modello rappresentano parti- colari conoscenz
 e e competenze, contengono i dati di un'applicazione e definiscono la logica
  di utilizzo di tali dati.
  Infatti una applicazione con MVC ben progettata ha tutti i dati importanti

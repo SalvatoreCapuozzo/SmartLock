@@ -1149,7 +1149,7 @@ Una qualsiasi applicazione per iOS o per OS X che utilizza gli strumenti
 \series bold
 Model
 \series default
-: gli oggetti che costituiscono il modello rappresentano parti- colari conoscenz
+: Gli oggetti che costituiscono il modello rappresentano parti- colari conoscenz
 e e competenze, contengono i dati di un'applicazione e definiscono la logica
  di utilizzo di tali dati.
  Infatti una applicazione con MVC ben progettata ha tutti i dati importanti
@@ -1872,7 +1872,7 @@ GUI: (interfaccia utente) utilizzato per permettere l'interazione dell'utente
 
 \begin_layout Enumerate
 \noindent
-Alarm System: (sistema esterno)gestore di allarme da poter collegare al
+Alarm System: (sistema esterno) gestore di allarme da poter collegare al
  sistema per implementare eventuali sistemi di detection
 \end_layout
 

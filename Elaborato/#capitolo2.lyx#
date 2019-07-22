@@ -785,5 +785,21 @@ Sub Sequence Richiedi Apertura
 
 \end_layout
 
+\begin_layout Subsection
+Sequence Diagram per la funzionalità dell'Arduino
+\end_layout
+
+\begin_layout Standard
+Finora abbiamo descritto le funzionalità presenti in app, tuttavia c'è da
+ considerare il fatto che il sistema è costituito non solo da questo, ma
+ anche dal componente Arduino, che permette l'effettiva comunicazione tra
+ l'app e il relay collegato alla porta del condominio.
+ Pertanto, tramite un'ulteriore grafico della dinamica, anche in questo
+ caso un Sequence Diagram, abbiamo rappresentato la funzionalità che si
+ avvia alla ricezione di un determinato segnale Bluetooth da parte dell'app,
+ ricordando che intanto la funzionalità generata nell'Arduino è sempre in
+ attesa di essere attivata dal momento che si trova in 
+\end_layout
+
 \end_body
 \end_document
