@@ -9,6 +9,8 @@
 import XCTest
 
 class SmartLockUITests: XCTestCase {
+    
+    static var testCount = testInvocations.count
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -20,10 +22,15 @@ class SmartLockUITests: XCTestCase {
         XCUIApplication().launch()
 
         // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+        SmartLockUITests.testCount -= 1
     }
 
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
+        if SmartLockUITests.testCount == 0 {
+            print("Finishing Up Tests -- Tear Down and Exit")
+        }
+        super.tearDown()
     }
 
     
@@ -75,16 +82,6 @@ class SmartLockUITests: XCTestCase {
 //        print(app.debugDescription)
         let alert = app.otherElements.matching(identifier: "GSMessageView").element
         XCTAssert(alert.exists, "Access View Didn't Display")
-    }
-    
-    func testFaceAccessNoConnection() {
-//        Test di accesso con volto in assenza di dispositivo bluetooth collegato al citofono
-//        L'applicazione deve mostrare un'alert dove conferma l'assenza del dispositivo bluetooth
-//        Il volto deve essere riconosciuto con successo
-        let app = XCUIApplication()
-        XCUIApplication().otherElements.containing(.textField, identifier:"Inserisci condomino da cercare").children(matching: .other).element(boundBy: 5).buttons["faceid"].tap()
-        let alert = app.alerts["Dispositivo non connesso"].buttons["Ok"]
-        XCTAssert(alert.exists, "Device Unavailable Alert Didn't Display")
     }
    
     func testSearchUser() {
