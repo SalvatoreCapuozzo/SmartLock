@@ -169,7 +169,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Package Diagram Smart Lock
+C&C Diagram Smart Lock
 \end_layout
 
 \end_inset
@@ -884,30 +884,20 @@ Funzionalità Aggiuntiva: Core ML Visual Recognition
 \end_layout
 
 \begin_layout Standard
-\noindent
-\begin_inset Box Frameless
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
-use_parbox 0
-use_makebox 0
-width "10col%"
-special "none"
-height "1in"
-height_special "totalheight"
-thickness "0.4pt"
-separation "3pt"
-shadowsize "4pt"
-framecolor "black"
-backgroundcolor "none"
+\begin_inset Wrap figure
+lines 0
+placement i
+overhang 0in
+width "15col%"
 status open
 
 \begin_layout Plain Layout
+\noindent
+\align center
 \begin_inset Graphics
 	filename immagini/fasolIcon.png
-	lyxscale 20
-	scale 2
+	lyxscale 15
+	scale 10
 
 \end_inset
 
@@ -916,26 +906,6 @@ status open
 
 \end_inset
 
-
-\begin_inset Box Frameless
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
-use_parbox 0
-use_makebox 0
-width "85col%"
-special "none"
-height "1in"
-height_special "totalheight"
-thickness "0.4pt"
-separation "3pt"
-shadowsize "4pt"
-framecolor "black"
-backgroundcolor "none"
-status open
-
-\begin_layout Plain Layout
 Lavorando in un contesto prettamente Agile, a seguito di una parziale insoddisfa
 zione da parte del cliente finale dovuta ad un requisito implicito non colto,
  abbiamo potuto rapidamente rimediare con l'introduzione di una nuova funzionali
@@ -943,18 +913,14 @@ tà.
  L'insoddisfazione verteva sul fatto che l'utente non veniva associato al
  volto riconosciuto, pertanto un eventuale log di accessi non poteva riportare
  gli utenti associati a questi.
+ 
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout Standard
 La ragione per la mancanza di tale associazione è dovuta ad un constraint
  posto direttamente dalla libreria di Apple per il FaceID, dal momento che
  restituisce semplicemente un booleano che indica l'avvenuto riconoscimento
  o meno.
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
