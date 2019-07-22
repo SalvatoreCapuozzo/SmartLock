@@ -956,7 +956,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-CoreML Image Recognition
+Core ML Image Recognition
 \end_layout
 
 \end_inset
@@ -979,7 +979,7 @@ Attraverso l'aggiunta di questo modello è stato possibile creare una relazione
  tra Utente ed Accesso effettuato con successo, prima nascosta dall'utilizzo
  automatico del FaceID che, per motivi di privacy, non permette di salvare
  informazioni sul volto riconosciuto.
- Utilizzando CoreML e Watson l'applicazione è in grado di autenticare l'utente
+ Utilizzando Core ML e Watson l'applicazione è in grado di autenticare l'utente
  tramite FaceID e consentire l'accesso e contemporaneamente ottenere informazion
 i sull'accesso da poter aggiungere nel log di sistema.
  
@@ -1008,7 +1008,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Database Entiry Relationship Diagram
+Database Entity Relationship Diagram
 \end_layout
 
 \end_inset
@@ -1110,7 +1110,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Work Managment Spreadsheet
+Work Management Spreadsheet
 \end_layout
 
 \end_inset
@@ -1124,7 +1124,7 @@ Work Managment Spreadsheet
 \end_layout
 
 \begin_layout Standard
-Tramite Github è possibile anche valutare le performance del team sulla
+Tramite GitHub è possibile anche valutare le performance del team sulla
  base di statistiche relative a commit e code frequency basati sui collaboratori
  della repository come mostrato di seguito.
 \end_layout
@@ -1152,7 +1152,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Github Insights - Commits
+GitHub Insights - Commits
 \end_layout
 
 \end_inset
@@ -1188,7 +1188,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Github Insights - Weekly Commits
+GitHub Insights - Weekly Commits
 \end_layout
 
 \end_inset
