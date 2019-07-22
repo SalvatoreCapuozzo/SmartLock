@@ -401,7 +401,8 @@ Il Pattern Creator fa parte dei Pattern GRASP i quali forniscono in generale
  accesso al database (fetch, delete, insert) e tale oggetto è chiamato all'inter
 no delle classi che implementano la logica di business per accedere al metodo
  richiesto.
- 
+ I dettagli implementativi sono descritti nel Class Diagram relativo al
+ Model del sistema (Figura 3.3.4).
 \end_layout
 
 \begin_layout Standard
@@ -414,7 +415,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename immagini/creator-data.png
+	filename immagini/creatorpattern.jpg
 	lyxscale 50
 	scale 50
 
@@ -427,7 +428,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-DataController con Pattern Creator
+Pattern Creator
 \end_layout
 
 \end_inset
