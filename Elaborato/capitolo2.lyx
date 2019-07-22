@@ -652,7 +652,6 @@ status open
 \begin_inset Graphics
 	filename immagini/Sequence-AccediConFaceID.png
 	lyxscale 60
-	scale 60
 
 \end_inset
 
@@ -811,6 +810,8 @@ status open
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename immagini/sequenceArduino.png
+	lyxscale 50
+	scale 40
 
 \end_inset
 

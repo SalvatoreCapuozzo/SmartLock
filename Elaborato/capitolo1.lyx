@@ -1295,8 +1295,8 @@ status open
 \align center
 \begin_inset Graphics
 	filename immagini/UseCases.png
-	lyxscale 40
-	scale 40
+	lyxscale 50
+	scale 50
 
 \end_inset
 
@@ -1953,8 +1953,8 @@ status open
 \align center
 \begin_inset Graphics
 	filename immagini/sdm.png
-	lyxscale 40
-	scale 40
+	lyxscale 55
+	scale 55
 
 \end_inset
 
